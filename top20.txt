@@ -1,0 +1,25 @@
+﻿
+FullName                                                                              SizeMB
+--------                                                                              ------
+C:\Users\argau\Desktop\MaisonMelina\maison-melina-interview.mp4                       108,37
+C:\Users\argau\Desktop\MaisonMelina\tl7-melina.mp4                                     35,21
+C:\Users\argau\Desktop\MaisonMelina\video-melina.mp4                                   33,68
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\didier-maison.jpg                        1,5
+C:\Users\argau\Desktop\MaisonMelina\img\histoire\hist-saint-didier-en-velay.jpg         1,06
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\maison-feurs.jpg                        0,91
+C:\Users\argau\Desktop\MaisonMelina\img\presse\maison-melina-26-05-25.jpg               0,74
+C:\Users\argau\Desktop\MaisonMelina\img\histoire\hist-saint-didier-en-velay.webp        0,66
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actuforezsud2212.jpg                      0,6
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actuforez2410.jpg                        0,58
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actuforez.jpg                            0,54
+C:\Users\argau\Desktop\MaisonMelina\img\divers\video-vignette1.jpg                       0,5
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\chateauroux-sdb.jpg                     0,49
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actuforezsud2312.jpg                     0,47
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\didier-stair.jpg                        0,41
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actuforezsud.jpg                          0,4
+C:\Users\argau\Desktop\MaisonMelina\img\presse\actugier.jpg                             0,38
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\chateauroux-salon-2.jpg                 0,38
+C:\Users\argau\Desktop\MaisonMelina\img\maisons\chateauroux-cuisine.jpg                 0,38
+C:\Users\argau\Desktop\MaisonMelina\img\presse\maison-melina-25-07-09-chateauroux.jpg   0,36
+
+

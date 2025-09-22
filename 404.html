@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page non trouvée - MAISON MÉLINA</title>
+    <style>
+        :root {
+            --primary-color: #b42c2d;
+            --secondary-color: #d44142;
+            --background-color: #F7FAFC;
+            --text-color: #2D3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-container {
+            max-width: 600px;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        p {
+            margin: 1.5rem 0;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .back-home {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .back-home:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(180, 44, 45, 0.2);
+        }
+
+        .back-home:hover::before {
+            transform: translateX(100%);
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo img {
+            height: 90px;
+            width: 160px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(180, 44, 45, 0.05) 25%, transparent 25%),
+                        linear-gradient(-45deg, rgba(180, 44, 45, 0.05) 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, rgba(180, 44, 45, 0.05) 75%),
+                        linear-gradient(-45deg, transparent 75%, rgba(180, 44, 45, 0.05) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .logo img {
+                height: 68px;
+                width: 120px;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .error-container,
+            .back-home::before {
+                animation: none;
+                transition: none;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="canonical" href="https://www.maison-melina.fr/MaisonMelina/404.html" />
+
+<meta property="og:url" content="https://www.maison-melina.fr/MaisonMelina/404.html" />
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="error-container">
+        <a href="/" class="logo">
+            <img src="/img/divers/logo.jpg" alt="Logo MAISON MÉLINA">
+        </a>
+        <h1>Oups ! Page introuvable</h1>
+        <p>Il semble que vous ayez pris un chemin inattendu. La page que vous recherchez n'existe pas ou a été déplacée.</p>
+        <p>Pas d'inquiétude, laissez-nous vous guider vers notre accueil !</p>
+        <a href="/" class="back-home">Retour à l'accueil</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr" data-astro-cid-sckkx6r4>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>On parle de nous - MAISON MÉLINA</title>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9"></script>
+		<script type="module">
+			document.addEventListener("DOMContentLoaded",()=>{
+				const e=document.getElementById("videoPopup"),i=document.getElementById("closeVideoPopup"),d=document.getElementById("popupVideo");
+				function n(){
+					e.style.display="flex",e.classList.add("active"),e.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d.play().catch(t=>{
+						console.log("Autoplay bloqué par le navigateur:",t)
+					}
+					)
+				}
+				function o(){
+					e.classList.remove("active"),e.setAttribute("aria-hidden","true"),document.body.style.overflow="",d.pause(),setTimeout(()=>{
+						e.style.display="none"
+					}
+					,300)
+				}
+				setTimeout(()=>{
+					sessionStorage.getItem("videoPopupShown")||(n(),sessionStorage.setItem("videoPopupShown","true"))
+				}
+				,1e4),i.addEventListener("click",o),e.addEventListener("click",t=>{
+					t.target===e&&o()
+				}
+				),document.addEventListener("keydown",t=>{
+					t.key==="Escape"&&e.classList.contains("active")&&o()
+				}
+				)
+			});
+		</script>
+		<!-- SEO -->
+		<meta name="description" content="Presse : reportages, articles et interviews sur Maison Mélina et les maisons partagées pour séniors. Dossiers et médias à  consulter.">
+		<link rel="canonical" href="https://www.maison-melina.fr/MaisonMelina/presse/">
+		<!-- Open Graph -->
+		<meta property="og:title" content="On parle de nous - MAISON MÉLINA">
+		<meta property="og:description" content="MAISON MÉLINA - Une alternative chaleureuse avant l'EHPAD, proposant des maisons partagées pour seniors autonomes dans un cadre convivial et sécurisé.">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://www.maison-melina.fr/MaisonMelina/presse/">
+		<meta property="og:image" content="https://www.maison-melina.fr/img/divers/logo.jpg">
+		<meta property="og:site_name" content="MAISON MÉLINA">
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="On parle de nous - MAISON MÉLINA">
+		<meta name="twitter:description" content="MAISON MÉLINA - Une alternative chaleureuse avant l'EHPAD, proposant des maisons partagées pour seniors autonomes dans un cadre convivial et sécurisé.">
+		<meta name="twitter:image" content="/img/divers/logo.jpg">
+		<!-- Schema.org -->
+		<script type="application/ld+json">
+			{
+				"@context":"https://schema.org","@type":"Organization","name":"MAISON MÉLINA","url":"https://www.maison-melina.fr","logo":"https://www.maison-melina.fr/img/divers/logo.jpg","sameAs":["https://www.facebook.com/maison.melina/","https://www.instagram.com/maisons.melina","https://www.linkedin.com/company/maison-melina"],"address":{
+					"@type":"PostalAddress","streetAddress":"1 Allée Régis Auguste","addressLocality":"ST GENEST LERPT","postalCode":"42530","addressCountry":"FR"
+				}
+				,"contactPoint":{
+					"@type":"ContactPoint","telephone":"+33451262959","contactType":"customer service","email":"contact@maison-melina.fr"
+				}
+			}
+		</script>
+		<!-- Preload des ressources critiques -->
+		<link rel="preload" as="image" href="/img/divers/logo.jpg">
+		<link rel="preload" as="font" href="https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVSwiPGQ.woff2" type="font/woff2" crossorigin>
+		<link rel="preload" as="font" href="https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USSwiPGQ.woff2" type="font/woff2" crossorigin>
+		<!-- Cache des ressources -->
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+		<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+		<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+		<link rel="dns-prefetch" href="https://www.maison-melina.fr">
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" as="style">
+		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+		<!-- Icons -->
+		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+		<link rel="stylesheet" href="/_astro/presse.Cy5kfKxN.css">
+		<link rel="stylesheet" href="/_astro/benefices-economiques.DA2vvG5t.css">
+	</head>
+	<body data-astro-cid-sckkx6r4>
+		<div class="side-color left" data-astro-cid-sckkx6r4></div>
+		<div class="side-color right" data-astro-cid-sckkx6r4></div>
+		<div class="content-wrapper" data-astro-cid-sckkx6r4>
+			<header class="fixed-header" data-astro-cid-sckkx6r4>
+				<nav aria-label="Navigation principale" data-astro-cid-sckkx6r4>
+					<div class="nav-content" data-astro-cid-sckkx6r4>
+						<a href="/" class="logo" aria-label="Accueil MAISON MÉLINA" data-astro-cid-sckkx6r4><img src="/img/divers/logo.jpg" alt="Logo MAISON MÉLINA" class="logo-image" width="160" height="90" loading="eager" data-astro-cid-sckkx6r4></a>
+						<button class="hamburger-menu" aria-label="Menu principal" aria-expanded="false" aria-controls="main-nav" data-astro-cid-sckkx6r4>
+							<span class="hamburger-box" data-astro-cid-sckkx6r4><span class="hamburger-inner" data-astro-cid-sckkx6r4></span></span>
+						</button>
+						<ul id="main-nav" class="nav-links" data-astro-cid-sckkx6r4>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/" class data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Accueil</span></a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/concept" class data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Le Concept</span></a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/nos-maisons" class data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Nos Maisons</span></a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/qui-sommes-nous" class data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Qui Sommes-Nous ?</span></a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/presse" class="active" aria-current="page" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>On parle de nous !</span></a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/creer-votre-maison" class data-astro-cid-sckkx6r4>
+									<span class="two-lines" data-astro-cid-sckkx6r4>
+										<span class="line" data-astro-cid-sckkx6r4>Créer votre</span>
+										<span class="line" data-astro-cid-sckkx6r4>maison partagée</span>
+									</span>
+								</a>
+							</li>
+							<li data-astro-cid-sckkx6r4>
+								<a href="/contact" class data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Contact</span></a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<div class="main-content" data-astro-cid-sckkx6r4>
+				<main data-astro-cid-eqhkfb4d>
+					<div class="hero-section" data-astro-cid-eqhkfb4d>
+						<h1 data-astro-cid-eqhkfb4d>On parle de nous</h1>
+					</div>
+					<div class="videos-container" data-astro-cid-eqhkfb4d>
+						<div class="video-section" data-astro-cid-eqhkfb4d>
+							<h2 data-astro-cid-eqhkfb4d>TL7Business - Février 2025</h2>
+							<div class="video-wrapper" data-astro-cid-eqhkfb4d>
+								<video controls preload="metadata" poster="/img/divers/video-vignette-tl7.jpg" class="main-video" playsinline data-astro-cid-eqhkfb4d>
+									<source src="https://www.maison-melina.fr/tl7-melina.mp4" type="video/mp4" data-astro-cid-eqhkfb4d>
+										<p data-astro-cid-eqhkfb4d>
+											Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+										</p>
+									</video>
+								</div>
+							</div>
+							<div class="video-section" data-astro-cid-eqhkfb4d>
+								<h2 data-astro-cid-eqhkfb4d>Reportage Maison Mélina</h2>
+								<div class="video-wrapper" data-astro-cid-eqhkfb4d>
+									<video controls preload="metadata" poster="/img/divers/video-vignette-interview.jpg" class="main-video" playsinline data-astro-cid-eqhkfb4d>
+										<source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4" data-astro-cid-eqhkfb4d>
+											<p data-astro-cid-eqhkfb4d>
+												Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+											</p>
+										</video>
+									</div>
+								</div>
+							</div>
+							<div class="article-content" style="text-align: center;" data-astro-cid-eqhkfb4d>
+								<h2 data-astro-cid-eqhkfb4d>La presse</h2>
+							</div>
+							<div class="articles-grid" data-astro-cid-eqhkfb4d>
+								
+							
+							<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/maison-melina-25-07-09-chateauroux-thumb.jpg" alt="À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>ICI</span>
+											<span class="date" data-astro-cid-eqhkfb4d>9 juillet 2025</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>										
+										Depuis  le  1er avril, un habitat partagé pour séniors a ouvert ses portes à Châteauroux, dans l’Indre ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/maison-melina-25-07-09-chateauroux.jpg" data-title="À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/maison-melina-25-07-09-chateauroux.jpg" class="download-button" download="Chateauroux-maison-paulette-maison-melina.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>	
+								
+								
+								
+								
+								
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/maison-melina-26-05-25-thumb.jpg" alt="FEURS : Six mois après son ouverture, cette colocation pour séniors fait le plein" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>Le Progrès</span>
+											<span class="date" data-astro-cid-eqhkfb4d>25 mai 2025</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>FEURS : Six mois après son ouverture, cette colocation pour séniors fait le plein</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											La première maison partagée pour séniors de la ville vient d&#39;être inaugurée rue Dugas-Monbel dans la demeure où Alain Prost a ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/maison-melina-26-05-25.jpg" data-title="FEURS : Six mois après son ouverture, cette colocation pour séniors fait le plein" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/maison-melina-26-05-25.jpg" class="download-button" download="FEURS---Six-mois-apr-s-son-ouverture--cette-colocation-pour-s-niors-fait-le-plein.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+								
+								
+								
+								
+								
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/actuforez2410-thumb.jpg" alt="Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>Actu Gier</span>
+											<span class="date" data-astro-cid-eqhkfb4d>21 octobre 2024</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>Maison Mélina : des séniors en colocation dans l&#39;ancienne maison d&#39;Alain Prost</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											La première maison partagée pour séniors de la ville vient d&#39;être inaugurée rue Dugas-Monbel dans la demeure où Alain Prost a ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/actuforez2410.jpg" data-title="Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/actuforez2410.jpg" class="download-button" download="Maison-M-lina---des-s-niors-en-colocation-dans-l-ancienne-maison-d-Alain-Prost.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/actugier-thumb.jpg" alt="Une colocation pour séniors bientôt dans l'ancienne maison d'Alain Prost" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>La Tribune</span>
+											<span class="date" data-astro-cid-eqhkfb4d>17 février 2024</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>Une colocation pour séniors bientôt dans l&#39;ancienne maison d&#39;Alain Prost</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											Une &#39;maison partagée Mélina&#39;, composée de huit chambres à destination de séniors est en cours d&#39;aménagement ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/actugier.jpg" data-title="Une colocation pour séniors bientôt dans l'ancienne maison d'Alain Prost" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/actugier.jpg" class="download-button" download="Une-colocation-pour-s-niors-bient-t-dans-l-ancienne-maison-d-Alain-Prost.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/actuforez-thumb.jpg" alt="Ils aménagent une maison de colocation pour séniors" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>ACTU FOREZ</span>
+											<span class="date" data-astro-cid-eqhkfb4d>2 février 2024</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>Ils aménagent une maison de colocation pour séniors</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											Ce sera une première dans la ville de Feurs. Maison Mélina est en train d&#39;aménager neufs chambres dans une maison du centre ville. L&#39;idée est ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/actuforez.jpg" data-title="Ils aménagent une maison de colocation pour séniors" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/actuforez.jpg" class="download-button" download="Ils-am-nagent-une-maison-de-colocation-pour-s-niors.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/actuforezsud2312-thumb.jpg" alt="La colocation pour séniors fait le bonheur de ses résidents" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>Actu Forez Sud</span>
+											<span class="date" data-astro-cid-eqhkfb4d>19 decembre 2023</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>La colocation pour séniors fait le bonheur de ses résidents</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											Inaugurée il y a un an, la première colocation pour séniors du Forez, et deuxième du département, était ouverte à Saint-Just-Saint ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/actuforezsud2312.jpg" data-title="La colocation pour séniors fait le bonheur de ses résidents" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/actuforezsud2312.jpg" class="download-button" download="La-colocation-pour-s-niors-fait-le-bonheur-de-ses-r-sidents.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+								<article class="article-card" data-astro-cid-eqhkfb4d>
+									<div class="article-image" data-astro-cid-eqhkfb4d>
+										<img src="/img/presse/petitforezien-thumb.jpg" alt="Maison Mélina : une colocation pour séniors" loading="lazy" data-astro-cid-eqhkfb4d>
+									</div>
+									<div class="article-content" data-astro-cid-eqhkfb4d>
+										<div class="article-meta" data-astro-cid-eqhkfb4d>
+											<span class="source" data-astro-cid-eqhkfb4d>Le petit forezien</span>
+											<span class="date" data-astro-cid-eqhkfb4d>2023</span>
+										</div>
+										<h2 data-astro-cid-eqhkfb4d>Maison Mélina : une colocation pour séniors</h2>
+										<p class="excerpt" data-astro-cid-eqhkfb4d>
+											Comme l&#39;explique Thierry Sabot maître d&#39;oeuvre et Christine Thévenon, responsable d&#39;exploitation &#39;La Maison Mélina&#39;est un projet de vie ...
+										</p>
+										<div class="article-actions" data-astro-cid-eqhkfb4d>
+											<button type="button" class="read-button" data-image="/img/presse/petitforezien.jpg" data-title="Maison Mélina : une colocation pour séniors" data-astro-cid-eqhkfb4d>Lire l'article</button>
+											<a href="https://www.maison-melina.fr/img/presse/petitforezien.jpg" class="download-button" download="Maison-M-lina---une-colocation-pour-s-niors.jpg" target="_blank" rel="noopener noreferrer" data-astro-cid-eqhkfb4d>Télécharger l'article</a>
+										</div>
+									</div>
+								</article>
+							</div>
+							<!-- Modal pour l'image --> <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" data-astro-cid-eqhkfb4d> <div class="modal-content" data-astro-cid-eqhkfb4d> <button type="button" class="close-button" aria-label="Fermer" data-astro-cid-eqhkfb4d>&times;</button> <div class="image-wrapper" data-astro-cid-eqhkfb4d> <div class="image-loader" data-astro-cid-eqhkfb4d></div> <img id="modalImage" src="" alt="" class="modal-image" data-astro-cid-eqhkfb4d> </div> </div> </div> </main>  <footer data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-grid" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Nos Maisons</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Feurs</a></li> <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Saint-Chamond</a></li> <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Saint-Didier-en-Velay</a></li> <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Saint-Just-Saint-Rambert</a></li> <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>... et bien d'autres ...</a>
+					</li>
+				</ul>
+			</div>
+			<div class="footer-section" data-astro-cid-sckkx6r4>
+				<h3 data-astro-cid-sckkx6r4>Informations</h3>
+				<ul data-astro-cid-sckkx6r4>
+					<li data-astro-cid-sckkx6r4><a href="/concept" data-astro-cid-sckkx6r4>Le Concept</a></li>
+					<li data-astro-cid-sckkx6r4><a href="/qui-sommes-nous" data-astro-cid-sckkx6r4>Qui sommes-nous ?</a></li>
+					<li data-astro-cid-sckkx6r4><a href="/benefices-economiques" data-astro-cid-sckkx6r4>Bénéfices économiques</a></li>
+					<li data-astro-cid-sckkx6r4><a href="/creer-votre-maison" data-astro-cid-sckkx6r4>Créer votre maison</a></li>
+				</ul>
+			</div>
+			<div class="footer-section" data-astro-cid-sckkx6r4>
+				<h3 data-astro-cid-sckkx6r4>Contact</h3>
+				<div class="contact-info" data-astro-cid-sckkx6r4>
+					<p class="tel" data-astro-cid-sckkx6r4>
+						Tél : 
+						<a href="tel:0451262959" data-astro-cid-sckkx6r4>04 51 26 29 59</a>
+					</p>
+					<p data-astro-cid-sckkx6r4>
+						Email : 
+						<span id="footer-email-protected" class="email-protected" data-astro-cid-sckkx6r4>Cliquez pour afficher l'email</span>
+					</p>
+				</div>
+				<div class="social-links" data-astro-cid-sckkx6r4>
+					<a href="https://www.facebook.com/maison.melina/" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4><i class="fab fa-facebook-f" aria-hidden="true" data-astro-cid-sckkx6r4></i></a>
+					<a href="https://www.instagram.com/maisons.melina" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4><i class="fab fa-instagram" aria-hidden="true" data-astro-cid-sckkx6r4></i></a>
+					<a href="https://www.linkedin.com/company/maison-melina" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4><i class="fab fa-linkedin-in" aria-hidden="true" data-astro-cid-sckkx6r4></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom" data-astro-cid-sckkx6r4>
+			<div class="footer-links" data-astro-cid-sckkx6r4>
+				<a href="/mentions-legales" data-astro-cid-sckkx6r4>Mentions légales et politique de confidentialité</a>
+				<span class="separator" aria-hidden="true" data-astro-cid-sckkx6r4>|</span>
+				<a href="/contact" data-astro-cid-sckkx6r4>Contact</a>
+			</div>
+			<p class="copyright" data-astro-cid-sckkx6r4>
+				&copy; 2025 MAISON MÉLINA. Tous droits réservés.
+			</p>
+		</div>
+	</div>
+</footer>
+</div>
+</div>
+<!-- Pop-up vidéo -->
+<div id="videoPopup" class="video-popup" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="videoPopupTitle" data-astro-cid-sckkx6r4><div class="video-popup-content" data-astro-cid-sckkx6r4>
+<button id="closeVideoPopup" class="video-popup-close" aria-label="Fermer la vidéo" data-astro-cid-sckkx6r4>&times;</button>
+<h2 id="videoPopupTitle" class="sr-only" data-astro-cid-sckkx6r4>Vidéo de présentation MAISON MÉLINA</h2>
+<div class="video-popup-container" data-astro-cid-sckkx6r4>
+	<video id="popupVideo" controls preload="metadata" poster="/img/divers/video-vignette-interview.jpg" class="popup-video" playsinline data-astro-cid-sckkx6r4>
+		<source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4" data-astro-cid-sckkx6r4>
+			<p data-astro-cid-sckkx6r4>
+				Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+			</p>
+		</video>
+	</div>
+</div>
+</div>
+<script type="module">
+	document.addEventListener("DOMContentLoaded",()=>{
+		const e=document.querySelector(".hamburger-menu"),n=document.querySelector(".nav-links"),a=document.body;
+		function s(){
+			const t=e.getAttribute("aria-expanded")==="true";
+			e.setAttribute("aria-expanded",!t),e.classList.toggle("is-active"),n.classList.toggle("is-active"),a.classList.toggle("menu-open")
+		}
+		e.addEventListener("click",t=>{
+			t.stopPropagation(),s()
+		}
+		),n.addEventListener("click",t=>{
+			t.target.tagName==="A"&&s()
+		}
+		),document.addEventListener("click",t=>{
+			n.classList.contains("is-active")&&!n.contains(t.target)&&!e.contains(t.target)&&s()
+		}
+		),document.addEventListener("keydown",t=>{
+			t.key==="Escape"&&n.classList.contains("is-active")&&s()
+		});
+		const i=document.getElementById("footer-email-protected");
+		if(i){
+			const t=["contact","@","maison-melina",".","fr"];
+			i.addEventListener("click",function(){
+				const c=t.join("");
+				this.textContent=c,this.style.cursor="text",this.classList.add("revealed")
+			}
+			),i.style.cursor="pointer"
+		}
+	});
+</script>
+<script type="module">
+	window.dataLayer=window.dataLayer||[];
+	function a(){
+		dataLayer.push(arguments)
+	}
+	a("js",new Date);
+	a("config","G-JBZXC9G4Q9");
+</script>
+</body>
+</html>
+<script type="module">
+	document.addEventListener("DOMContentLoaded",()=>{
+		const e=document.getElementById("imageModal"),d=document.getElementById("modalImage"),s=document.querySelector(".image-loader"),n=document.querySelector(".close-button"),l=document.querySelectorAll(".read-button");
+		function c(t,a){
+			e.style.display="block",s.style.display="block",d.classList.remove("loaded"),d.src=t,d.alt=a,requestAnimationFrame(()=>{
+				e.classList.add("active")
+			}
+			),e.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden"
+		}
+		function o(){
+			e.classList.remove("active"),e.setAttribute("aria-hidden","true"),document.body.style.overflow="",setTimeout(()=>{
+				e.style.display="none",d.src="",d.classList.remove("loaded")
+			}
+			,300)
+		}
+		l.forEach(t=>{
+			t.addEventListener("click",()=>{
+				const{
+					image:a,title:i
+				}
+				=t.dataset;
+				c(a,i)
+			}
+			)
+		}
+		),d.addEventListener("load",()=>{
+			s.style.display="none",d.classList.add("loaded")
+		}
+		),n.addEventListener("click",o),e.addEventListener("click",t=>{
+			t.target===e&&o()
+		}
+		),document.addEventListener("keydown",t=>{
+			t.key==="Escape"&&e.classList.contains("active")&&o()
+		}
+		)
+	});
+</script>

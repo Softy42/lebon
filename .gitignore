@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+arborescence.txt
+site_listing.csv
+top20.txt
