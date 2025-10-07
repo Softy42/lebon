@@ -1,7 +1,19 @@
+﻿# Windows / système
 .DS_Store
 Thumbs.db
-.vscode/
+desktop.ini
+
+# Logs / caches
 *.log
-arborescence.txt
-site_listing.csv
-top20.txt
+cache/
+tmp/
+temp/
+
+# Node / build (si applicable)
+node_modules/
+dist/
+build/
+
+# Environnements (ne JAMAIS committer de secrets)
+.env
+.env.*
