@@ -35,12 +35,12 @@
 		</script>
 		<!-- SEO -->
 		<meta name="description" content="Presse : reportages, articles et interviews sur Maison Mélina et les maisons partagées pour séniors. Dossiers et médias à  consulter.">
-		<link rel="canonical" href="https://www.maison-melina.fr/MaisonMelina/presse/">
+		<link rel="canonical" href="https://www.maison-melina.fr/presse/">
 		<!-- Open Graph -->
 		<meta property="og:title" content="On parle de nous - MAISON MÉLINA">
 		<meta property="og:description" content="MAISON MÉLINA - Une alternative chaleureuse avant l'EHPAD, proposant des maisons partagées pour seniors autonomes dans un cadre convivial et sécurisé.">
 		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://www.maison-melina.fr/MaisonMelina/presse/">
+		<meta property="og:url" content="https://www.maison-melina.fr/presse/">
 		<meta property="og:image" content="https://www.maison-melina.fr/img/divers/logo.jpg">
 		<meta property="og:site_name" content="MAISON MÉLINA">
 		<!-- Twitter -->
