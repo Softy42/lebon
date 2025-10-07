@@ -17,3 +17,4 @@ build/
 # Environnements (ne JAMAIS committer de secrets)
 .env
 .env.*
+maison-melina-interview.mp4
