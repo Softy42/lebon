@@ -109,13 +109,18 @@
 <li data-astro-cid-sckkx6r4="">
 <a aria-current="page" class="active" data-astro-cid-sckkx6r4="" href="/presse"><span class="nav-text" data-astro-cid-sckkx6r4="">On parle de nous !</span></a>
 </li>
-<li data-astro-cid-sckkx6r4="">
-<a class="" data-astro-cid-sckkx6r4="" href="/creer-votre-maison">
+<li class="has-submenu" data-astro-cid-sckkx6r4="">
+<button class="submenu-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="submenu-creer-votre-maison" data-astro-cid-sckkx6r4="">
 <span class="two-lines" data-astro-cid-sckkx6r4="">
 <span class="line" data-astro-cid-sckkx6r4="">Créer votre</span>
 <span class="line" data-astro-cid-sckkx6r4="">maison partagée</span>
 </span>
-</a>
+<span class="submenu-indicator" aria-hidden="true" data-astro-cid-sckkx6r4=""></span>
+</button>
+<ul id="submenu-creer-votre-maison" class="submenu" data-astro-cid-sckkx6r4="">
+<li data-astro-cid-sckkx6r4=""><a data-astro-cid-sckkx6r4="" href="/creer-votre-maison">Créer votre maison partagée</a></li>
+<li data-astro-cid-sckkx6r4=""><a data-astro-cid-sckkx6r4="" href="/investir-dans-une-fonciere">Investissez dans la "Foncière Mélina"</a></li>
+</ul>
 </li>
 <li data-astro-cid-sckkx6r4="">
 <a class="" data-astro-cid-sckkx6r4="" href="/contact"><span class="nav-text" data-astro-cid-sckkx6r4="">Contact</span></a>
@@ -352,34 +357,169 @@
 </div>
 </div>
 <script type="module">
-	document.addEventListener("DOMContentLoaded",()=>{
-		const e=document.querySelector(".hamburger-menu"),n=document.querySelector(".nav-links"),a=document.body;
-		function s(){
-			const t=e.getAttribute("aria-expanded")==="true";
-			e.setAttribute("aria-expanded",!t),e.classList.toggle("is-active"),n.classList.toggle("is-active"),a.classList.toggle("menu-open")
-		}
-		e.addEventListener("click",t=>{
-			t.stopPropagation(),s()
-		}
-		),n.addEventListener("click",t=>{
-			t.target.tagName==="A"&&s()
-		}
-		),document.addEventListener("click",t=>{
-			n.classList.contains("is-active")&&!n.contains(t.target)&&!e.contains(t.target)&&s()
-		}
-		),document.addEventListener("keydown",t=>{
-			t.key==="Escape"&&n.classList.contains("is-active")&&s()
-		});
-		const i=document.getElementById("footer-email-protected");
-		if(i){
-			const t=["contact","@","maison-melina",".","fr"];
-			i.addEventListener("click",function(){
-				const c=t.join("");
-				this.textContent=c,this.style.cursor="text",this.classList.add("revealed")
-			}
-			),i.style.cursor="pointer"
-		}
-	});
+        document.addEventListener("DOMContentLoaded", () => {
+                const hamburger = document.querySelector(".hamburger-menu");
+                const navLinks = document.querySelector(".nav-links");
+                const body = document.body;
+
+                const closeSubmenus = () => {
+                        navLinks?.querySelectorAll(".has-submenu").forEach((item) => item.classList.remove("open"));
+                        navLinks?.querySelectorAll(".submenu-toggle").forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+                };
+
+                const toggleMenu = () => {
+                        if (!hamburger || !navLinks) {
+                                return;
+                        }
+                        const isExpanded = hamburger.getAttribute("aria-expanded") === "true";
+                        hamburger.setAttribute("aria-expanded", (!isExpanded).toString());
+                        hamburger.classList.toggle("is-active");
+                        navLinks.classList.toggle("is-active");
+                        body.classList.toggle("menu-open");
+                        if (isExpanded) {
+                                closeSubmenus();
+                        }
+                };
+
+                const closeMenu = () => {
+                        hamburger?.setAttribute("aria-expanded", "false");
+                        hamburger?.classList.remove("is-active");
+                        navLinks?.classList.remove("is-active");
+                        body.classList.remove("menu-open");
+                        closeSubmenus();
+                };
+
+                hamburger?.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                        toggleMenu();
+                });
+
+                navLinks?.addEventListener("click", (event) => {
+                        const target = event.target;
+                        if (target instanceof HTMLAnchorElement) {
+                                closeMenu();
+                        }
+                });
+
+                document.addEventListener("click", (event) => {
+                        const target = event.target;
+                        const clickInsideNav = navLinks?.contains(target) ?? false;
+                        const clickHamburger = hamburger?.contains(target) ?? false;
+                        if (!clickInsideNav) {
+                                closeSubmenus();
+                        }
+                        if (navLinks?.classList.contains("is-active") && !clickInsideNav && !clickHamburger) {
+                                closeMenu();
+                        }
+                });
+
+                document.addEventListener("keydown", (event) => {
+                        if (event.key === "Escape") {
+                                if (navLinks?.classList.contains("is-active")) {
+                                        closeMenu();
+                                } else {
+                                        closeSubmenus();
+                                }
+                        }
+                });
+
+                const submenuToggles = navLinks ? Array.from(navLinks.querySelectorAll(".submenu-toggle")) : [];
+                const collapseOthers = (current) => {
+                        submenuToggles.forEach((toggle) => {
+                                if (toggle !== current) {
+                                        toggle.setAttribute("aria-expanded", "false");
+                                        toggle.closest(".has-submenu")?.classList.remove("open");
+                                }
+                        });
+                };
+
+                submenuToggles.forEach((toggle) => {
+                        toggle.addEventListener("click", (event) => {
+                                event.stopPropagation();
+                                const parent = toggle.closest(".has-submenu");
+                                if (!parent) {
+                                        return;
+                                }
+                                const expanded = toggle.getAttribute("aria-expanded") === "true";
+                                if (expanded) {
+                                        toggle.setAttribute("aria-expanded", "false");
+                                        parent.classList.remove("open");
+                                } else {
+                                        collapseOthers(toggle);
+                                        toggle.setAttribute("aria-expanded", "true");
+                                        parent.classList.add("open");
+                                }
+                        });
+                });
+
+                const submenuItems = navLinks ? Array.from(navLinks.querySelectorAll(".has-submenu")) : [];
+                const supportsPointerEvents = "PointerEvent" in window;
+  const isHoverPointer = (event) => {
+    if (!event || typeof event.pointerType !== "string") {
+      return true;
+    }
+    return event.pointerType === "" || event.pointerType === "mouse" || event.pointerType === "pen";
+  };
+  submenuItems.forEach((item) => {
+    const toggle = item.querySelector(".submenu-toggle");
+    if (!toggle) {
+      return;
+    }
+    let closeTimeout;
+    const openItem = () => {
+      window.clearTimeout(closeTimeout);
+      collapseOthers(toggle);
+      toggle.setAttribute("aria-expanded", "true");
+      item.classList.add("open");
+    };
+    const closeItem = () => {
+      window.clearTimeout(closeTimeout);
+      toggle.setAttribute("aria-expanded", "false");
+      item.classList.remove("open");
+    };
+    const scheduleClose = () => {
+      window.clearTimeout(closeTimeout);
+      closeTimeout = window.setTimeout(closeItem, 300);
+    };
+    if (supportsPointerEvents) {
+      item.addEventListener("pointerenter", (event) => {
+        if (isHoverPointer(event)) {
+          openItem();
+        }
+      });
+      item.addEventListener("pointerleave", (event) => {
+        if (isHoverPointer(event) && (!event.relatedTarget || !item.contains(event.relatedTarget))) {
+          scheduleClose();
+        }
+      });
+    } else {
+      item.addEventListener("mouseenter", openItem);
+      item.addEventListener("mouseleave", (event) => {
+        if (!event.relatedTarget || !item.contains(event.relatedTarget)) {
+          scheduleClose();
+        }
+      });
+    }
+    item.addEventListener("focusin", openItem);
+    item.addEventListener("focusout", (event) => {
+      if (!event.relatedTarget || !item.contains(event.relatedTarget)) {
+        scheduleClose();
+      }
+    });
+  });
+
+  const email = document.getElementById("footer-email-protected");
+                if (email) {
+                        const parts = ["contact", "@", "maison-melina", ".", "fr"];
+                        email.addEventListener("click", function () {
+                                const address = parts.join("");
+                                this.textContent = address;
+                                this.style.cursor = "text";
+                                this.classList.add("revealed");
+                        });
+                        email.style.cursor = "pointer";
+                }
+        });
 </script>
 <script type="module">
 	window.dataLayer=window.dataLayer||[];
