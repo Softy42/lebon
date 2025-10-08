@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="fr" data-astro-cid-sckkx6r4>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investissez dans la "Foncière Mélina" - MAISON MÉLINA</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9"></script>
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      const popup = document.getElementById("videoPopup");
+      const closeBtn = document.getElementById("closeVideoPopup");
+      const video = document.getElementById("popupVideo");
+
+      function openPopup() {
+        popup.style.display = "flex";
+        popup.classList.add("active");
+        popup.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        video.play().catch((error) => {
+          console.log("Autoplay bloqué par le navigateur:", error);
+        });
+      }
+
+      function closePopup() {
+        popup.classList.remove("active");
+        popup.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        video.pause();
+        setTimeout(() => {
+          popup.style.display = "none";
+        }, 300);
+      }
+
+      setTimeout(() => {
+        if (!sessionStorage.getItem("videoPopupShown")) {
+          openPopup();
+          sessionStorage.setItem("videoPopupShown", "true");
+        }
+      }, 10000);
+
+      closeBtn.addEventListener("click", closePopup);
+      popup.addEventListener("click", (event) => {
+        if (event.target === popup) {
+          closePopup();
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && popup.classList.contains("active")) {
+          closePopup();
+        }
+      });
+    });
+  </script>
+  <!-- SEO -->
+  <meta
+    name="description"
+    content="Investissez dans la foncière solidaire Maison Mélina : un placement à impact social, sécurisé et accompagné pour développer l'habitat inclusif."
+  />
+  <link rel="canonical" href="https://www.maison-melina.fr/investir-dans-une-fonciere/" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Investissez dans la \&quot;Foncière Mélina\&quot; - MAISON MÉLINA" />
+  <meta
+    property="og:description"
+    content="Investissez dans la foncière solidaire Maison Mélina : un placement à impact social, sécurisé et accompagné pour développer l'habitat inclusif."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.maison-melina.fr/investir-dans-une-fonciere/" />
+  <meta property="og:image" content="https://www.maison-melina.fr/img/divers/logo.jpg" />
+  <meta property="og:site_name" content="MAISON MÉLINA" />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Investissez dans la \&quot;Foncière Mélina\&quot; - MAISON MÉLINA" />
+  <meta
+    name="twitter:description"
+    content="Investissez dans la foncière solidaire Maison Mélina : un placement à impact social, sécurisé et accompagné pour développer l'habitat inclusif."
+  />
+  <meta name="twitter:image" content="/img/divers/logo.jpg" />
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MAISON MÉLINA",
+      "url": "https://www.maison-melina.fr",
+      "logo": "https://www.maison-melina.fr/img/divers/logo.jpg",
+      "sameAs": [
+        "https://www.facebook.com/maison.melina/",
+        "https://www.instagram.com/maisons.melina",
+        "https://www.linkedin.com/company/maison-melina"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1 Allée Régis Auguste",
+        "addressLocality": "ST GENEST LERPT",
+        "postalCode": "42530",
+        "addressCountry": "FR"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+33451262959",
+        "contactType": "customer service",
+        "email": "contact@maison-melina.fr"
+      }
+    }
+  </script>
+  <!-- Preload des ressources critiques -->
+  <link rel="preload" href="/img/divers/logo.jpg" as="image" />
+  <link
+    rel="preload"
+    href="https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVSwiPGQ.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="preload"
+    href="https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USSwiPGQ.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <!-- Cache des ressources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://www.maison-melina.fr" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+  />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" />
+  <!-- Icons -->
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="/_astro/benefices-economiques.DA2vvG5t.css" />
+  <style>
+    :root {
+      --melina-red: #b42c2d;
+      --melina-red-dark: #8f1f21;
+      --melina-beige: #f7f1ed;
+      --melina-text: #2f2f30;
+    }
+
+    body {
+      font-family: "Lato", sans-serif;
+      color: var(--melina-text);
+      background-color: #ffffff;
+    }
+
+    .main-content {
+      padding-top: 120px;
+    }
+
+    .hero-invest {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      background-color: var(--melina-red);
+      border-radius: 0.5rem;
+      color: #ffffff;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      line-height: 1;
+    }
+
+    .hero-invest .container {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .hero-invest h1 {
+      color: #ffffff;
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+    }
+
+    .hero-invest p {
+      color: #ffffff;
+      font-size: 1.25rem;
+      margin: 0.25rem 0 0;
+      line-height: 1.2;
+      opacity: 0.9;
+    }
+
+    .invest-sections {
+      background: var(--melina-beige);
+      padding: 80px 0;
+    }
+
+    .invest-sections .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      gap: 32px;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 40px 36px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(180, 44, 45, 0.12);
+      pointer-events: none;
+    }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .info-card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: rgba(180, 44, 45, 0.1);
+      color: var(--melina-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .info-card h2 {
+      font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+      margin: 0;
+      color: var(--melina-red);
+    }
+
+    .info-card p {
+      margin: 0 0 16px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .info-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cta-section {
+      background: var(--melina-red);
+      color: #ffffff;
+      padding: 56px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before,
+    .cta-section::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+
+    .cta-section::before {
+      top: -120px;
+      right: -60px;
+    }
+
+    .cta-section::after {
+      bottom: -140px;
+      left: -40px;
+    }
+
+    .cta-section .container {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .cta-section p {
+      margin-bottom: 28px;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      color: var(--melina-red);
+      font-weight: 700;
+      padding: 16px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .cta-button i {
+      font-size: 1.1rem;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+      color: var(--melina-red-dark);
+    }
+
+    @media (min-width: 768px) {
+      .info-card {
+        padding: 48px 52px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-invest {
+        padding: 100px 18px 70px;
+      }
+
+      .info-card {
+        padding: 32px 26px;
+      }
+
+      .info-card-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 24px;
+        border-radius: 16px;
+      }
+
+      .cta-section {
+        padding: 48px 18px;
+      }
+
+      .cta-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body data-astro-cid-sckkx6r4>
+  <div class="side-color left" data-astro-cid-sckkx6r4></div>
+  <div class="side-color right" data-astro-cid-sckkx6r4></div>
+  <div class="content-wrapper" data-astro-cid-sckkx6r4>
+    <header class="fixed-header" data-astro-cid-sckkx6r4>
+      <nav aria-label="Navigation principale" data-astro-cid-sckkx6r4>
+        <div class="nav-content" data-astro-cid-sckkx6r4>
+          <a class="logo" href="/" aria-label="Accueil MAISON MÉLINA" data-astro-cid-sckkx6r4>
+            <img
+              src="/img/divers/logo.jpg"
+              alt="Logo MAISON MÉLINA"
+              class="logo-image"
+              width="160"
+              height="90"
+              loading="eager"
+              data-astro-cid-sckkx6r4
+            />
+          </a>
+          <button
+            class="hamburger-menu"
+            aria-controls="main-nav"
+            aria-expanded="false"
+            aria-label="Menu principal"
+            data-astro-cid-sckkx6r4
+          >
+            <span class="hamburger-box" data-astro-cid-sckkx6r4>
+              <span class="hamburger-inner" data-astro-cid-sckkx6r4></span>
+            </span>
+          </button>
+          <ul class="nav-links" id="main-nav" data-astro-cid-sckkx6r4>
+            <li data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4><span class="nav-text">Accueil</span></a></li>
+            <li data-astro-cid-sckkx6r4><a href="/concept" data-astro-cid-sckkx6r4><span class="nav-text">Le Concept</span></a></li>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4><span class="nav-text">Nos Maisons</span></a></li>
+            <li data-astro-cid-sckkx6r4>
+              <a href="/qui-sommes-nous" data-astro-cid-sckkx6r4><span class="nav-text">Qui Sommes-Nous ?</span></a>
+            </li>
+            <li data-astro-cid-sckkx6r4><a href="/presse" data-astro-cid-sckkx6r4><span class="nav-text">On parle de nous !</span></a></li>
+            <li class="has-submenu" data-astro-cid-sckkx6r4>
+              <button
+                class="submenu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="submenu-creer-votre-maison"
+                data-astro-cid-sckkx6r4
+              >
+                <span class="two-lines" data-astro-cid-sckkx6r4>
+                  <span class="line" data-astro-cid-sckkx6r4>Créer votre</span>
+                  <span class="line" data-astro-cid-sckkx6r4>maison partagée</span>
+                </span>
+                <span class="submenu-indicator" aria-hidden="true" data-astro-cid-sckkx6r4></span>
+              </button>
+              <ul class="submenu" id="submenu-creer-votre-maison" data-astro-cid-sckkx6r4>
+                <li data-astro-cid-sckkx6r4>
+                  <a href="/creer-votre-maison" data-astro-cid-sckkx6r4>Créer votre maison partagée</a>
+                </li>
+                <li data-astro-cid-sckkx6r4>
+                  <a href="/investir-dans-une-fonciere" class="active" data-astro-cid-sckkx6r4>Investissez dans la "Foncière Mélina"</a>
+                </li>
+              </ul>
+            </li>
+            <li data-astro-cid-sckkx6r4><a href="/contact" data-astro-cid-sckkx6r4><span class="nav-text">Contact</span></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div class="main-content" data-astro-cid-sckkx6r4>
+      <main>
+        <section class="hero-invest">
+          <div class="container">
+            <h1>Investir dans une foncière Maison Mélina</h1>
+            <p>Participez au développement de l’habitat inclusif en soutenant la foncière solidaire Maison Mélina.</p>
+          </div>
+        </section>
+        <section class="invest-sections">
+          <div class="container">
+            <article class="info-card">
+              <div class="info-card-header">
+                <div class="info-card-icon" aria-hidden="true">
+                  <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <h2>Pourquoi rejoindre la foncière solidaire Maison Mélina&nbsp;?</h2>
+              </div>
+              <p>
+                En investissant dans la foncière Maison Mélina, vous soutenez un nouveau modèle inclusif de création de maisons
+                partagées pour séniors autonomes.
+              </p>
+              <p>
+                Vous participez à la production de logements humains, sécurisés et chaleureux qui répondent aux attentes des séniors et
+                de leurs familles.
+              </p>
+              <p>
+                Vous soutenez une initiative d’économie sociale et solidaire au cœur des territoires.
+              </p>
+            </article>
+            <article class="info-card">
+              <div class="info-card-header">
+                <div class="info-card-icon" aria-hidden="true">
+                  <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <h2>Un investissement à impact et sécurisé</h2>
+              </div>
+              <p>
+                La Foncière Maison Mélina repose sur un modèle locatif pérenne avec des baux maîtrisés et des relations durables avec
+                les collectivités locales.
+              </p>
+              <p>
+                Les maisons partagées sont pensées pour garantir la sécurité des habitants et offrir un accompagnement humain
+                quotidien.
+              </p>
+              <p>
+                Chaque projet fait l’objet d’une étude rigoureuse pour optimiser l’usage des fonciers, des équipements et maîtriser les
+                coûts.
+              </p>
+            </article>
+            <article class="info-card">
+              <div class="info-card-header">
+                <div class="info-card-icon" aria-hidden="true">
+                  <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <h2>Un parcours d’investissement accompagné</h2>
+              </div>
+              <p>
+                Notre équipe dédiée vous accompagne depuis votre première question jusqu’à l’aboutissement de votre investissement.
+              </p>
+              <p>
+                Nous vous présentons en toute transparence les projets financés, l’usage des fonds et les étapes clés de réalisation.
+              </p>
+              <p>
+                Vous bénéficiez d’un suivi régulier du projet immobilier et de l’impact social généré.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section class="cta-section">
+          <div class="container">
+            <h2>Prêts à rejoindre l’aventure Maison Mélina&nbsp;?</h2>
+            <p>Contactez-nous pour découvrir comment devenir acteur du projet d’habitat partagé.</p>
+            <a class="cta-button" href="/contact">
+              <i class="fa-solid fa-envelope"></i>
+              Je contacte l’équipe
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer data-astro-cid-sckkx6r4>
+      <div class="footer-content" data-astro-cid-sckkx6r4>
+        <div class="footer-section" data-astro-cid-sckkx6r4>
+          <h3 data-astro-cid-sckkx6r4>Nos Maisons</h3>
+          <ul data-astro-cid-sckkx6r4>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Saint-Chamond</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons/feurs" data-astro-cid-sckkx6r4>Feurs</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons/saint-didier-en-velay" data-astro-cid-sckkx6r4>Saint-Didier-en-Velay</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>Saint-Just-Saint-Rambert</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4>... et bien d'autres ...</a></li>
+          </ul>
+        </div>
+        <div class="footer-section" data-astro-cid-sckkx6r4>
+          <h3 data-astro-cid-sckkx6r4>Informations</h3>
+          <ul data-astro-cid-sckkx6r4>
+            <li data-astro-cid-sckkx6r4><a href="/concept" data-astro-cid-sckkx6r4>Le Concept</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/qui-sommes-nous" data-astro-cid-sckkx6r4>Qui sommes-nous ?</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/benefices-economiques" data-astro-cid-sckkx6r4>Bénéfices économiques</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/creer-votre-maison" data-astro-cid-sckkx6r4>Créer votre maison</a></li>
+          </ul>
+        </div>
+        <div class="footer-section" data-astro-cid-sckkx6r4>
+          <h3 data-astro-cid-sckkx6r4>Contact</h3>
+          <div class="contact-info" data-astro-cid-sckkx6r4>
+            <p class="tel" data-astro-cid-sckkx6r4>
+              Tél :
+              <a href="tel:0451262959" data-astro-cid-sckkx6r4>04 51 26 29 59</a>
+            </p>
+            <p data-astro-cid-sckkx6r4>
+              Email :
+              <span id="footer-email-protected" class="email-protected" data-astro-cid-sckkx6r4>Cliquer pour afficher l'email</span>
+            </p>
+          </div>
+          <div class="social-links" data-astro-cid-sckkx6r4>
+            <a
+              class="social-link"
+              href="https://www.facebook.com/maison.melina/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              data-astro-cid-sckkx6r4
+            >
+              <i class="fab fa-facebook-f" aria-hidden="true" data-astro-cid-sckkx6r4></i>
+            </a>
+            <a
+              class="social-link"
+              href="https://www.instagram.com/maisons.melina"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              data-astro-cid-sckkx6r4
+            >
+              <i class="fab fa-instagram" aria-hidden="true" data-astro-cid-sckkx6r4></i>
+            </a>
+            <a
+              class="social-link"
+              href="https://www.linkedin.com/company/maison-melina"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              data-astro-cid-sckkx6r4
+            >
+              <i class="fab fa-linkedin-in" aria-hidden="true" data-astro-cid-sckkx6r4></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom" data-astro-cid-sckkx6r4>
+        <div class="footer-links" data-astro-cid-sckkx6r4>
+          <a href="/mentions-legales" data-astro-cid-sckkx6r4>Mentions légales et politique de confidentialité</a>
+          <span class="separator" aria-hidden="true" data-astro-cid-sckkx6r4>|</span>
+          <a href="/contact" data-astro-cid-sckkx6r4>Contact</a>
+        </div>
+        <p class="copyright" data-astro-cid-sckkx6r4>© 2025 MAISON MÉLINA. Tous droits réservés.</p>
+      </div>
+    </footer>
+  </div>
+  <!-- Pop-up vidéo -->
+  <div
+    id="videoPopup"
+    class="video-popup"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="videoPopupTitle"
+    data-astro-cid-sckkx6r4
+  >
+    <div class="video-popup-content" data-astro-cid-sckkx6r4>
+      <button id="closeVideoPopup" class="video-popup-close" aria-label="Fermer la vidéo" data-astro-cid-sckkx6r4>×</button>
+      <h2 id="videoPopupTitle" class="sr-only" data-astro-cid-sckkx6r4>Vidéo de présentation MAISON MÉLINA</h2>
+      <div class="video-popup-container" data-astro-cid-sckkx6r4>
+        <video
+          id="popupVideo"
+          class="popup-video"
+          controls
+          preload="metadata"
+          playsinline
+          poster="/img/divers/video-vignette-interview.jpg"
+          data-astro-cid-sckkx6r4
+        >
+          <source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4" data-astro-cid-sckkx6r4 />
+          <p data-astro-cid-sckkx6r4>Votre navigateur ne supporte pas la lecture de vidéos HTML5.</p>
+        </video>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.querySelector(".hamburger-menu");
+      const navLinks = document.querySelector(".nav-links");
+      const body = document.body;
+
+      const closeSubmenus = () => {
+        navLinks?.querySelectorAll(".has-submenu").forEach((item) => item.classList.remove("open"));
+        navLinks?.querySelectorAll(".submenu-toggle").forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+      };
+
+      const toggleMenu = () => {
+        if (!hamburger || !navLinks) {
+          return;
+        }
+        const isExpanded = hamburger.getAttribute("aria-expanded") === "true";
+        hamburger.setAttribute("aria-expanded", (!isExpanded).toString());
+        hamburger.classList.toggle("is-active");
+        navLinks.classList.toggle("is-active");
+        body.classList.toggle("menu-open");
+        if (isExpanded) {
+          closeSubmenus();
+        }
+      };
+
+      const closeMenu = () => {
+        hamburger?.setAttribute("aria-expanded", "false");
+        hamburger?.classList.remove("is-active");
+        navLinks?.classList.remove("is-active");
+        body.classList.remove("menu-open");
+        closeSubmenus();
+      };
+
+      hamburger?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleMenu();
+      });
+
+      navLinks?.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target instanceof HTMLAnchorElement) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        const clickInsideNav = navLinks?.contains(target) ?? false;
+        const clickHamburger = hamburger?.contains(target) ?? false;
+        if (!clickInsideNav) {
+          closeSubmenus();
+        }
+        if (navLinks?.classList.contains("is-active") && !clickInsideNav && !clickHamburger) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          if (navLinks?.classList.contains("is-active")) {
+            closeMenu();
+          } else {
+            closeSubmenus();
+          }
+        }
+      });
+
+      const submenuToggles = navLinks ? Array.from(navLinks.querySelectorAll(".submenu-toggle")) : [];
+      const collapseOthers = (current) => {
+        submenuToggles.forEach((toggle) => {
+          if (toggle !== current) {
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.closest(".has-submenu")?.classList.remove("open");
+          }
+        });
+      };
+
+      submenuToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const parent = toggle.closest(".has-submenu");
+          if (!parent) {
+            return;
+          }
+          const expanded = toggle.getAttribute("aria-expanded") === "true";
+          if (expanded) {
+            toggle.setAttribute("aria-expanded", "false");
+            parent.classList.remove("open");
+          } else {
+            collapseOthers(toggle);
+            toggle.setAttribute("aria-expanded", "true");
+            parent.classList.add("open");
+          }
+        });
+      });
+
+      const submenuItems = navLinks ? Array.from(navLinks.querySelectorAll(".has-submenu")) : [];
+      const supportsPointerEvents = "PointerEvent" in window;
+      const isHoverPointer = (event) => {
+        if (!event || typeof event.pointerType !== "string") {
+          return true;
+        }
+        return event.pointerType === "" || event.pointerType === "mouse" || event.pointerType === "pen";
+      };
+      submenuItems.forEach((item) => {
+        const toggle = item.querySelector(".submenu-toggle");
+        if (!toggle) {
+          return;
+        }
+        let closeTimeout;
+        const openItem = () => {
+          window.clearTimeout(closeTimeout);
+          collapseOthers(toggle);
+          toggle.setAttribute("aria-expanded", "true");
+          item.classList.add("open");
+        };
+        const closeItem = () => {
+          window.clearTimeout(closeTimeout);
+          toggle.setAttribute("aria-expanded", "false");
+          item.classList.remove("open");
+        };
+        const scheduleClose = () => {
+          window.clearTimeout(closeTimeout);
+          closeTimeout = window.setTimeout(closeItem, 300);
+        };
+        if (supportsPointerEvents) {
+          item.addEventListener("pointerenter", (event) => {
+            if (isHoverPointer(event)) {
+              openItem();
+            }
+          });
+          item.addEventListener("pointerleave", (event) => {
+            if (isHoverPointer(event) && (!event.relatedTarget || !item.contains(event.relatedTarget))) {
+              scheduleClose();
+            }
+          });
+        } else {
+          item.addEventListener("mouseenter", openItem);
+          item.addEventListener("mouseleave", (event) => {
+            if (!event.relatedTarget || !item.contains(event.relatedTarget)) {
+              scheduleClose();
+            }
+          });
+        }
+        item.addEventListener("focusin", openItem);
+        item.addEventListener("focusout", (event) => {
+          if (!event.relatedTarget || !item.contains(event.relatedTarget)) {
+            scheduleClose();
+          }
+        });
+      });
+
+      const email = document.getElementById("footer-email-protected");
+      if (email) {
+        const parts = ["contact", "@", "maison-melina", ".", "fr"];
+        email.addEventListener("click", function () {
+          const address = parts.join("");
+          this.textContent = address;
+          this.style.cursor = "text";
+          this.classList.add("revealed");
+        });
+        email.style.cursor = "pointer";
+      }
+    });
+  </script>
+  <script type="module">
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-JBZXC9G4Q9");
+  </script>
+</body>
+</html>
