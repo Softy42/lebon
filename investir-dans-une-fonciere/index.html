@@ -159,40 +159,35 @@
     }
 
     .hero-invest {
-      background: linear-gradient(135deg, var(--melina-red) 0%, #a22324 100%);
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      background-color: var(--melina-red);
+      border-radius: 0.5rem;
       color: #ffffff;
       text-align: center;
-      padding: 120px 20px 90px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-invest::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.2), transparent 55%),
-        radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.18), transparent 60%);
-      pointer-events: none;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      line-height: 1;
     }
 
     .hero-invest .container {
-      max-width: 960px;
+      max-width: 840px;
       margin: 0 auto;
-      position: relative;
-      z-index: 1;
     }
 
     .hero-invest h1 {
-      font-size: clamp(2.4rem, 4vw, 3.4rem);
-      margin-bottom: 18px;
+      color: #ffffff;
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      margin-bottom: 0.25rem;
       font-weight: 700;
     }
 
     .hero-invest p {
-      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
-      margin: 0;
-      line-height: 1.7;
+      color: #ffffff;
+      font-size: 1.25rem;
+      margin: 0.25rem 0 0;
+      line-height: 1.2;
+      opacity: 0.9;
     }
 
     .invest-sections {
