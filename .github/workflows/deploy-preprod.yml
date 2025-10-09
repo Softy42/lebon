@@ -1,0 +1,37 @@
+name: Deploy PREPROD (IONOS)
+on:
+  push:
+    branches: [ preprod ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Crée/écrase robots.txt et .htaccess uniquement pour la PREPROD (dans l'espace de travail)
+      - name: Prepare PREPROD headers
+        run: |
+          echo -e "User-agent: *\nDisallow: /" > robots.txt
+          cat > .htaccess <<'EOF'
+          DirectoryIndex index.html index.htm
+          RewriteEngine On
+          RewriteCond %{HTTPS} !=on
+          RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+          <IfModule mod_headers.c>
+            Header set X-Robots-Tag "noindex, nofollow, noarchive"
+          </IfModule>
+          EOF
+
+      - name: Deploy via SFTP to IONOS
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        with:
+          server: ${{ secrets.IONOS_HOST }}
+          username: ${{ secrets.IONOS_USER }}
+          password: ${{ secrets.IONOS_PASS }}
+          port: ${{ secrets.IONOS_PORT || 22 }}
+          sftp_only: true
+          local_path: './*'
+          remote_path: '/www/preprod-melina/'
+          exclude: '.git*,.github,node_modules'
