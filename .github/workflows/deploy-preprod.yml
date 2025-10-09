@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Crée/écrase robots.txt et .htaccess uniquement pour la PREPROD (dans l'espace de travail)
+      # Ajoute robots.txt (noindex) et un .htaccess minimal côté préprod
       - name: Prepare PREPROD headers
         run: |
           echo -e "User-agent: *\nDisallow: /" > robots.txt
@@ -24,14 +24,16 @@ jobs:
           </IfModule>
           EOF
 
+      # Déploiement SFTP vers IONOS (sans 'exclude')
       - name: Deploy via SFTP to IONOS
         uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
-          server: ${{ secrets.IONOS_HOST }}
-          username: ${{ secrets.IONOS_USER }}
-          password: ${{ secrets.IONOS_PASS }}
+          server: ${{ secrets.IONOS_HOST }}      # ex: access935993939.webspace-data.io
+          username: ${{ secrets.IONOS_USER }}    # ex: u109679466
+          password: ${{ secrets.IONOS_PASS }}    # ton mot de passe SFTP
           port: ${{ secrets.IONOS_PORT || 22 }}
           sftp_only: true
-          local_path: './*'
+          # Optionnel si warning de clé d'hôte:
+          # sftpArgs: "-o StrictHostKeyChecking=no"
+          local_path: '.'
           remote_path: '/www/preprod-melina/'
-          exclude: '.git*,.github,node_modules'
