@@ -139,240 +139,8 @@
   <!-- Icons -->
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="/_astro/concept.BNbfHU3S.css" />
   <link rel="stylesheet" href="/_astro/benefices-economiques.DA2vvG5t.css" />
-  <style>
-    :root {
-      --melina-red: #b42c2d;
-      --melina-red-dark: #8f1f21;
-      --melina-beige: #f7f1ed;
-      --melina-text: #2f2f30;
-    }
-
-    body {
-      font-family: "Lato", sans-serif;
-      color: var(--melina-text);
-      background-color: #ffffff;
-    }
-
-    .main-content {
-      padding-top: 0;
-    }
-
-    .main-content > main {
-      padding-top: 2rem;
-    }
-
-    .hero-invest {
-      max-width: 1200px;
-      margin: 0 auto 2rem;
-      background-color: var(--melina-red);
-      border-radius: 0.5rem;
-      color: #ffffff;
-      text-align: center;
-      padding: 0.5rem 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      line-height: 1;
-    }
-
-    .hero-invest .container {
-      max-width: 840px;
-      margin: 0 auto;
-    }
-
-    .hero-invest h1 {
-      color: #ffffff;
-      font-size: clamp(2.1rem, 4vw, 2.8rem);
-      margin-bottom: 0.25rem;
-      font-weight: 700;
-    }
-
-    .hero-invest p {
-      color: #ffffff;
-      font-size: 1.25rem;
-      margin: 0.25rem 0 0;
-      line-height: 1.2;
-      opacity: 0.9;
-    }
-
-    .invest-sections {
-      background: var(--melina-beige);
-      padding: 80px 0;
-    }
-
-    .invest-sections .container {
-      max-width: 1050px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: grid;
-      gap: 32px;
-    }
-
-    .performance-note {
-      color: var(--melina-red);
-      font-style: italic;
-    }
-
-    .info-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 40px 36px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .info-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      border: 1px solid rgba(180, 44, 45, 0.12);
-      pointer-events: none;
-    }
-
-    .info-card-header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .info-card-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      background: rgba(180, 44, 45, 0.1);
-      color: var(--melina-red);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .info-card h2 {
-      font-size: clamp(1.5rem, 2.6vw, 1.9rem);
-      margin: 0;
-      color: var(--melina-red);
-    }
-
-    .info-card p {
-      margin: 0 0 16px;
-      line-height: 1.7;
-      font-size: 1.05rem;
-    }
-
-    .info-card p:last-child {
-      margin-bottom: 0;
-    }
-
-    .cta-section {
-      background: var(--melina-red);
-      color: #ffffff;
-      padding: 32px 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section::before,
-    .cta-section::after {
-      content: "";
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      pointer-events: none;
-    }
-
-    .cta-section::before {
-      top: -120px;
-      right: -60px;
-    }
-
-    .cta-section::after {
-      bottom: -140px;
-      left: -40px;
-    }
-
-    .cta-section .container {
-      max-width: 720px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-section h2 {
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      margin-bottom: 12px;
-      font-weight: 700;
-    }
-
-    .cta-section p {
-      margin-bottom: 20px;
-      font-size: 1.05rem;
-      line-height: 1.5;
-    }
-
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: #ffffff;
-      color: var(--melina-red);
-      font-weight: 700;
-      padding: 16px 28px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 1.05rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .cta-button i {
-      font-size: 1.1rem;
-    }
-
-    .cta-button:hover,
-    .cta-button:focus {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
-      color: var(--melina-red-dark);
-    }
-
-    @media (min-width: 768px) {
-      .info-card {
-        padding: 48px 52px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero-invest {
-        padding: 100px 18px 70px;
-      }
-
-      .info-card {
-        padding: 32px 26px;
-      }
-
-      .info-card-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 24px;
-        border-radius: 16px;
-      }
-
-      .cta-section {
-        padding: 28px 18px;
-      }
-
-      .cta-button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
 </head>
 <body data-astro-cid-sckkx6r4>
   <div class="side-color left" data-astro-cid-sckkx6r4></div>
@@ -441,126 +209,103 @@
       </nav>
     </header>
     <div class="main-content" data-astro-cid-sckkx6r4>
-      <main>
-        <section class="hero-invest">
-          <div class="container">
-            <h1>Investir dans une foncière Maison Mélina</h1>
+      <main data-astro-cid-5tomgpma>
+        <div class="hero-section" data-astro-cid-5tomgpma>
+          <h1 data-astro-cid-5tomgpma>Investir dans la Foncière Maison Mélina</h1>
+          <p class="lead" data-astro-cid-5tomgpma>
+            Investissez pour développer des maisons partagées inclusives et chaleureuses destinées aux séniors autonomes.
+          </p>
+        </div>
+        <section class="pillars-section" data-astro-cid-5tomgpma>
+          <div class="section-title" data-astro-cid-5tomgpma>
+            <h2 data-astro-cid-5tomgpma>Les atouts de la Foncière Maison Mélina</h2>
           </div>
-        </section>
-        <section class="invest-sections">
-          <div class="container">
-            <article class="info-card">
-              <div class="info-card-header">
-                <div class="info-card-icon" aria-hidden="true">
-                  <i class="fa-solid fa-people-roof"></i>
-                </div>
-                <h2>Pourquoi rejoindre la foncière Maison Mélina&nbsp;?</h2>
-              </div>
-              <p>
-                En investissant dans la foncière Maison Mélina, vous soutenez un nouveau modèle inclusif de création de maisons
-                partagées pour séniors autonomes.
+          <div class="pillars-grid" data-astro-cid-5tomgpma>
+            <article class="feature-card" data-astro-cid-5tomgpma>
+              <h3 data-astro-cid-5tomgpma>Pourquoi rejoindre la Foncière Maison Mélina&nbsp;?</h3>
+              <p data-astro-cid-5tomgpma>
+                En investissant dans la foncière Maison Mélina, vous soutenez un modèle inclusif qui crée des maisons partagées
+                pour séniors autonomes.
               </p>
-              <p>
-                Vous participez à la production de logements humains, sécurisés et chaleureux qui répondent aux attentes des séniors et
-                de leurs familles.
+              <p data-astro-cid-5tomgpma>
+                Vous participez à la production de logements humains, sécurisés et chaleureux qui répondent aux attentes des
+                séniors et de leurs familles.
               </p>
-              <p>
-                Vous soutenez une initiative d’économie sociale et solidaire au cœur des territoires.
-              </p>
+              <p data-astro-cid-5tomgpma>Vous soutenez une initiative d’économie sociale et solidaire au cœur des territoires.</p>
             </article>
-            <article class="info-card">
-              <div class="info-card-header">
-                <div class="info-card-icon" aria-hidden="true">
-                  <i class="fa-solid fa-shield-heart"></i>
-                </div>
-                <h2>Un investissement à impact et sécurisé</h2>
-              </div>
-              <p>
-                La Foncière Maison Mélina repose sur un modèle locatif pérenne avec des baux maîtrisés et des relations durables avec
-                les collectivités locales.
+            <article class="feature-card" data-astro-cid-5tomgpma>
+              <h3 data-astro-cid-5tomgpma>Un investissement à impact et sécurisé</h3>
+              <p data-astro-cid-5tomgpma>
+                La Foncière Maison Mélina repose sur un modèle locatif pérenne avec des baux maîtrisés et des relations durables
+                avec les collectivités locales.
               </p>
-              <p>
+              <p data-astro-cid-5tomgpma>
                 Les maisons partagées sont pensées pour garantir la sécurité des habitants et offrir un accompagnement humain
                 quotidien.
               </p>
-              <p>
-                Chaque projet fait l’objet d’une étude rigoureuse pour optimiser l’usage des fonciers, des équipements et maîtriser les
-                coûts.
+              <p data-astro-cid-5tomgpma>
+                Chaque projet fait l’objet d’une étude rigoureuse pour optimiser l’usage des fonciers, des équipements et maîtriser
+                les coûts.
               </p>
             </article>
-            <article class="info-card">
-              <div class="info-card-header">
-                <div class="info-card-icon" aria-hidden="true">
-                  <i class="fa-solid fa-hand-holding-heart"></i>
-                </div>
-                <h2>Un parcours d’investissement accompagné</h2>
-              </div>
-              <p>
+            <article class="feature-card" data-astro-cid-5tomgpma>
+              <h3 data-astro-cid-5tomgpma>Un parcours d’investissement accompagné</h3>
+              <p data-astro-cid-5tomgpma>
                 Notre équipe dédiée vous accompagne depuis votre première question jusqu’à l’aboutissement de votre investissement.
               </p>
-              <p>
+              <p data-astro-cid-5tomgpma>
                 Nous vous présentons en toute transparence les projets financés, l’usage des fonds et les étapes clés de réalisation.
               </p>
-              <p>
+              <p data-astro-cid-5tomgpma>
                 Vous bénéficiez d’un suivi régulier du projet immobilier et de l’impact social généré.
               </p>
             </article>
-            <article class="info-card">
-              <div class="info-card-header">
-                <div class="info-card-icon" aria-hidden="true">
-                  <i class="fa-solid fa-scale-balanced"></i>
-                </div>
-                <h2>Prudence</h2>
-              </div>
-              <p>Diversification du patrimoine.</p>
-              <p>L’investissement dans l’immobilier est le placement préféré des Français.</p>
-              <p>
-                Le vieillissement de la population entraîne une demande locative de plus en plus forte vers les résidences
-                seniors.
+            <article class="feature-card" data-astro-cid-5tomgpma>
+              <h3 data-astro-cid-5tomgpma>Prudence</h3>
+              <p data-astro-cid-5tomgpma>Diversifiez votre patrimoine grâce à un actif tangible.</p>
+              <p data-astro-cid-5tomgpma>
+                Le vieillissement de la population entraîne une demande locative de plus en plus forte vers les résidences seniors.
               </p>
-              <p>Ces logements font donc partie des plus rentables pour les investisseurs locatifs.</p>
-              <p>
-                De plus, nous prévoyons une phase de remplissage sur 1 an (Post travaux) et une vacance locative de 2 chambres
-                par an, à partir de l’année N+1.
+              <p data-astro-cid-5tomgpma>
+                Ces logements font partie des investissements locatifs les plus recherchés et bénéficient d’une dynamique de remplissage
+                maîtrisée.
+              </p>
+              <p data-astro-cid-5tomgpma>
+                Nous prévoyons une phase de mise en service sur 1 an après les travaux et anticipons une vacance locative limitée à deux
+                chambres par an à partir de l’année N+1.
               </p>
             </article>
-            <article class="info-card">
-              <div class="info-card-header">
-                <div class="info-card-icon" aria-hidden="true">
-                  <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <h2>Performance</h2>
-              </div>
-              <p><strong>Grâce à une rentabilité locative de 9%/ an et à l’évolution du marché immobilier :</strong></p>
-              <ul>
-                <li>
-                  Un objectif cible de distribution de <strong>dividendes de 6% par an</strong> du capital investi pendant 15 ans (à partir de
-                  N+1).
+            <article class="feature-card" data-astro-cid-5tomgpma>
+              <h3 data-astro-cid-5tomgpma>Performance</h3>
+              <p data-astro-cid-5tomgpma>
+                <strong>Grâce à une rentabilité locative cible de 9&nbsp;% par an et à l’évolution du marché immobilier :</strong>
+              </p>
+              <ul data-astro-cid-5tomgpma>
+                <li data-astro-cid-5tomgpma>
+                  Objectif de distribution de <strong>dividendes de 6&nbsp;% par an</strong> du capital investi pendant 15 ans (à partir de N+1).
                 </li>
-                <li>
-                  Un objectif cible de distribution de <strong>dividendes de 20% par an</strong> du capital investi à partir de la 16e
-                  année.
+                <li data-astro-cid-5tomgpma>
+                  Objectif de distribution de <strong>dividendes de 20&nbsp;% par an</strong> du capital investi à partir de la 16<sup>e</sup> année.
                 </li>
-                <li>
-                  De plus, vous bénéficiez d’un <strong>effet de levier dans l’immobilier</strong> qui consiste à contracter un emprunt pour
-                  augmenter sa capacité d’investissement, et donc accroître son capital à long terme.
+                <li data-astro-cid-5tomgpma>
+                  Un <strong>effet de levier immobilier</strong> qui permet d’augmenter la capacité d’investissement et de faire croître le capital à
+                  long terme.
                 </li>
               </ul>
-              <p class="performance-note">
-                Cette performance n’est pas garantie et pourra suivre une évolution différente de celle qui est présentée.
-                Toutefois, il existe un risque de perte de capital.
+              <p data-astro-cid-5tomgpma>
+                <em>
+                  Ces performances ne sont pas garanties et peuvent évoluer différemment. Un risque de perte en capital existe pour tout
+                  investissement.
+                </em>
               </p>
             </article>
           </div>
         </section>
-        <section class="cta-section">
-          <div class="container">
-            <h2>Prêts à rejoindre l’aventure Maison Mélina&nbsp;?</h2>
-            <p>Contactez-nous pour découvrir comment devenir acteur du projet d’habitat partagé.</p>
-            <a class="cta-button" href="/contact">
-              <i class="fa-solid fa-envelope"></i>
-              Je contacte l’équipe
-            </a>
+        <section class="cta-section" data-astro-cid-5tomgpma>
+          <h2 data-astro-cid-5tomgpma>Prêts à rejoindre l’aventure Maison Mélina&nbsp;?</h2>
+          <p data-astro-cid-5tomgpma>Contactez-nous pour découvrir comment devenir acteur du projet d’habitat partagé.</p>
+          <div class="cta-buttons" data-astro-cid-5tomgpma>
+            <a class="button primary" href="/contact" data-astro-cid-5tomgpma>Je contacte l’équipe</a>
           </div>
         </section>
       </main>
