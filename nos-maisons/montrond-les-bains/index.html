@@ -94,10 +94,7 @@
 </li>
 <li class="has-submenu" data-astro-cid-sckkx6r4="">
 <button class="submenu-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="submenu-creer-votre-maison" data-astro-cid-sckkx6r4="">
-<span class="two-lines" data-astro-cid-sckkx6r4="">
-<span class="line" data-astro-cid-sckkx6r4="">Créer votre</span>
-<span class="line" data-astro-cid-sckkx6r4="">maison partagée</span>
-</span>
+<span class="nav-text two-lines" data-astro-cid-sckkx6r4> <span class="line" data-astro-cid-sckkx6r4>Créer ou Investir</span><span class="line" data-astro-cid-sckkx6r4>dans une maison partagée</span>
 <span class="submenu-indicator" aria-hidden="true" data-astro-cid-sckkx6r4="">
 </span>
 </button>
@@ -274,15 +271,17 @@
 </div>
 </div>
 </div>
-<script type="module">
-document.addEventListener("DOMContentLoaded", () => {
+<script type="module">document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger-menu");
   const navLinks = document.querySelector(".nav-links");
   const body = document.body;
 
   const closeSubmenus = () => {
-    navLinks?.querySelectorAll(".has-submenu").forEach((item) => item.classList.remove("open"));
-    navLinks?.querySelectorAll(".submenu-toggle").forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+    if (!navLinks) {
+      return;
+    }
+    navLinks.querySelectorAll(".has-submenu").forEach((item) => item.classList.remove("open"));
+    navLinks.querySelectorAll(".submenu-toggle").forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
   };
 
   const toggleMenu = () => {
@@ -300,40 +299,48 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const closeMenu = () => {
-    hamburger?.setAttribute("aria-expanded", "false");
-    hamburger?.classList.remove("is-active");
-    navLinks?.classList.remove("is-active");
+    if (hamburger) {
+      hamburger.setAttribute("aria-expanded", "false");
+      hamburger.classList.remove("is-active");
+    }
+    if (navLinks) {
+      navLinks.classList.remove("is-active");
+    }
     body.classList.remove("menu-open");
     closeSubmenus();
   };
 
-  hamburger?.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleMenu();
-  });
+  if (hamburger) {
+    hamburger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleMenu();
+    });
+  }
 
-  navLinks?.addEventListener("click", (event) => {
-    const target = event.target;
-    if (target instanceof HTMLAnchorElement) {
-      closeMenu();
-    }
-  });
+  if (navLinks) {
+    navLinks.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLAnchorElement) {
+        closeMenu();
+      }
+    });
+  }
 
   document.addEventListener("click", (event) => {
     const target = event.target;
-    const clickInsideNav = navLinks?.contains(target) ?? false;
-    const clickHamburger = hamburger?.contains(target) ?? false;
+    const clickInsideNav = navLinks ? navLinks.contains(target) : false;
+    const clickHamburger = hamburger ? hamburger.contains(target) : false;
     if (!clickInsideNav) {
       closeSubmenus();
     }
-    if (navLinks?.classList.contains("is-active") && !clickInsideNav && !clickHamburger) {
+    if (navLinks && navLinks.classList.contains("is-active") && !clickInsideNav && !clickHamburger) {
       closeMenu();
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      if (navLinks?.classList.contains("is-active")) {
+      if (navLinks && navLinks.classList.contains("is-active")) {
         closeMenu();
       } else {
         closeSubmenus();
@@ -346,7 +353,10 @@ document.addEventListener("DOMContentLoaded", () => {
     submenuToggles.forEach((toggle) => {
       if (toggle !== current) {
         toggle.setAttribute("aria-expanded", "false");
-        toggle.closest(".has-submenu")?.classList.remove("open");
+        const otherParent = toggle.closest(".has-submenu");
+        if (otherParent) {
+          otherParent.classList.remove("open");
+        }
       }
     });
   };
@@ -439,6 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+ 
 <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-JBZXC9G4Q9");</script>
 <script>
 document.addEventListener('click', function(e){
