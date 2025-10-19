@@ -138,24 +138,36 @@ document.addEventListener("DOMContentLoaded", () => {
       window.clearTimeout(closeTimeout);
       closeTimeout = window.setTimeout(closeItem, 300);
     };
+    const submenu = item.querySelector(".submenu");
     if (supportsPointerEvents) {
-      item.addEventListener("pointerenter", (event) => {
+      const handlePointerEnter = (event) => {
         if (isHoverPointer(event)) {
           openItem();
         }
-      });
-      item.addEventListener("pointerleave", (event) => {
+      };
+      const handlePointerLeave = (event) => {
         if (isHoverPointer(event) && (!event.relatedTarget || !item.contains(event.relatedTarget))) {
           scheduleClose();
         }
-      });
+      };
+      item.addEventListener("pointerenter", handlePointerEnter);
+      item.addEventListener("pointerleave", handlePointerLeave);
+      if (submenu) {
+        submenu.addEventListener("pointerenter", handlePointerEnter);
+        submenu.addEventListener("pointerleave", handlePointerLeave);
+      }
     } else {
-      item.addEventListener("mouseenter", openItem);
-      item.addEventListener("mouseleave", (event) => {
+      const handleMouseLeave = (event) => {
         if (!event.relatedTarget || !item.contains(event.relatedTarget)) {
           scheduleClose();
         }
-      });
+      };
+      item.addEventListener("mouseenter", openItem);
+      item.addEventListener("mouseleave", handleMouseLeave);
+      if (submenu) {
+        submenu.addEventListener("mouseenter", openItem);
+        submenu.addEventListener("mouseleave", handleMouseLeave);
+      }
     }
     item.addEventListener("focusin", openItem);
     item.addEventListener("focusout", (event) => {
