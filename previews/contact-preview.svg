@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" font-family="system-ui" fill="#222">
+  <rect width="800" height="600" fill="#f5f5f5"/>
+  <rect x="0" y="0" width="800" height="90" fill="#ffffff"/>
+  <text x="40" y="55" font-size="20" font-weight="600">MAISON MÉLINA</text>
+  <g font-size="16">
+    <text x="220" y="55">Accueil</text>
+    <text x="320" y="55">Le Concept</text>
+    <text x="450" y="55">Nos Maisons</text>
+    <text x="590" y="55">Qui Sommes-Nous ?</text>
+  </g>
+  <rect x="370" y="25" width="180" height="40" rx="10" fill="#b42c2d"/>
+  <text x="460" y="47" font-size="14" font-weight="600" text-anchor="middle" fill="#ffffff">Créer ou Investir</text>
+  <text x="460" y="63" font-size="12" text-anchor="middle" fill="#ffffff">dans une maison partagée</text>
+  <polygon points="460,72 452,88 468,88" fill="#ffffff"/>
+  <rect x="360" y="90" width="200" height="110" rx="12" fill="#ffffff"/>
+  <text x="370" y="120" font-size="14" font-weight="600">Créer votre maison partagée</text>
+  <text x="370" y="160" font-size="14" font-weight="600">Investissez dans la "Foncière Mélina"</text>
+  <rect x="40" y="120" width="720" height="150" rx="12" fill="#b42c2d"/>
+  <text x="80" y="170" font-size="32" font-weight="700" fill="#ffffff">CONTACTEZ-NOUS</text>
+  <text x="80" y="200" font-size="18" fill="#ffffff">Nous sommes à votre écoute pour répondre à toutes vos questions.</text>
+  <rect x="40" y="300" width="360" height="220" rx="16" fill="#ffffff"/>
+  <text x="60" y="340" font-size="18" font-weight="700">Nos Coordonnées</text>
+  <rect x="420" y="300" width="340" height="220" rx="16" fill="#ffffff"/>
+  <text x="440" y="340" font-size="18" font-weight="700">Formulaire de contact</text>
+  <rect x="40" y="540" width="720" height="40" fill="#222222"/>
+  <text x="400" y="566" font-size="14" fill="#ffffff" text-anchor="middle">Footer - Mentions légales · Politique de confidentialité</text>
+</svg>
