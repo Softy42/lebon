@@ -45,8 +45,29 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   if (hamburger) {
+    let touchHandled = false;
+    const hasTouchSupport = "ontouchstart" in window || (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0);
+    if (hasTouchSupport) {
+      hamburger.addEventListener(
+        "touchstart",
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          touchHandled = true;
+          toggleMenu();
+          window.setTimeout(() => {
+            touchHandled = false;
+          }, 500);
+        },
+        { passive: false }
+      );
+    }
     hamburger.addEventListener("click", (event) => {
       event.stopPropagation();
+      if (touchHandled) {
+        touchHandled = false;
+        return;
+      }
       toggleMenu();
     });
   }
