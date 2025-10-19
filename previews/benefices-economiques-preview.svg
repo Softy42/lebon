@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" style="font-family: system-ui; background-color: #F7FAFC;">
+  <rect x="0" y="0" width="80" height="900" fill="#cccccc" opacity="0.6"/>
+  <rect x="1120" y="0" width="80" height="900" fill="#cccccc" opacity="0.6"/>
+  <rect x="0" y="0" width="1200" height="110" fill="#ffffff"/>
+  <text x="120" y="70" fill="#222" font-size="28" font-weight="600">MAISON MÉLINA</text>
+  <g fill="#222" font-size="18">
+    <text x="380" y="70">Accueil</text>
+    <text x="470" y="70">Le Concept</text>
+    <text x="590" y="70">Nos Maisons</text>
+    <text x="720" y="70">Qui Sommes-Nous ?</text>
+    <text x="940" y="70">On parle de nous !</text>
+    <text x="1090" y="70">Contact</text>
+  </g>
+  <g>
+    <rect x="855" y="36" width="200" height="50" rx="12" fill="#b42c2d"/>
+    <text x="865" y="62" fill="#ffffff" font-size="16" font-weight="600">Créer ou Investir</text>
+    <text x="865" y="84" fill="#ffffff" font-size="12">dans une maison partagée</text>
+    <rect x="870" y="100" width="190" height="96" rx="14" fill="#ffffff" stroke="#e0e0e0"/>
+    <text x="885" y="130" fill="#222" font-size="14">Créer votre maison partagée</text>
+    <text x="885" y="160" fill="#222" font-size="14">Investissez dans la « Foncière Mélina »</text>
+  </g>
+  <rect x="200" y="150" width="800" height="160" rx="16" fill="#b42c2d"/>
+  <text x="230" y="210" fill="#ffffff" font-size="36" font-weight="700">Bénéfices Économiques</text>
+  <text x="230" y="250" fill="#ffffff" font-size="22">Des solutions d'aide au financement pour votre hébergement</text>
+  <g>
+    <rect x="220" y="340" width="760" height="150" rx="16" fill="#ffffff" stroke="#e6e6e6"/>
+    <text x="240" y="380" fill="#b42c2d" font-size="22" font-weight="600">ALS - Caisse d'allocations familiales</text>
+    <text x="240" y="410" fill="#222" font-size="16">Aides sous conditions de ressources.</text>
+  </g>
+  <g>
+    <rect x="220" y="510" width="760" height="150" rx="16" fill="#ffffff" stroke="#e6e6e6"/>
+    <text x="240" y="550" fill="#b42c2d" font-size="22" font-weight="600">APL et dispositifs complémentaires</text>
+    <text x="240" y="580" fill="#222" font-size="16">Comparaison avec d'autres solutions senior.</text>
+  </g>
+  <g>
+    <rect x="220" y="680" width="760" height="150" rx="16" fill="#ffffff" stroke="#e6e6e6"/>
+    <text x="240" y="720" fill="#b42c2d" font-size="22" font-weight="600">Accompagnement personnalisé</text>
+    <text x="240" y="750" fill="#222" font-size="16">Equipe dédiée pour construire votre projet.</text>
+  </g>
+  <rect x="460" y="840" width="280" height="48" rx="24" fill="#b42c2d"/>
+  <text x="500" y="870" fill="#ffffff" font-size="18" font-weight="600">Parler avec un conseiller</text>
+  <rect x="0" y="860" width="1200" height="40" fill="#2D3748"/>
+</svg>
