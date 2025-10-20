@@ -130,7 +130,29 @@ AddType video/webm .webm
 # RÉÉCRITURES / REDIRECTIONS
 #############################################
 
-# 1) Migration slugs (numériques -> sémantiques) en un seul saut vers WWW + HTTPS
+# 1) Suppression définitive d'anciennes URL (HTTP 410)
+Redirect gone /MaisonMelina/qui-sommes-nous/
+Redirect gone /maison-a-saint-just-saint-rambert
+Redirect gone /MaisonMelina/benefices-economiques/
+Redirect gone /MaisonMelina/creer-votre-maison/
+Redirect gone /MaisonMelina/nos-maisons/feurs/
+Redirect gone /MaisonMelina/nos-maisons/chateauroux/
+Redirect gone /MaisonMelina/nos-maisons/
+Redirect gone /MaisonMelina/
+Redirect gone /MaisonMelina/nos-maisons/saint-didier-en-velay/
+Redirect gone /MaisonMelina/nos-maisons/saint-chamond/
+Redirect gone /MaisonMelina/presse/
+Redirect gone /MaisonMelina/404.html
+Redirect gone /maison-a-saint-didier-en-velay
+Redirect gone /maison-a-feurs
+Redirect gone /nos-realisations
+Redirect gone /contactez-maison-melina
+Redirect gone /mentions-legales-et-politique-de-confidentialite
+Redirect gone /la-colocation-senior
+Redirect gone /creer-votre-maison-partagee
+Redirect gone /maison-partagee-a-belley
+
+# 2) Migration slugs (numériques -> sémantiques) en un seul saut vers WWW + HTTPS
 RewriteEngine On
 RewriteRule ^nos-maisons/1/?$ https://www.maison-melina.fr/nos-maisons/feurs/ [R=301,L]
 RewriteRule ^nos-maisons/2/?$ https://www.maison-melina.fr/nos-maisons/saint-chamond/ [R=301,L]
