@@ -131,6 +131,10 @@ AddType video/webm .webm
 #############################################
 
 # 1) Migration slugs (numériques -> sémantiques) en un seul saut vers WWW + HTTPS
+#    Suppression définitive de l'ancienne URL MaisonMelina (HTTP 410)
+Redirect gone /MaisonMelina/qui-sommes-nous/
+
+# 2) Migration slugs (numériques -> sémantiques) en un seul saut vers WWW + HTTPS
 RewriteEngine On
 RewriteRule ^nos-maisons/1/?$ https://www.maison-melina.fr/nos-maisons/feurs/ [R=301,L]
 RewriteRule ^nos-maisons/2/?$ https://www.maison-melina.fr/nos-maisons/saint-chamond/ [R=301,L]
