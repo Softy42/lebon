@@ -10,7 +10,64 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9">
     </script>
     <script type="module">
-      document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("videoPopup"),i=document.getElementById("closeVideoPopup"),d=document.getElementById("popupVideo");function n(){e.style.display="flex",e.classList.add("active"),e.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d.play().catch(t=>{console.log("Autoplay bloqué par le navigateur:",t)})}function o(){e.classList.remove("active"),e.setAttribute("aria-hidden","true"),document.body.style.overflow="",d.pause(),setTimeout(()=>{e.style.display="none"},300)}setTimeout(()=>{sessionStorage.getItem("videoPopupShown")||(n(),sessionStorage.setItem("videoPopupShown","true"))},1e4),i.addEventListener("click",o),e.addEventListener("click",t=>{t.target===e&&o()}),document.addEventListener("keydown",t=>{t.key==="Escape"&&e.classList.contains("active")&&o()})});
+      document.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("videoPopup");
+        const closeButton = document.getElementById("closeVideoPopup");
+        const media = document.getElementById("popupMedia");
+
+        const openPopup = () => {
+          if (!popup) {
+            return;
+          }
+          popup.style.display = "flex";
+          popup.classList.add("active");
+          popup.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+
+          if (media instanceof HTMLVideoElement) {
+            media.play().catch((error) => {
+              console.log("Autoplay bloqué par le navigateur:", error);
+            });
+          }
+        };
+
+        const closePopup = () => {
+          if (!popup) {
+            return;
+          }
+          popup.classList.remove("active");
+          popup.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+
+          if (media instanceof HTMLVideoElement) {
+            media.pause();
+          }
+
+          setTimeout(() => {
+            popup.style.display = "none";
+          }, 300);
+        };
+
+        setTimeout(() => {
+          if (!sessionStorage.getItem("videoPopupShown")) {
+            openPopup();
+            sessionStorage.setItem("videoPopupShown", "true");
+          }
+        }, 10000);
+
+        closeButton?.addEventListener("click", closePopup);
+        popup?.addEventListener("click", (event) => {
+          if (event.target === popup) {
+            closePopup();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && popup?.classList.contains("active")) {
+            closePopup();
+          }
+        });
+      });
     </script>
     <!-- SEO -->
     <meta name="description" content="Maison partagée sénior et colocation sénior : une résidence conviviale pour personnes âgées, alternative à l'EHPAD ou à la maison de retraite. Réservez votre visite.">
@@ -170,63 +227,6 @@
               </a>
             </div>
           </div>
-          <section class="features" data-astro-cid-j7pv25f6>
-            <div class="features-header" data-astro-cid-j7pv25f6>
-              <h2 data-astro-cid-j7pv25f6>
-                Les principaux atouts de nos maisons partagées
-              </h2>
-              <p class="lead" data-astro-cid-j7pv25f6>
-                Une solution innovante et protectrice pour les seniors autonomes
-              </p>
-            </div>
-            <div class="features-grid" data-astro-cid-j7pv25f6>
-              <div class="feature" data-astro-cid-j7pv25f6>
-                <div class="feature-content" data-astro-cid-j7pv25f6>
-                  <h3 data-astro-cid-j7pv25f6>
-                    Un cadre familial
-                  </h3>
-                  <p data-astro-cid-j7pv25f6>
-                    Des maisons à taille humaine avec 8 à 11 colocataires, une présence 7j/7 et des espaces communs conviviaux pour partager de bons moments.
-                  </p>
-                </div>
-              </div>
-              <div class="feature" data-astro-cid-j7pv25f6>
-                <div class="feature-content" data-astro-cid-j7pv25f6>
-                  <h3 data-astro-cid-j7pv25f6>
-                    Une vie autonome
-                  </h3>
-                  <p data-astro-cid-j7pv25f6>
-                    Conservez votre indépendance tout en bénéficiant de services adaptés (repas, ménage, blanchisserie ...) dans un environnement sécurisé au cœur de la ville.
-                  </p>
-                </div>
-              </div>
-              <div class="feature" data-astro-cid-j7pv25f6>
-                <div class="feature-content" data-astro-cid-j7pv25f6>
-                  <h3 data-astro-cid-j7pv25f6>
-                    Une solution économique
-                  </h3>
-                  <p data-astro-cid-j7pv25f6>
-                    La colocation seniors avec accompagnement est l'une des solutions d'hébergement les plus abordables. Avec un coût souvent inférieur par rapport à une maison de retraite ou une résidence seniors.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="more-features-wrapper" data-astro-cid-j7pv25f6>
-              <div class="more-features" data-astro-cid-j7pv25f6>
-                <div class="more-features-content" data-astro-cid-j7pv25f6>
-                  <p class="more-features-text" data-astro-cid-j7pv25f6>
-                    Et bien d'autres avantages à découvrir...
-                  </p>
-                  <a href="/concept" class="discover-more-button" data-astro-cid-j7pv25f6>
-                    Découvrir notre concept
-                    <span class="arrow" data-astro-cid-j7pv25f6>
-                      →
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
           <section class="features seo-thematiques services-section" data-astro-cid-j7pv25f6>
             <h2 class="seo-thematiques-title" data-astro-cid-j7pv25f6>
               Nos réponses aux recherches clés des seniors
@@ -293,6 +293,63 @@
                   <p data-astro-cid-j7pv25f6>
                     Une résidence sénior ouverte sur la ville avec des partenariats locaux pour rester actif et entouré.
                   </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="features" data-astro-cid-j7pv25f6>
+            <div class="features-header" data-astro-cid-j7pv25f6>
+              <h2 data-astro-cid-j7pv25f6>
+                Les principaux atouts de nos maisons partagées
+              </h2>
+              <p class="lead" data-astro-cid-j7pv25f6>
+                Une solution innovante et protectrice pour les seniors autonomes
+              </p>
+            </div>
+            <div class="features-grid" data-astro-cid-j7pv25f6>
+              <div class="feature" data-astro-cid-j7pv25f6>
+                <div class="feature-content" data-astro-cid-j7pv25f6>
+                  <h3 data-astro-cid-j7pv25f6>
+                    Un cadre familial
+                  </h3>
+                  <p data-astro-cid-j7pv25f6>
+                    Des maisons à taille humaine avec 8 à 11 colocataires, une présence 7j/7 et des espaces communs conviviaux pour partager de bons moments.
+                  </p>
+                </div>
+              </div>
+              <div class="feature" data-astro-cid-j7pv25f6>
+                <div class="feature-content" data-astro-cid-j7pv25f6>
+                  <h3 data-astro-cid-j7pv25f6>
+                    Une vie autonome
+                  </h3>
+                  <p data-astro-cid-j7pv25f6>
+                    Conservez votre indépendance tout en bénéficiant de services adaptés (repas, ménage, blanchisserie ...) dans un environnement sécurisé au cœur de la ville.
+                  </p>
+                </div>
+              </div>
+              <div class="feature" data-astro-cid-j7pv25f6>
+                <div class="feature-content" data-astro-cid-j7pv25f6>
+                  <h3 data-astro-cid-j7pv25f6>
+                    Une solution économique
+                  </h3>
+                  <p data-astro-cid-j7pv25f6>
+                    La colocation seniors avec accompagnement est l'une des solutions d'hébergement les plus abordables. Avec un coût souvent inférieur par rapport à une maison de retraite ou une résidence seniors.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="more-features-wrapper" data-astro-cid-j7pv25f6>
+              <div class="more-features" data-astro-cid-j7pv25f6>
+                <div class="more-features-content" data-astro-cid-j7pv25f6>
+                  <p class="more-features-text" data-astro-cid-j7pv25f6>
+                    Et bien d'autres avantages à découvrir...
+                  </p>
+                  <a href="/concept" class="discover-more-button" data-astro-cid-j7pv25f6>
+                    Découvrir notre concept
+                    <span class="arrow" data-astro-cid-j7pv25f6>
+                      →
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -414,22 +471,25 @@
         </footer>
       </div>
     </div>
-    <!-- Pop-up vidéo -->
+    <!-- Pop-up média -->
     <div id="videoPopup" class="video-popup" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="videoPopupTitle" data-astro-cid-sckkx6r4>
       <div class="video-popup-content" data-astro-cid-sckkx6r4>
-        <button id="closeVideoPopup" class="video-popup-close" aria-label="Fermer la vidéo" data-astro-cid-sckkx6r4>
+        <button id="closeVideoPopup" class="video-popup-close" aria-label="Fermer la pop-up" data-astro-cid-sckkx6r4>
           &times;
         </button>
         <h2 id="videoPopupTitle" class="sr-only" data-astro-cid-sckkx6r4>
-          Vidéo de présentation MAISON MÉLINA
+          Présentation MAISON MÉLINA
         </h2>
         <div class="video-popup-container" data-astro-cid-sckkx6r4>
-          <video id="popupVideo" controls preload="metadata" poster="/img/divers/video-vignette-interview.jpg" class="popup-video" playsinline data-astro-cid-sckkx6r4>
-            <source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4" data-astro-cid-sckkx6r4>
-            <p data-astro-cid-sckkx6r4>
+          <img id="popupMedia" src="/img/divers/video-vignette-interview.jpg" alt="Vue d'ensemble des maisons partagées MAISON MÉLINA" class="popup-video" loading="lazy" data-astro-cid-sckkx6r4>
+          <!-- Pour réactiver la vidéo ultérieurement, remplacez l'image ci-dessus par le bloc vidéo ci-dessous et rétablissez l'identifiant "popupMedia" sur la balise <video>.
+          <video id="popupMedia" controls preload="metadata" poster="/img/divers/video-vignette-interview.jpg" class="popup-video" playsinline>
+            <source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4">
+            <p>
               Votre navigateur ne supporte pas la lecture de vidéos HTML5.
             </p>
           </video>
+          -->
         </div>
       </div>
     </div>
