@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">France 3 - La coloc' entre seniors, pour rompre l’absence de lien humain</title>
+  <desc id="desc">Illustration générique pour l'article France 3 sur les colocations seniors Maison Mélina.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4f6fa"/>
+      <stop offset="100%" stop-color="#d7e3f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#grad)" stroke="#b0002c" stroke-width="12" rx="32" ry="32"/>
+  <g fill="#24384f" font-family="'Lato','Arial',sans-serif" text-anchor="middle">
+    <text x="640" y="220" font-size="72" font-weight="700">France 3</text>
+    <text x="640" y="320" font-size="56" font-weight="700">La coloc' entre seniors</text>
+    <text x="640" y="400" font-size="40" font-weight="400">Pour rompre l’absence de lien humain</text>
+    <text x="640" y="520" font-size="32" font-weight="400">Maison Mélina · 20 novembre 2025</text>
+  </g>
+</svg>
