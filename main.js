@@ -13,18 +13,31 @@ document.addEventListener("DOMContentLoaded", () => {
     item.classList.remove("current");
   });
 
-  const rawPath = window.location.pathname;
-  const normalizedPath = rawPath.endsWith("/") && rawPath.length > 1 ? rawPath.slice(0, -1) : rawPath;
+  const normalizePath = (value) => {
+    if (!value) {
+      return "";
+    }
+    let normalized = value;
+    if (normalized.endsWith("/index.html")) {
+      normalized = normalized.slice(0, -"/index.html".length);
+    }
+    if (normalized.length > 1 && normalized.endsWith("/")) {
+      normalized = normalized.slice(0, -1);
+    }
+    return normalized;
+  };
+
+  const normalizedPath = normalizePath(window.location.pathname);
 
   const matchesPath = (link) => {
     const href = link.getAttribute("href");
     if (!href || href.startsWith("http")) {
       return false;
     }
-    if (href === "/") {
-      return normalizedPath === "" || normalizedPath === "/" || normalizedPath === "/index.html";
+    const normalizedHref = normalizePath(href);
+    if (normalizedHref === "/") {
+      return normalizedPath === "" || normalizedPath === "/";
     }
-    const normalizedHref = href.endsWith("/") && href.length > 1 ? href.slice(0, -1) : href;
     return normalizedPath === normalizedHref || normalizedPath.startsWith(normalizedHref + "/");
   };
 
