@@ -603,41 +603,5 @@
 	</body>
 </html>
 <script type="module">
-	document.addEventListener("DOMContentLoaded",()=>{
-		const s=document.getElementById("galleryModal"),o=document.getElementById("galleryImage"),n=document.getElementById("galleryVideo"),m=document.querySelector(".modal-close"),v=document.querySelector(".gallery-nav.prev"),g=document.querySelector(".gallery-nav.next"),y=document.querySelectorAll(".image-thumb"),p=document.getElementById("currentMedia"),L=document.getElementById("totalMedia");
-		let t=0;
-		const l=Array.from(y).map(e=>{
-			if(e.dataset.type==="video")return{
-				type:"video",src:e.querySelector("video source").src,alt:"Vidéo interview des résidents"
-			};
-			{
-				const r=e.querySelector("img");
-				return{
-					type:"image",src:r.src,alt:r.alt
-				}
-			}
-		});
-		L.textContent=l.length.toString();
-		function d(e){
-			t=e,t<0&&(t=l.length-1),t>=l.length&&(t=0);
-			const a=l[t];
-			o.style.display="none",n.style.display="none",o.classList.remove("loaded"),n.classList.remove("loaded"),p.textContent=(t+1).toString(),a.type==="video"?(n.style.display="block",n.querySelector("source").src=a.src,n.load(),n.classList.add("loaded")):(o.style.display="block",o.src=a.src,o.alt=a.alt,o.onload=()=>{
-				o.classList.add("loaded")
-			}
-			)
-		}
-		function u(e){
-			s.classList.add("active"),s.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d(e)
-		}
-		function c(){
-			s.classList.remove("active"),s.setAttribute("aria-hidden","true"),document.body.style.overflow="",setTimeout(()=>{
-				o.src="",n.querySelector("source").src="",o.classList.remove("loaded"),n.classList.remove("loaded"),n.pause()
-			}
-			,300)
-		}
-		y.forEach((e,a)=>{
-			e.addEventListener("click",()=>u(a)),e.addEventListener("keydown",i=>{
-				(i.key==="Enter"||i.key===" ")&&(i.preventDefault(),u(a))
-			}
-			),e.setAttribute("tabindex","0"),e.setAttribute("role","button");
+document.addEventListener("DOMContentLoaded",()=>{const s=document.getElementById("galleryModal"),o=document.getElementById("galleryImage"),n=document.getElementById("galleryVideo"),m=document.querySelector(".modal-close"),v=document.querySelector(".gallery-nav.prev"),g=document.querySelector(".gallery-nav.next"),y=document.querySelectorAll(".image-thumb"),p=document.getElementById("currentMedia"),L=document.getElementById("totalMedia");let t=0;const l=Array.from(y).map(e=>{if(e.dataset.type==="video")return{type:"video",src:e.querySelector("video source").src,alt:"Vidéo interview des résidents"};{const r=e.querySelector("img");return{type:"image",src:r.src,alt:r.alt}}});L.textContent=l.length.toString();function d(e){t=e,t<0&&(t=l.length-1),t>=l.length&&(t=0);const a=l[t];o.style.display="none",n.style.display="none",o.classList.remove("loaded"),n.classList.remove("loaded"),p.textContent=(t+1).toString(),a.type==="video"?(n.style.display="block",n.querySelector("source").src=a.src,n.load(),n.classList.add("loaded")):(o.style.display="block",o.src=a.src,o.alt=a.alt,o.onload=()=>{o.classList.add("loaded")})}function u(e){s.classList.add("active"),s.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d(e)}function c(){s.classList.remove("active"),s.setAttribute("aria-hidden","true"),document.body.style.overflow="",setTimeout(()=>{o.src="",n.querySelector("source").src="",o.classList.remove("loaded"),n.classList.remove("loaded"),n.pause()},300)}y.forEach((e,a)=>{e.addEventListener("click",()=>u(a)),e.addEventListener("keydown",i=>{(i.key==="Enter"||i.key===" ")&&(i.preventDefault(),u(a))}),e.setAttribute("tabindex","0"),e.setAttribute("role","button");const r=e.dataset.type==="video"?"la vidéo":`l'image ${a+1}`;e.setAttribute("aria-label",`Voir ${r}`)}),v.addEventListener("click",()=>d(t-1)),g.addEventListener("click",()=>d(t+1)),m.addEventListener("click",c),s.addEventListener("click",e=>{e.target===s&&c()}),document.addEventListener("keydown",e=>{if(s.classList.contains("active"))switch(e.key){case"ArrowLeft":d(t-1);break;case"ArrowRight":d(t+1);break;case"Escape":c();break}})});
 </script>

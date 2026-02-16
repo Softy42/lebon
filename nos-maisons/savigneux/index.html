@@ -585,51 +585,27 @@ Entièrement repensée, la résidence pourra accueillir jusqu’à dix résident
 <script type="module">
 	document.addEventListener("DOMContentLoaded",()=>{
 		const s=document.getElementById("galleryModal"),o=document.getElementById("galleryImage"),n=document.getElementById("galleryVideo"),m=document.querySelector(".modal-close"),v=document.querySelector(".gallery-nav.prev"),g=document.querySelector(".gallery-nav.next"),y=document.querySelectorAll(".image-thumb"),p=document.getElementById("currentMedia"),L=document.getElementById("totalMedia");
-		if(!s||!o||!n||!m||!v||!g||!p||!L||y.length===0){
-			return
+		let t=0;
+		const l=Array.from(y).map(e=>{
+			if(e.dataset.type==="video")return{type:"video",src:e.querySelector("video source").src,alt:"Vidéo interview des résidents"};
+			{const r=e.querySelector("img");return{type:"image",src:r.src,alt:r.alt}}
+		});
+		L.textContent=l.length.toString();
+		function d(e){
+			t=e,t<0&&(t=l.length-1),t>=l.length&&(t=0);
+			const a=l[t];
+			o.style.display="none",n.style.display="none",o.classList.remove("loaded"),n.classList.remove("loaded"),p.textContent=(t+1).toString(),a.type==="video"?(n.style.display="block",n.querySelector("source").src=a.src,n.load(),n.classList.add("loaded")):(o.style.display="block",o.src=a.src,o.alt=a.alt,o.onload=()=>{o.classList.add("loaded")})
 		}
-		const E=Array.from(y).map(t=>{
-			if(t.dataset.type==="video"){
-				const e=t.querySelector("video source");
-				return e?{
-					type:"video",src:e.src,alt:"Vidéo interview des résidents"
-				}
-				:null
-			}
-			const a=t.querySelector("img");
-			return a?{
-				type:"image",src:a.src,alt:a.alt
-			}
-			:null
+		function u(e){
+			s.classList.add("active"),s.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d(e)
 		}
-		).filter(Boolean);
-		if(E.length===0){
-			return
+		function c(){
+			s.classList.remove("active"),s.setAttribute("aria-hidden","true"),document.body.style.overflow="",setTimeout(()=>{o.src="",n.querySelector("source").src="",o.classList.remove("loaded"),n.classList.remove("loaded"),n.pause()},300)
 		}
-		let l=0;
-		L.textContent=E.length.toString();
-		const b=t=>{
-			l=(t+E.length)%E.length;
-			const e=E[l];
-			o.style.display="none",n.style.display="none",o.classList.remove("loaded"),n.classList.remove("loaded"),p.textContent=(l+1).toString(),e.type==="video"?(n.querySelector("source").src=e.src,n.load(),n.style.display="block",n.classList.add("loaded")):(o.src=e.src,o.alt=e.alt,o.style.display="block",o.onload=()=>{
-				o.classList.add("loaded")
-			}
-			)
-		}
-		,M=t=>{
-			s.style.display="flex",s.classList.add("active"),s.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",b(t)
-		}
-		,h=()=>{
-			s.classList.remove("active"),s.setAttribute("aria-hidden","true"),document.body.style.overflow="",setTimeout(()=>{
-				s.style.display="none",o.src="",o.classList.remove("loaded"),o.onload=null;
-				const t=n.querySelector("source");
-				t&&(t.src=""),n.load(),n.classList.remove("loaded"),n.pause()
-			}
-			,300)
-		};
-		y.forEach((t,e)=>{
-			t.addEventListener("click",()=>M(e)),t.addEventListener("keydown",a=>{
-				(a.key==="Enter"||a.key===" " )&&(a.preventDefault(),M(e))
-			}
-			),t.setAttribute("tabindex","0"),t.setAttribute("role","button");
+		y.forEach((e,a)=>{
+			e.addEventListener("click",()=>u(a)),e.addEventListener("keydown",i=>{(i.key==="Enter"||i.key===" ")&&(i.preventDefault(),u(a))}),e.setAttribute("tabindex","0"),e.setAttribute("role","button");
+			const r=e.dataset.type==="video"?"la vidéo":`l'image ${a+1}`;
+			e.setAttribute("aria-label",`Voir ${r}`)
+		}),v.addEventListener("click",()=>d(t-1)),g.addEventListener("click",()=>d(t+1)),m.addEventListener("click",c),s.addEventListener("click",e=>{e.target===s&&c()}),document.addEventListener("keydown",e=>{if(s.classList.contains("active"))switch(e.key){case"ArrowLeft":d(t-1);break;case"ArrowRight":d(t+1);break;case"Escape":c();break}})
+	});
 </script>
