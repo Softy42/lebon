@@ -1,0 +1,110 @@
+%PDF-1.4
+%
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 1953 >>
+stream
+BT
+/F1 11 Tf
+50 792 Td
+14 TL
+(DEVIS \(HT\)) Tj
+T*
+() Tj
+T*
+(Prestataire : [Votre nom / societe]) Tj
+T*
+(Client : MAISON MELINA) Tj
+T*
+(Date : [a completer]) Tj
+T*
+(Ref. devis : DEV-2026-001) Tj
+T*
+(Objet : Finalisation page Actualites + integration Facebook Graph API + optimisations site) Tj
+T*
+() Tj
+T*
+(DETAIL DES PRESTATIONS) Tj
+T*
+(1\) Audit technique & cadrage final - 2 h x 75 EUR = 150 EUR HT) Tj
+T*
+(2\) Integration page /actualites \(finalisation UX/UI\) - 4 h x 75 EUR = 300 EUR HT) Tj
+T*
+(3\) MAJ navigation/menu + liens internes globaux - 4 h x 75 EUR = 300 EUR HT) Tj
+T*
+(4\) Ajustements footer + maillage interne - 3 h x 75 EUR = 225 EUR HT) Tj
+T*
+(5\) Backend /api/facebook-feed \(fiabilisation + controles\) - 5 h x 75 EUR = 375 EUR HT) Tj
+T*
+(6\) Configuration Meta Developers + token page - 3 h x 75 EUR = 225 EUR HT) Tj
+T*
+(7\) Configuration Vercel \(env, deploiement, verifications\) - 3 h x 75 EUR = 225 EUR HT) Tj
+T*
+(8\) SEO on-page \(/actualites\) - 2 h x 75 EUR = 150 EUR HT) Tj
+T*
+(9\) SEO technique global \(coherence liens/indexation\) - 4 h x 75 EUR = 300 EUR HT) Tj
+T*
+(10\) QA complete + corrections de stabilisation - 5 h x 75 EUR = 375 EUR HT) Tj
+T*
+(11\) Documentation & passation - 2 h x 75 EUR = 150 EUR HT) Tj
+T*
+() Tj
+T*
+(TOTAL ESTIME : 37 h - 2 775,00 EUR HT) Tj
+T*
+(Provision imprevus \(10 %\) : 277,50 EUR HT) Tj
+T*
+(Total forfait conseille : 3 052,50 EUR HT \(arrondi : 3 050,00 EUR HT\)) Tj
+T*
+() Tj
+T*
+(ECHEANCIER \(40 / 40 / 20\)) Tj
+T*
+(Acompte commande : 1 220,00 EUR HT) Tj
+T*
+(Validation pre-production : 1 220,00 EUR HT) Tj
+T*
+(Mise en production : 610,00 EUR HT) Tj
+T*
+() Tj
+T*
+(DELAIS PREVISIONNELS : 2 a 3 semaines calendaires) Tj
+T*
+() Tj
+T*
+(CONDITIONS :) Tj
+T*
+(Prix en euros HT \(TVA en sus selon regime applicable\).) Tj
+T*
+(Devis valable 30 jours.) Tj
+T*
+(Hors perimetre : avenant/devis complementaire.) Tj
+T*
+(Acces necessaires fournis par le client \(hebergement, DNS, Meta, Vercel\).) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000000344 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2349
+%%EOF
