@@ -9,15 +9,12 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9">
     </script>
-    <script type="module">
-      document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("videoPopup"),i=document.getElementById("closeVideoPopup"),d=document.getElementById("popupVideo");function n(){e.style.display="flex",e.classList.add("active"),e.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d.play().catch(t=>{console.log("Autoplay bloqué par le navigateur:",t)})}function o(){e.classList.remove("active"),e.setAttribute("aria-hidden","true"),document.body.style.overflow="",d.pause(),setTimeout(()=>{e.style.display="none"},300)}setTimeout(()=>{sessionStorage.getItem("videoPopupShown")||(n(),sessionStorage.setItem("videoPopupShown","true"))},1e4),i.addEventListener("click",o),e.addEventListener("click",t=>{t.target===e&&o()}),document.addEventListener("keydown",t=>{t.key==="Escape"&&e.classList.contains("active")&&o()})});
-    </script>
     <!-- SEO -->
     <meta name="description" content="Retrouvez les dernières actualités de MAISON MÉLINA publiées sur Facebook : nouvelles maisons, événements et vie en maison partagée senior.">
     <link rel="canonical" href="https://www.maison-melina.fr/actualites/">
     <!-- Open Graph -->
     <meta property="og:title" content="Actualités - MAISON MÉLINA">
-    <meta property="og:description" content="MAISON MÉLINA - Maison partagée sénior et colocation seniors, alternative conviviale à l'EHPAD ou à la maison de retraite pour des résidences seniors chaleureuses.">
+    <meta property="og:description" content="Retrouvez les dernières actualités de MAISON MÉLINA : ouvertures de maisons, événements et vie en maison partagée senior.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.maison-melina.fr/actualites/">
     <meta property="og:image" content="https://www.maison-melina.fr/img/divers/logo.jpg">
@@ -25,7 +22,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Actualités - MAISON MÉLINA">
-    <meta name="twitter:description" content="MAISON MÉLINA - Maison partagée sénior et colocation seniors, alternative conviviale à l'EHPAD ou à la maison de retraite pour des résidences seniors chaleureuses.">
+    <meta name="twitter:description" content="Retrouvez les dernières actualités de MAISON MÉLINA : ouvertures de maisons, événements et vie en maison partagée senior.">
     <meta name="twitter:image" content="/img/divers/logo.jpg">
     <!-- Schema.org -->
     <script type="application/ld+json">
@@ -50,11 +47,7 @@
     <!-- Icons -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/_astro/concept.BNbfHU3S.css">
     <link rel="stylesheet" href="/_astro/benefices-economiques.DA2vvG5t.css">
-    <style data-astro-cid-5tomgpma>
-      .features[data-astro-cid-5tomgpma]{padding:.1rem 2rem;background:#fff;border-radius:1rem;margin:2rem 0rem}.features-grid[data-astro-cid-5tomgpma]{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;padding:0 1rem;margin-bottom:3rem}.feature[data-astro-cid-5tomgpma]{text-align:center;border-radius:.5rem;transition:transform .3s ease;background-color:var(--background-color);overflow:hidden;position:relative;min-height:150px;display:flex}.feature-content[data-astro-cid-5tomgpma]{padding:.1rem .4rem .4rem;height:100%;transition:all .3s ease;display:flex;flex-direction:column;justify-content:flex-start}.feature-content[data-astro-cid-5tomgpma] h3[data-astro-cid-5tomgpma]{color:var(--primary-color);margin-bottom:.5rem;font-size:1.3rem}.feature-content[data-astro-cid-5tomgpma] p[data-astro-cid-5tomgpma]{font-size:.95rem;line-height:1.4;margin:0}@media (hover: hover){.feature[data-astro-cid-5tomgpma]:hover{transform:translateY(-5px)}.feature[data-astro-cid-5tomgpma]:hover .feature-content[data-astro-cid-5tomgpma]{background-color:var(--dark-accent)}.feature[data-astro-cid-5tomgpma]:hover h3[data-astro-cid-5tomgpma]{color:var(--primary-color)}.feature[data-astro-cid-5tomgpma]:hover p[data-astro-cid-5tomgpma]{color:#fff}}@media (hover: none){.feature[data-astro-cid-5tomgpma]:active .feature-content[data-astro-cid-5tomgpma]{background-color:var(--dark-accent)}.feature[data-astro-cid-5tomgpma]:active h3[data-astro-cid-5tomgpma]{color:var(--primary-color)}.feature[data-astro-cid-5tomgpma]:active p[data-astro-cid-5tomgpma]{color:#fff}}.seo-thematiques-title[data-astro-cid-5tomgpma]{text-align:center;color:var(--primary-color);margin-bottom:1.5rem;font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;position:relative;padding-bottom:1rem}.seo-thematiques-title[data-astro-cid-5tomgpma]:after{content:"";position:absolute;bottom:0;left:50%;transform:translate(-50%);width:120px;height:4px;background-color:var(--primary-color);border-radius:2px;transition:all .3s ease}.seo-thematiques-title[data-astro-cid-5tomgpma]:hover{transform:scale(1.05);color:var(--secondary-color)}.seo-thematiques-title[data-astro-cid-5tomgpma]:hover:after{width:150px;background-color:var(--secondary-color)}.seo-thematiques-subtitle[data-astro-cid-5tomgpma]{text-align:center;margin:0 auto 2rem;color:var(--dark-accent);font-size:1.1rem;line-height:1.6;font-weight:500;max-width:720px}
-    </style>
     <style data-astro-cid-actualites>
       [data-astro-cid-actualites] .lead{max-width:920px;margin:0 auto 1.5rem;line-height:1.6}
       [data-astro-cid-actualites].actualites-section,[data-astro-cid-actualites] .actualites-section{background:#fff;border-radius:1rem;padding:2rem;margin:2rem 0}
@@ -70,7 +63,8 @@
       [data-astro-cid-actualites] .cta-wrapper{text-align:center;margin-top:1.5rem}
       [data-astro-cid-actualites] .cta-button{display:inline-block;background:var(--primary-color);color:#fff;padding:.7rem 1.25rem;border-radius:999px;text-decoration:none;font-weight:700}
     </style>
-  <script type="module" src="/main.js"></script></head>
+  <script type="module" src="/main.js"></script>
+  </head>
   <body data-astro-cid-sckkx6r4>
     <div class="side-color left" data-astro-cid-sckkx6r4>
     </div>
@@ -98,28 +92,28 @@
                 </a>
               </li>
               <li data-astro-cid-sckkx6r4>
-                <a href="/concept" class data-astro-cid-sckkx6r4>
+                <a href="/concept" data-astro-cid-sckkx6r4>
                   <span class="nav-text" data-astro-cid-sckkx6r4>
                     Le Concept
                   </span>
                 </a>
               </li>
               <li data-astro-cid-sckkx6r4>
-                <a href="/nos-maisons" class data-astro-cid-sckkx6r4>
+                <a href="/nos-maisons" data-astro-cid-sckkx6r4>
                   <span class="nav-text" data-astro-cid-sckkx6r4>
                     Nos Maisons
                   </span>
                 </a>
               </li>
               <li data-astro-cid-sckkx6r4>
-                <a href="/qui-sommes-nous" class data-astro-cid-sckkx6r4>
+                <a href="/qui-sommes-nous" data-astro-cid-sckkx6r4>
                   <span class="nav-text" data-astro-cid-sckkx6r4>
                     Qui Sommes-Nous ?
                   </span>
                 </a>
               </li>
               <li data-astro-cid-sckkx6r4>
-                <a href="/presse" class data-astro-cid-sckkx6r4>
+                <a href="/presse" data-astro-cid-sckkx6r4>
                   <span class="nav-text" data-astro-cid-sckkx6r4>
                     On parle de nous !
                   </span>
@@ -152,7 +146,7 @@
                 </ul>
               </li>
               <li data-astro-cid-sckkx6r4>
-                <a href="/contact" class data-astro-cid-sckkx6r4>
+                <a href="/contact" data-astro-cid-sckkx6r4>
                   <span class="nav-text" data-astro-cid-sckkx6r4>
                     Contact
                   </span>
@@ -298,25 +292,6 @@
             </div>
           </div>
         </footer>
-      </div>
-    </div>
-    <!-- Pop-up vidéo -->
-    <div id="videoPopup" class="video-popup" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="videoPopupTitle" data-astro-cid-sckkx6r4>
-      <div class="video-popup-content" data-astro-cid-sckkx6r4>
-        <button id="closeVideoPopup" class="video-popup-close" aria-label="Fermer la vidéo" data-astro-cid-sckkx6r4>
-          &times;
-        </button>
-        <h2 id="videoPopupTitle" class="sr-only" data-astro-cid-sckkx6r4>
-          Vidéo de présentation MAISON MÉLINA
-        </h2>
-        <div class="video-popup-container" data-astro-cid-sckkx6r4>
-          <video id="popupVideo" controls preload="metadata" poster="/img/divers/video-vignette-interview.jpg" class="popup-video" playsinline data-astro-cid-sckkx6r4>
-            <source src="https://www.maison-melina.fr/maison-melina-interview.mp4" type="video/mp4" data-astro-cid-sckkx6r4>
-            <p data-astro-cid-sckkx6r4>
-              Votre navigateur ne supporte pas la lecture de vidéos HTML5.
-            </p>
-          </video>
-        </div>
       </div>
     </div>
     <script type="module">
@@ -511,7 +486,6 @@
 
       const fallbackItems = [
         {
-          title: "Nos maisons partagées en images",
           message: "Découvrez nos dernières nouveautés, événements et témoignages directement sur Facebook.",
           publishedAt: null,
           permalink: "https://www.facebook.com/maison.melina/",
@@ -533,7 +507,7 @@
           card.className = "feed-card";
           card.innerHTML = `
             ${item.image ? `<img src="${item.image}" alt="Publication Facebook Maison Mélina" loading="lazy">` : ""}
-            <h3>Publication Facebook</h3>
+            <h3>Actualité Facebook</h3>
             <p>${item.message || "Retrouvez notre actualité sur notre page Facebook."}</p>
             ${item.publishedAt ? `<div class="feed-meta">${formatDate(item.publishedAt)}</div>` : ""}
             <a class="feed-link" href="${item.permalink || "https://www.facebook.com/maison.melina/"}" target="_blank" rel="noopener noreferrer">Voir sur Facebook</a>
@@ -548,7 +522,11 @@
           if (!response.ok) throw new Error("API indisponible");
           const data = await response.json();
           const items = Array.isArray(data?.items) ? data.items.slice(0, 4) : [];
-          if (!items.length) throw new Error("Aucune publication");
+          if (!items.length) {
+            statusEl.textContent = "Aucune publication récente à afficher pour le moment. Revenez bientôt ou consultez directement notre page Facebook.";
+            fallbackEl.hidden = false;
+            return;
+          }
           renderItems(items);
           statusEl.textContent = "";
         } catch (error) {
