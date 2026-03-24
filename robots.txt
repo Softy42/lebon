@@ -2,7 +2,6 @@ User-agent: *
 Disallow: /404.html
 Disallow: /google20bab45e773c66bb.html
 Disallow: /google2cb94ce8fb391fb8.html
-Disallow: /ovh-test.txt
 Allow: /
 
 Sitemap: https://www.maison-melina.fr/sitemap.xml
