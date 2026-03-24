@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Maison Mélina | Conseils colocation senior et bien-vieillir</title>
+    <meta name="description" content="Le blog Maison Mélina aide les familles et les seniors à mieux comprendre la colocation senior, le bien-vieillir et les solutions contre l'isolement.">
+    <link rel="canonical" href="https://www.maison-melina.fr/blog/">
+    <meta property="og:title" content="Blog Maison Mélina">
+    <meta property="og:description" content="Conseils pratiques pour les familles, proches aidants et seniors.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.maison-melina.fr/blog/">
+    <meta property="og:image" content="https://www.maison-melina.fr/img/divers/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/_astro/index.BVHY39ld.css">
+    <script type="module" src="/main.js"></script>
+    <style>
+      .blog-shell{max-width:1200px;margin:0 auto;padding:2rem}
+      .blog-hero{background:#b42c2d;color:#fff;padding:1.25rem;border-radius:12px;margin-bottom:1.5rem}
+      .blog-hero h1{margin:.2rem 0}
+      .blog-filters{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0}
+      .chip{padding:.5rem .8rem;border-radius:999px;border:1px solid #d1d5db;background:#fff;cursor:pointer}
+      .chip.active{background:#b42c2d;color:#fff;border-color:#b42c2d}
+      .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+      .blog-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+      .blog-card img{width:100%;height:160px;object-fit:cover}
+      .blog-card-content{padding:1rem;display:flex;flex-direction:column;gap:.55rem}
+      .meta{font-size:.86rem;color:#6b7280}
+      .cat{font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;color:#0f766e;font-weight:700}
+      .cta-inline{display:inline-block;margin-top:.4rem;color:#b42c2d;font-weight:700;text-decoration:none}
+      .contact-band{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem;margin-top:1.5rem;text-align:center}
+      .btn{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.7rem 1.1rem;font-weight:700}
+    </style>
+  </head>
+  <body>
+    <main class="blog-shell">
+      <section class="blog-hero">
+        <p>Blog expert & humain</p>
+        <h1>Comprendre la colocation senior et mieux accompagner ses proches</h1>
+        <p>Des repères simples, rassurants et concrets pour aider les familles à prendre les bonnes décisions.</p>
+      </section>
+
+      <nav class="blog-filters" id="categoryFilters" aria-label="Filtres catégories"></nav>
+      <section class="blog-grid" id="blogGrid" aria-live="polite"></section>
+
+      <section class="contact-band">
+        <h2>Besoin d'un échange personnalisé ?</h2>
+        <p>Notre équipe répond à vos questions et vous accompagne pas à pas.</p>
+        <a class="btn" href="/contact">Demander des informations</a>
+      </section>
+    </main>
+
+    <script type="module">
+      const grid = document.getElementById('blogGrid');
+      const filters = document.getElementById('categoryFilters');
+
+      function formatDate(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '';
+        return new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' }).format(date);
+      }
+
+      function articleUrl(slug) {
+        return `/blog/article/?slug=${encodeURIComponent(slug)}`;
+      }
+
+      function renderPosts(posts) {
+        if (!posts.length) {
+          grid.innerHTML = '<p>Aucun article disponible dans cette catégorie.</p>';
+          return;
+        }
+
+        grid.innerHTML = posts.map((post) => `
+          <article class="blog-card">
+            ${post.image?.url ? `<img src="${post.image.url}" alt="${post.image.alt || post.title}" loading="lazy">` : ''}
+            <div class="blog-card-content">
+              <span class="cat">${post.category?.name || ''}</span>
+              <h2>${post.title}</h2>
+              <p>${post.excerpt || ''}</p>
+              <div class="meta">${formatDate(post.publishedAt)} • ${post.readingTimeMinutes || 1} min</div>
+              <a class="cta-inline" href="${articleUrl(post.slug)}">Lire l'article</a>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      function renderFilters(categories, selectedCategory) {
+        const all = [{ id: '', name: 'Tous les sujets' }, ...categories];
+        filters.innerHTML = all.map((category) => `
+          <button class="chip ${selectedCategory === category.id ? 'active' : ''}" data-category="${category.id}">${category.name}</button>
+        `).join('');
+      }
+
+      async function load(categoryId = '') {
+        const qs = categoryId ? `?category=${encodeURIComponent(categoryId)}` : '';
+        const response = await fetch(`/api/blog-public${qs}`, { headers: { Accept: 'application/json' } });
+        const data = await response.json();
+        if (!data.ok) {
+          grid.innerHTML = '<p>Le blog est temporairement indisponible.</p>';
+          return;
+        }
+        renderFilters(data.categories || [], categoryId);
+        renderPosts(data.posts || []);
+      }
+
+      filters.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        load(target.dataset.category || '');
+      });
+
+      load();
+    </script>
+  </body>
+</html>
