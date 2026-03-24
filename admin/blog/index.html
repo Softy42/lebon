@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Blog | Maison Mélina</title>
+    <style>
+      :root{--primary:#b42c2d;--bg:#f8fafc;--text:#111827;--muted:#6b7280}
+      body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+      .wrap{max-width:1200px;margin:0 auto;padding:1rem}
+      .topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+      .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;margin-top:1rem}
+      .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
+      .btn{background:var(--primary);color:#fff;border:none;border-radius:999px;padding:.55rem .9rem;cursor:pointer}
+      .btn.secondary{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+      .stack{display:flex;flex-direction:column;gap:.65rem}
+      input,textarea,select{width:100%;padding:.55rem;border:1px solid #d1d5db;border-radius:8px}
+      table{width:100%;border-collapse:collapse}
+      th,td{padding:.55rem;border-bottom:1px solid #e5e7eb;font-size:.92rem;text-align:left}
+      .status{font-size:.8rem;padding:.2rem .5rem;border-radius:999px}
+      .published{background:#dcfce7;color:#166534}
+      .draft{background:#fef3c7;color:#92400e}
+      .inline{display:flex;gap:.5rem;flex-wrap:wrap}
+      .hidden{display:none}
+      @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="topbar card">
+        <div>
+          <h1>Back-office blog Maison Mélina</h1>
+          <p>Créer, modifier, publier et organiser les contenus.</p>
+        </div>
+        <div class="inline">
+          <button id="newPostBtn" class="btn">Créer un article</button>
+          <button id="logoutBtn" class="btn secondary">Se déconnecter</button>
+        </div>
+      </header>
+
+      <section id="loginCard" class="card">
+        <h2>Connexion administrateur</h2>
+        <div class="stack">
+          <input id="loginUsername" placeholder="Identifiant">
+          <input id="loginPassword" type="password" placeholder="Mot de passe">
+          <button id="loginBtn" class="btn">Se connecter</button>
+          <p id="loginStatus"></p>
+        </div>
+      </section>
+
+      <main id="adminApp" class="grid hidden">
+        <section class="card">
+          <h2>Articles</h2>
+          <table>
+            <thead><tr><th>Titre</th><th>Catégorie</th><th>Statut</th><th>Mise à jour</th><th>Actions</th></tr></thead>
+            <tbody id="postsTable"></tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2 id="editorTitle">Nouvel article</h2>
+          <form id="postForm" class="stack">
+            <input name="title" placeholder="Titre" required>
+            <input name="slug" placeholder="Slug URL (ex: colocation-senior)">
+            <textarea name="excerpt" rows="2" placeholder="Extrait"></textarea>
+            <select name="categoryId" id="categorySelect"></select>
+            <select name="status">
+              <option value="draft">Brouillon</option>
+              <option value="published">Publié</option>
+            </select>
+            <input name="author" placeholder="Auteur" value="Équipe Maison Mélina">
+            <input name="imageUrl" placeholder="Image principale (URL)">
+            <input name="imageAlt" placeholder="Texte alternatif image">
+            <input name="seoTitle" placeholder="Titre SEO">
+            <textarea name="seoDescription" rows="2" placeholder="Meta description"></textarea>
+            <input name="ctaLabel" placeholder="Libellé CTA" value="Demander une visite">
+            <input name="ctaUrl" placeholder="URL CTA" value="/contact">
+            <textarea name="content" rows="9" placeholder="Contenu HTML de l'article" required></textarea>
+            <div class="inline">
+              <button class="btn" type="submit">Enregistrer</button>
+              <button id="previewBtn" class="btn secondary" type="button">Prévisualiser</button>
+              <button id="deleteBtn" class="btn secondary" type="button">Supprimer</button>
+            </div>
+            <p id="formStatus"></p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Catégories</h2>
+          <div class="stack" id="categoriesList"></div>
+          <hr>
+          <div class="stack">
+            <input id="newCategoryName" placeholder="Nom de catégorie">
+            <textarea id="newCategoryDescription" rows="2" placeholder="Description"></textarea>
+            <button id="createCategoryBtn" class="btn">Ajouter catégorie</button>
+            <p id="categoryStatus"></p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module">
+      const tokenKey = 'blog_admin_token';
+      let currentPostId = null;
+      let posts = [];
+      let categories = [];
+
+      const loginCard = document.getElementById('loginCard');
+      const adminApp = document.getElementById('adminApp');
+      const postsTable = document.getElementById('postsTable');
+      const postForm = document.getElementById('postForm');
+      const categorySelect = document.getElementById('categorySelect');
+      const categoriesList = document.getElementById('categoriesList');
+      const editorTitle = document.getElementById('editorTitle');
+      const formStatus = document.getElementById('formStatus');
+      const categoryStatus = document.getElementById('categoryStatus');
+
+      function getToken() { return localStorage.getItem(tokenKey) || ''; }
+      function setToken(token) { localStorage.setItem(tokenKey, token); }
+      function clearToken() { localStorage.removeItem(tokenKey); }
+
+      async function api(url, options = {}) {
+        const token = getToken();
+        const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+        if (token) headers.Authorization = `Bearer ${token}`;
+        const response = await fetch(url, { ...options, headers });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'API_ERROR');
+        return data;
+      }
+
+      function resetForm() {
+        currentPostId = null;
+        editorTitle.textContent = 'Nouvel article';
+        postForm.reset();
+        postForm.author.value = 'Équipe Maison Mélina';
+        postForm.status.value = 'draft';
+        postForm.ctaLabel.value = 'Demander une visite';
+        postForm.ctaUrl.value = '/contact';
+        document.getElementById('deleteBtn').disabled = true;
+      }
+
+      function mapFormToPayload() {
+        return {
+          title: postForm.title.value,
+          slug: postForm.slug.value,
+          excerpt: postForm.excerpt.value,
+          categoryId: postForm.categoryId.value,
+          status: postForm.status.value,
+          author: postForm.author.value,
+          image: postForm.imageUrl.value ? { url: postForm.imageUrl.value, alt: postForm.imageAlt.value } : null,
+          seo: { title: postForm.seoTitle.value, description: postForm.seoDescription.value },
+          cta: { label: postForm.ctaLabel.value, url: postForm.ctaUrl.value },
+          content: postForm.content.value,
+        };
+      }
+
+      function fillForm(post) {
+        currentPostId = post.id;
+        editorTitle.textContent = `Modifier : ${post.title}`;
+        postForm.title.value = post.title || '';
+        postForm.slug.value = post.slug || '';
+        postForm.excerpt.value = post.excerpt || '';
+        postForm.categoryId.value = post.category?.id || '';
+        postForm.status.value = post.status || 'draft';
+        postForm.author.value = post.author || 'Équipe Maison Mélina';
+        postForm.imageUrl.value = post.image?.url || '';
+        postForm.imageAlt.value = post.image?.alt || '';
+        postForm.seoTitle.value = post.seo?.title || '';
+        postForm.seoDescription.value = post.seo?.description || '';
+        postForm.ctaLabel.value = post.cta?.label || 'Demander une visite';
+        postForm.ctaUrl.value = post.cta?.url || '/contact';
+        postForm.content.value = post.content || '';
+        document.getElementById('deleteBtn').disabled = false;
+      }
+
+      function renderPosts() {
+        postsTable.innerHTML = posts.map((post) => `
+          <tr>
+            <td>${post.title}</td>
+            <td>${post.category?.name || '-'}</td>
+            <td><span class="status ${post.status}">${post.status}</span></td>
+            <td>${new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short' }).format(new Date(post.updatedAt || Date.now()))}</td>
+            <td>
+              <button class="btn secondary" data-action="edit" data-id="${post.id}">Modifier</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function renderCategories() {
+        categorySelect.innerHTML = categories.map((category) => `<option value="${category.id}">${category.name}</option>`).join('');
+        categoriesList.innerHTML = categories.map((category) => `
+          <div class="card">
+            <strong>${category.name}</strong>
+            <p>${category.description || ''}</p>
+            <div class="inline">
+              <button class="btn secondary" data-action="delete-category" data-id="${category.id}">Supprimer</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      async function refresh() {
+        const [postsData, categoriesData] = await Promise.all([
+          api('/api/blog-admin-posts'),
+          api('/api/blog-admin-categories'),
+        ]);
+        posts = postsData.posts || [];
+        categories = categoriesData.categories || [];
+        renderPosts();
+        renderCategories();
+      }
+
+      async function login() {
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        const status = document.getElementById('loginStatus');
+        status.textContent = 'Connexion...';
+
+        try {
+          const response = await fetch('/api/blog-admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'LOGIN_ERROR');
+          setToken(data.token);
+          loginCard.classList.add('hidden');
+          adminApp.classList.remove('hidden');
+          await refresh();
+          resetForm();
+          status.textContent = '';
+        } catch (error) {
+          status.textContent = "Échec de connexion. Vérifiez vos identifiants.";
+        }
+      }
+
+      document.getElementById('loginBtn').addEventListener('click', login);
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        clearToken();
+        adminApp.classList.add('hidden');
+        loginCard.classList.remove('hidden');
+      });
+
+      document.getElementById('newPostBtn').addEventListener('click', resetForm);
+
+      postsTable.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        if (target.dataset.action === 'edit') {
+          const post = posts.find((item) => item.id === target.dataset.id);
+          if (post) fillForm(post);
+        }
+      });
+
+      postForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        formStatus.textContent = 'Enregistrement...';
+        try {
+          const payload = mapFormToPayload();
+          if (currentPostId) {
+            await api(`/api/blog-admin-posts?id=${encodeURIComponent(currentPostId)}`, { method: 'PUT', body: JSON.stringify(payload) });
+          } else {
+            await api('/api/blog-admin-posts', { method: 'POST', body: JSON.stringify(payload) });
+          }
+          await refresh();
+          formStatus.textContent = 'Article enregistré.';
+          if (!currentPostId) resetForm();
+        } catch (error) {
+          formStatus.textContent = `Erreur: ${error.message}`;
+        }
+      });
+
+      document.getElementById('deleteBtn').addEventListener('click', async () => {
+        if (!currentPostId) return;
+        if (!window.confirm('Supprimer cet article ?')) return;
+        try {
+          await api(`/api/blog-admin-posts?id=${encodeURIComponent(currentPostId)}`, { method: 'DELETE' });
+          await refresh();
+          resetForm();
+          formStatus.textContent = 'Article supprimé.';
+        } catch (error) {
+          formStatus.textContent = `Erreur: ${error.message}`;
+        }
+      });
+
+      document.getElementById('previewBtn').addEventListener('click', () => {
+        const payload = mapFormToPayload();
+        const w = window.open('', '_blank');
+        if (!w) return;
+        w.document.write(`<h1>${payload.title}</h1>${payload.content}`);
+      });
+
+      document.getElementById('createCategoryBtn').addEventListener('click', async () => {
+        categoryStatus.textContent = 'Création en cours...';
+        try {
+          const name = document.getElementById('newCategoryName').value;
+          const description = document.getElementById('newCategoryDescription').value;
+          await api('/api/blog-admin-categories', {
+            method: 'POST',
+            body: JSON.stringify({ name, description }),
+          });
+          document.getElementById('newCategoryName').value = '';
+          document.getElementById('newCategoryDescription').value = '';
+          await refresh();
+          categoryStatus.textContent = 'Catégorie créée.';
+        } catch (error) {
+          categoryStatus.textContent = `Erreur: ${error.message}`;
+        }
+      });
+
+      categoriesList.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        if (target.dataset.action !== 'delete-category') return;
+        if (!window.confirm('Supprimer cette catégorie ?')) return;
+        try {
+          await api(`/api/blog-admin-categories?id=${encodeURIComponent(target.dataset.id || '')}`, { method: 'DELETE' });
+          await refresh();
+        } catch (error) {
+          categoryStatus.textContent = `Erreur: ${error.message}`;
+        }
+      });
+
+      async function bootstrap() {
+        if (!getToken()) return;
+        try {
+          loginCard.classList.add('hidden');
+          adminApp.classList.remove('hidden');
+          await refresh();
+          resetForm();
+        } catch {
+          clearToken();
+          adminApp.classList.add('hidden');
+          loginCard.classList.remove('hidden');
+        }
+      }
+
+      bootstrap();
+    </script>
+  </body>
+</html>
