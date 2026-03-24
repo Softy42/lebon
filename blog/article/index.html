@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | Blog Maison Mélina</title>
+    <meta name="description" content="Conseils et repères autour de la colocation senior et du bien-vieillir.">
+    <link rel="canonical" id="canonicalLink" href="https://www.maison-melina.fr/blog/article/">
+    <meta property="og:type" content="article">
+    <meta property="og:title" id="ogTitle" content="Article blog Maison Mélina">
+    <meta property="og:description" id="ogDescription" content="Article Maison Mélina">
+    <meta property="og:image" id="ogImage" content="https://www.maison-melina.fr/img/divers/logo.jpg">
+    <link rel="stylesheet" href="/_astro/index.BVHY39ld.css">
+    <style>
+      .article-shell{max-width:900px;margin:0 auto;padding:2rem}
+      .breadcrumbs{font-size:.9rem;color:#6b7280;margin-bottom:1rem}
+      .hero-image{width:100%;max-height:360px;object-fit:cover;border-radius:12px}
+      .meta{color:#6b7280;font-size:.9rem;margin:.7rem 0 1.2rem}
+      .content{line-height:1.75;color:#1f2937}
+      .content h2{margin-top:1.6rem}
+      .cta-box{margin:1.8rem 0;background:#fff7ed;border:1px solid #fed7aa;padding:1rem;border-radius:12px}
+      .btn{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.65rem 1rem;font-weight:700}
+      .related{margin-top:2rem}
+      .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+      .related-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
+    </style>
+  </head>
+  <body>
+    <main class="article-shell">
+      <nav class="breadcrumbs"><a href="/">Accueil</a> / <a href="/blog/">Blog</a> / <span id="crumbTitle">Article</span></nav>
+
+      <article>
+        <p id="categoryLabel"></p>
+        <h1 id="articleTitle">Chargement...</h1>
+        <p class="meta" id="articleMeta"></p>
+        <img id="heroImage" class="hero-image" alt="" hidden>
+        <div id="articleContent" class="content"></div>
+      </article>
+
+      <section class="cta-box">
+        <h2>Vous souhaitez en parler pour votre proche ?</h2>
+        <p>Nos équipes vous orientent selon votre situation familiale, sans engagement.</p>
+        <a id="articleCta" class="btn" href="/contact">Demander une visite</a>
+      </section>
+
+      <section class="related">
+        <h2>Articles similaires</h2>
+        <div id="relatedGrid" class="related-grid"></div>
+      </section>
+    </main>
+
+    <script type="module">
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+
+      const titleEl = document.getElementById('articleTitle');
+      const contentEl = document.getElementById('articleContent');
+      const metaEl = document.getElementById('articleMeta');
+      const categoryEl = document.getElementById('categoryLabel');
+      const imageEl = document.getElementById('heroImage');
+      const ctaEl = document.getElementById('articleCta');
+      const crumbTitle = document.getElementById('crumbTitle');
+      const relatedGrid = document.getElementById('relatedGrid');
+
+      function formatDate(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '';
+        return new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' }).format(date);
+      }
+
+      function renderRelated(items) {
+        if (!items?.length) {
+          relatedGrid.innerHTML = '<p>Aucun article similaire pour le moment.</p>';
+          return;
+        }
+        relatedGrid.innerHTML = items.map((item) => `
+          <article class="related-card">
+            <h3>${item.title}</h3>
+            <p>${item.excerpt || ''}</p>
+            <a href="/blog/article/?slug=${encodeURIComponent(item.slug)}">Lire l'article</a>
+          </article>
+        `).join('');
+      }
+
+      async function loadPost() {
+        if (!slug) {
+          titleEl.textContent = 'Article introuvable';
+          return;
+        }
+
+        const response = await fetch(`/api/blog-public?slug=${encodeURIComponent(slug)}`);
+        const data = await response.json();
+        if (!data.ok || !data.post) {
+          titleEl.textContent = 'Article introuvable';
+          contentEl.innerHTML = '<p>Ce contenu n\'est pas disponible.</p>';
+          return;
+        }
+
+        const { post, relatedPosts } = data;
+        document.title = post.seo?.title || `${post.title} | Blog Maison Mélina`;
+        document.querySelector('meta[name="description"]').setAttribute('content', post.seo?.description || post.excerpt || '');
+        document.getElementById('ogTitle').setAttribute('content', post.seo?.title || post.title);
+        document.getElementById('ogDescription').setAttribute('content', post.seo?.description || post.excerpt || '');
+        document.getElementById('canonicalLink').setAttribute('href', `https://www.maison-melina.fr/blog/article/?slug=${encodeURIComponent(post.slug)}`);
+
+        titleEl.textContent = post.title;
+        crumbTitle.textContent = post.title;
+        categoryEl.textContent = post.category?.name || '';
+        metaEl.textContent = `${formatDate(post.publishedAt)} • ${post.readingTimeMinutes || 1} min • ${post.author || 'Maison Mélina'}`;
+        contentEl.innerHTML = post.content || '';
+
+        if (post.image?.url) {
+          imageEl.src = post.image.url;
+          imageEl.alt = post.image.alt || post.title;
+          imageEl.hidden = false;
+          document.getElementById('ogImage').setAttribute('content', post.image.url.startsWith('http') ? post.image.url : `https://www.maison-melina.fr${post.image.url}`);
+        }
+
+        if (post.cta?.url) {
+          ctaEl.href = post.cta.url;
+        }
+        if (post.cta?.label) {
+          ctaEl.textContent = post.cta.label;
+        }
+
+        const ldJson = {
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.seo?.description || post.excerpt,
+          image: post.image?.url ? [post.image.url] : [],
+          datePublished: post.publishedAt,
+          dateModified: post.updatedAt,
+          author: { '@type': 'Organization', name: post.author || 'Maison Mélina' },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Maison Mélina',
+            logo: { '@type': 'ImageObject', url: 'https://www.maison-melina.fr/img/divers/logo.jpg' },
+          },
+        };
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(ldJson);
+        document.head.appendChild(script);
+
+        renderRelated(relatedPosts || []);
+      }
+
+      loadPost();
+    </script>
+  </body>
+</html>
