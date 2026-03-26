@@ -8,27 +8,33 @@ if ($slug === '') {
     exit;
 }
 
-$pdo = blog_pdo();
-$stmt = $pdo->prepare("SELECT p.*, c.name AS category_name FROM blog_posts p JOIN blog_categories c ON c.id = p.category_id WHERE p.slug = :slug AND p.status='published' LIMIT 1");
-$stmt->execute(['slug' => $slug]);
-$post = $stmt->fetch();
-if (!$post) {
-    http_response_code(404);
-    echo 'Article introuvable';
+try {
+    $pdo = blog_pdo();
+    $stmt = $pdo->prepare("SELECT p.*, c.name AS category_name FROM blog_posts p JOIN blog_categories c ON c.id = p.category_id WHERE p.slug = :slug AND p.status='published' LIMIT 1");
+    $stmt->execute(['slug' => $slug]);
+    $post = $stmt->fetch();
+    if (!$post) {
+        http_response_code(404);
+        echo 'Article introuvable';
+        exit;
+    }
+
+    $relatedStmt = $pdo->prepare("SELECT slug, title FROM blog_posts WHERE status='published' AND category_id=:category AND id <> :id ORDER BY published_at DESC LIMIT 3");
+    $relatedStmt->execute(['category' => $post['category_id'], 'id' => $post['id']]);
+    $related = $relatedStmt->fetchAll();
+
+    $testStmt = $pdo->prepare("SELECT t.quote_text, t.person_name, t.person_role, t.area_label
+    FROM blog_testimonials t
+    JOIN blog_post_testimonials pt ON pt.testimonial_id = t.id
+    WHERE pt.post_id = :post_id AND t.status='published' AND t.consent_publication=1
+    ORDER BY pt.position ASC, t.published_at DESC");
+    $testStmt->execute(['post_id' => $post['id']]);
+    $testimonials = $testStmt->fetchAll();
+} catch (Throwable $e) {
+    http_response_code(503);
+    echo 'Le blog n\'est pas encore connecté à la base de données.';
     exit;
 }
-
-$relatedStmt = $pdo->prepare("SELECT slug, title FROM blog_posts WHERE status='published' AND category_id=:category AND id <> :id ORDER BY published_at DESC LIMIT 3");
-$relatedStmt->execute(['category' => $post['category_id'], 'id' => $post['id']]);
-$related = $relatedStmt->fetchAll();
-
-$testStmt = $pdo->prepare("SELECT t.quote_text, t.person_name, t.person_role, t.area_label
-FROM blog_testimonials t
-JOIN blog_post_testimonials pt ON pt.testimonial_id = t.id
-WHERE pt.post_id = :post_id AND t.status='published' AND t.consent_publication=1
-ORDER BY pt.position ASC, t.published_at DESC");
-$testStmt->execute(['post_id' => $post['id']]);
-$testimonials = $testStmt->fetchAll();
 
 $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
 ?>

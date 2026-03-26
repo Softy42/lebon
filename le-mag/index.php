@@ -1,28 +1,52 @@
 <?php
 require_once __DIR__ . '/../blog-lib/utils.php';
 
-$pdo = blog_pdo();
-$categories = blog_fetch_categories();
-$category = isset($_GET['category']) ? trim((string) $_GET['category']) : '';
+try {
+    $pdo = blog_pdo();
+    $categories = blog_fetch_categories();
+    $category = isset($_GET['category']) ? trim((string) $_GET['category']) : '';
 
-$sql = "
-SELECT p.id, p.title, p.slug, p.excerpt, p.author_name, p.published_at, p.cta_variant, c.name AS category_name
-FROM blog_posts p
-JOIN blog_categories c ON c.id = p.category_id
-WHERE p.status = 'published'
-";
-$params = [];
-if ($category !== '') {
-    $sql .= " AND c.id = :category";
-    $params['category'] = $category;
+    $sql = "
+    SELECT p.id, p.title, p.slug, p.excerpt, p.author_name, p.published_at, p.cta_variant, c.name AS category_name
+    FROM blog_posts p
+    JOIN blog_categories c ON c.id = p.category_id
+    WHERE p.status = 'published'
+    ";
+    $params = [];
+    if ($category !== '') {
+        $sql .= " AND c.id = :category";
+        $params['category'] = $category;
+    }
+    $sql .= ' ORDER BY p.published_at DESC, p.created_at DESC';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $posts = $stmt->fetchAll();
+
+    $tStmt = $pdo->query("SELECT quote_text, person_name, person_role, area_label FROM blog_testimonials WHERE status='published' AND consent_publication=1 ORDER BY published_at DESC, created_at DESC LIMIT 3");
+    $topTestimonials = $tStmt->fetchAll();
+} catch (Throwable $e) {
+    http_response_code(503);
+    $contactUrl = (require __DIR__ . '/../blog-lib/config.php')['contact_url'] ?? '/contact';
+    ?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Le Mag indisponible</title>
+      <style>body{font-family:Arial,sans-serif;background:#f8fafc;padding:1rem}.box{max-width:720px;margin:2rem auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}.btn{display:inline-block;background:#b42c2d;color:#fff;border-radius:999px;padding:.7rem 1rem;text-decoration:none;font-weight:700}</style>
+    </head>
+    <body>
+      <main class="box">
+        <h1>Le Mag est temporairement indisponible</h1>
+        <p>Le service blog n'est pas encore connecté à la base de données sur cet environnement.</p>
+        <p><a class="btn" href="<?= blog_h($contactUrl) ?>">Prendre contact</a></p>
+      </main>
+    </body>
+    </html>
+    <?php
+    exit;
 }
-$sql .= ' ORDER BY p.published_at DESC, p.created_at DESC';
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$posts = $stmt->fetchAll();
-
-$tStmt = $pdo->query("SELECT quote_text, person_name, person_role, area_label FROM blog_testimonials WHERE status='published' AND consent_publication=1 ORDER BY published_at DESC, created_at DESC LIMIT 3");
-$topTestimonials = $tStmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

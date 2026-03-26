@@ -1,8 +1,14 @@
 <?php
 require_once __DIR__ . '/../blog-lib/utils.php';
 
-$stmt = blog_pdo()->query("SELECT quote_text, person_name, person_role, area_label, published_at FROM blog_testimonials WHERE status='published' AND consent_publication=1 ORDER BY published_at DESC, created_at DESC");
-$rows = $stmt->fetchAll();
+try {
+    $stmt = blog_pdo()->query("SELECT quote_text, person_name, person_role, area_label, published_at FROM blog_testimonials WHERE status='published' AND consent_publication=1 ORDER BY published_at DESC, created_at DESC");
+    $rows = $stmt->fetchAll();
+} catch (Throwable $e) {
+    http_response_code(503);
+    echo 'La page témoignage est temporairement indisponible.';
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">

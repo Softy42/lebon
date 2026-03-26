@@ -3,11 +3,29 @@ require_once __DIR__ . '/../../blog-lib/auth.php';
 require_once __DIR__ . '/../../blog-lib/utils.php';
 
 blog_start_session();
-$pdo = blog_pdo();
 $config = blog_config();
 $authors = $config['authors'];
 $error = '';
 $success = '';
+
+try {
+    $pdo = blog_pdo();
+} catch (Throwable $e) {
+    http_response_code(503);
+    ?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Le Mag indisponible</title></head>
+    <body style="font-family:Arial,sans-serif;padding:1rem;background:#f8fafc;">
+      <main style="max-width:720px;margin:2rem auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem;">
+        <h1>Admin Le Mag indisponible</h1>
+        <p>Connexion à la base impossible. Vérifiez les paramètres de <code>blog-lib/config.php</code> (host, base, utilisateur, mot de passe).</p>
+      </main>
+    </body>
+    </html>
+    <?php
+    exit;
+}
 
 if (isset($_POST['action']) && $_POST['action'] === 'login') {
     $username = trim((string)($_POST['username'] ?? ''));
