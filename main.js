@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const navList = document.querySelector(".nav-links");
+  if (navList && !navList.querySelector('a[href="/le-mag"]')) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = "/le-mag";
+    const label = document.createElement("span");
+    label.className = "nav-text";
+    label.textContent = "Le Mag";
+    link.appendChild(label);
+    item.appendChild(link);
+    navList.appendChild(item);
+  }
+
   const navLinks = Array.from(document.querySelectorAll(".nav-links a[href]"));
   if (navLinks.length === 0) {
     return;
