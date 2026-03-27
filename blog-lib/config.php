@@ -3,7 +3,7 @@ return [
 'db' => [
     'host' => 'db5010329327.hosting-data.io',
     'port' => 3306,
-    'name' => 'dbu1316787',
+    'name' => 'dbs8753726',
     'user' => 'dbu1316787',
     'password' => '.BWDQD:W55xRSY:@@@',
     'charset' => 'utf8mb4',
