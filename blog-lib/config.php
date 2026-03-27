@@ -1,13 +1,13 @@
 <?php
 return [
-    'db' => [
-        'host' => '127.0.0.1',
-        'port' => 3306,
-        'name' => 'maison_melina',
-        'user' => 'root',
-        'password' => '',
-        'charset' => 'utf8mb4',
-    ],
+'db' => [
+    'host' => 'db5010329327.hosting-data.io',
+    'port' => 3306,
+    'name' => 'dbu1316787',
+    'user' => 'dbu1316787',
+    'password' => '.BWDQD:W55xRSY:@@@',
+    'charset' => 'utf8mb4',
+],
     'admin' => [
         // Changez ces identifiants en production
         'username' => 'admin',
