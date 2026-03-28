@@ -74,46 +74,47 @@ try {
     .btn{display:inline-block;background:#b42c2d;color:#fff;border-radius:999px;padding:.7rem 1rem;text-decoration:none;font-weight:700}
   </style>
 </head>
-<body>
-<div class="side-color left"></div>
-<div class="side-color right"></div>
-<div class="content-wrapper">
-<header class="fixed-header">
-  <nav aria-label="Navigation principale">
-    <div class="nav-content">
-      <a href="/" class="logo" aria-label="Accueil MAISON MÉLINA">
-        <img src="/img/divers/logo.jpg" alt="Logo MAISON MÉLINA" class="logo-image" width="160" height="90" loading="eager">
+<body data-astro-cid-sckkx6r4>
+<div class="side-color left" data-astro-cid-sckkx6r4></div>
+<div class="side-color right" data-astro-cid-sckkx6r4></div>
+<div class="content-wrapper" data-astro-cid-sckkx6r4>
+<header class="fixed-header" data-astro-cid-sckkx6r4>
+  <nav aria-label="Navigation principale" data-astro-cid-sckkx6r4>
+    <div class="nav-content" data-astro-cid-sckkx6r4>
+      <a href="/" class="logo" aria-label="Accueil MAISON MÉLINA" data-astro-cid-sckkx6r4>
+        <img src="/img/divers/logo.jpg" alt="Logo MAISON MÉLINA" class="logo-image" width="160" height="90" loading="eager" data-astro-cid-sckkx6r4>
       </a>
-      <button class="hamburger-menu" aria-label="Menu principal" aria-expanded="false" aria-controls="main-nav">
-        <span class="hamburger-box">
-          <span class="hamburger-inner"></span>
+      <button class="hamburger-menu" aria-label="Menu principal" aria-expanded="false" aria-controls="main-nav" data-astro-cid-sckkx6r4>
+        <span class="hamburger-box" data-astro-cid-sckkx6r4>
+          <span class="hamburger-inner" data-astro-cid-sckkx6r4></span>
         </span>
       </button>
-      <ul id="main-nav" class="nav-links">
-        <li><a href="/"><span class="nav-text">Accueil</span></a></li>
-        <li><a href="/concept"><span class="nav-text">Le Concept</span></a></li>
-        <li><a href="/nos-maisons"><span class="nav-text">Nos Maisons</span></a></li>
-        <li><a href="/qui-sommes-nous"><span class="nav-text">Qui Sommes-Nous ?</span></a></li>
-        <li><a href="/presse"><span class="nav-text">On parle de nous !</span></a></li>
-        <li class="has-submenu">
-          <button class="submenu-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="submenu-creer-votre-maison">
-            <span class="nav-text two-lines">
-              <span class="line">Créer ou Investir</span>
-              <span class="line">dans une maison partagée</span>
+      <ul id="main-nav" class="nav-links" data-astro-cid-sckkx6r4>
+        <li data-astro-cid-sckkx6r4><a href="/" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Accueil</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/concept" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Le Concept</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/nos-maisons" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Nos Maisons</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/qui-sommes-nous" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Qui Sommes-Nous ?</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/presse" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>On parle de nous !</span></a></li>
+        <li class="has-submenu" data-astro-cid-sckkx6r4>
+          <button class="submenu-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="submenu-creer-votre-maison" data-astro-cid-sckkx6r4>
+            <span class="nav-text two-lines" data-astro-cid-sckkx6r4>
+              <span class="line" data-astro-cid-sckkx6r4>Créer ou Investir</span>
+              <span class="line" data-astro-cid-sckkx6r4>dans une maison partagée</span>
             </span>
-            <span class="submenu-indicator" aria-hidden="true"></span>
+            <span class="submenu-indicator" aria-hidden="true" data-astro-cid-sckkx6r4></span>
           </button>
-          <ul id="submenu-creer-votre-maison" class="submenu">
-            <li><a href="/creer-votre-maison">Créer votre maison partagée</a></li>
-            <li><a href="/investir-dans-une-fonciere">Investissez dans la "Foncière Mélina"</a></li>
+          <ul id="submenu-creer-votre-maison" class="submenu" data-astro-cid-sckkx6r4>
+            <li data-astro-cid-sckkx6r4><a href="/creer-votre-maison" data-astro-cid-sckkx6r4>Créer votre maison partagée</a></li>
+            <li data-astro-cid-sckkx6r4><a href="/investir-dans-une-fonciere" data-astro-cid-sckkx6r4>Investissez dans la "Foncière Mélina"</a></li>
           </ul>
         </li>
-        <li><a href="/contact"><span class="nav-text">Contact</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/contact" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Contact</span></a></li>
+        <li data-astro-cid-sckkx6r4><a href="/le-mag" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Le Mag</span></a></li>
       </ul>
     </div>
   </nav>
 </header>
-<div class="main-content">
+<div class="main-content" data-astro-cid-sckkx6r4>
 <main class="mag-wrap">
   <section class="hero">
     <p>Le Mag Maison Mélina</p>
