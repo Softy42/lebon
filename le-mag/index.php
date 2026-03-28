@@ -66,7 +66,9 @@ try {
   <script type="module" src="/main.js"></script>
   <style>
     .mag-wrap{max-width:1120px;margin:0 auto;padding:1.25rem}
-    .hero{background:#b42c2d;color:#fff;border-radius:14px;padding:1.25rem;margin:1rem 0 1.25rem}
+    .hero{background:#b42c2d;color:#fff;border-radius:14px;padding:.7rem 1rem;margin:.65rem 0 .9rem;text-align:center}
+    .hero p{margin:.35rem 0}
+    .hero h1{margin:.35rem 0}
     .filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
     .chip{display:inline-block;padding:.45rem .8rem;border-radius:999px;border:1px solid #d1d5db;text-decoration:none;color:#111827;background:#fff}
     .chip.active{background:#b42c2d;color:#fff;border-color:#b42c2d}
@@ -123,7 +125,7 @@ try {
 <div class="main-content" data-astro-cid-sckkx6r4>
 <main class="mag-wrap">
   <section class="hero">
-    <p>Le Mag Maison Mélina</p>
+    <p>Le Mag Maison Mélina, BLOG</p>
     <h1>Des conseils humains pour bien accompagner vos proches</h1>
     <p>Des contenus utiles, simples et rassurants autour de la colocation senior.</p>
   </section>
