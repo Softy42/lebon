@@ -58,6 +58,7 @@ try {
   <link rel="canonical" href="https://www.maison-melina.fr/le-mag/">
   <link rel="stylesheet" href="/_astro/index.BVHY39ld.css">
   <script type="module" src="/main.js"></script>
+  <script type="module" src="/le-mag/menu.js"></script>
   <style>
     .mag-wrap{max-width:1120px;margin:0 auto;padding:1.25rem}
     .hero{background:#b42c2d;color:#fff;border-radius:14px;padding:1.25rem;margin:1rem 0 1.25rem}
@@ -75,6 +76,11 @@ try {
   </style>
 </head>
 <body>
+<div class="side-color left"></div>
+<div class="side-color right"></div>
+<div class="content-wrapper">
+<?php require __DIR__ . '/partials/header.php'; ?>
+<div class="main-content">
 <main class="mag-wrap">
   <section class="hero">
     <p>Le Mag Maison Mélina</p>
@@ -122,5 +128,7 @@ try {
     <a class="btn" href="<?= blog_h(blog_config()['contact_url']) ?>">Prendre contact</a>
   </section>
 </main>
+</div>
+</div>
 </body>
 </html>

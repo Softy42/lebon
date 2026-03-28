@@ -47,6 +47,8 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
   <meta name="description" content="<?= blog_h($post['seo_description'] ?: $post['excerpt']) ?>">
   <link rel="canonical" href="https://www.maison-melina.fr/le-mag/article.php?slug=<?= blog_h($post['slug']) ?>">
   <link rel="stylesheet" href="/_astro/index.BVHY39ld.css">
+  <script type="module" src="/main.js"></script>
+  <script type="module" src="/le-mag/menu.js"></script>
   <style>
     .wrap{max-width:900px;margin:0 auto;padding:1.25rem}
     .meta{color:#6b7280;font-size:.92rem}
@@ -57,6 +59,11 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
   </style>
 </head>
 <body>
+<div class="side-color left"></div>
+<div class="side-color right"></div>
+<div class="content-wrapper">
+<?php require __DIR__ . '/partials/header.php'; ?>
+<div class="main-content">
 <main class="wrap">
   <nav><a href="/">Accueil</a> / <a href="/le-mag/">Le Mag</a> / <span><?= blog_h($post['title']) ?></span></nav>
   <article>
@@ -95,5 +102,7 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     </section>
   <?php endif; ?>
 </main>
+</div>
+</div>
 </body>
 </html>
