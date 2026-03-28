@@ -55,8 +55,7 @@ VALUES
   ('colocation-senior', 'Colocation senior', 'Comprendre le modèle de maison partagée.', 1),
   ('bien-vieillir', 'Bien vieillir', 'Préserver autonomie et lien social.', 2),
   ('conseils-aux-familles', 'Conseils aux familles', 'Repères pour accompagner un proche.', 3),
-  ('vie-en-maison-partagee', 'Vie en maison partagée', 'Le quotidien dans les maisons.', 4),
-  ('actualites-maison-melina', 'Actualités Maison Mélina', 'Temps forts et nouveautés.', 5)
+  ('vie-en-maison-partagee', 'Vie en maison partagée', 'Le quotidien dans les maisons.', 4)
 ON DUPLICATE KEY UPDATE
   name = VALUES(name),
   description = VALUES(description),

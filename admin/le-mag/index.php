@@ -80,7 +80,31 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
     $success = 'Témoignage enregistré.';
 }
 
+if (isset($_GET['delete_post'])) {
+    $id = (int)$_GET['delete_post'];
+    $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
+    $pdo->prepare('DELETE FROM blog_posts WHERE id=:id')->execute(['id' => $id]);
+    $success = 'Article supprimé.';
+}
+
+if (isset($_GET['delete_testimonial'])) {
+    $id = (int)$_GET['delete_testimonial'];
+    $pdo->prepare('DELETE FROM blog_post_testimonials WHERE testimonial_id=:id')->execute(['id' => $id]);
+    $pdo->prepare('DELETE FROM blog_testimonials WHERE id=:id')->execute(['id' => $id]);
+    $success = 'Témoignage supprimé.';
+}
+
+$categories = blog_fetch_categories();
+$categoryIds = array_column($categories, 'id');
+
 if (isset($_POST['action']) && $_POST['action'] === 'save_post') {
+    $categoryId = trim((string)($_POST['category_id'] ?? ''));
+    if (!in_array($categoryId, $categoryIds, true)) {
+        $error = 'Catégorie invalide : veuillez choisir une catégorie disponible.';
+    }
+}
+
+if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post') {
     $id = (int)($_POST['post_id'] ?? 0);
     $title = trim((string)($_POST['title'] ?? ''));
     $slug = blog_slugify((string)($_POST['slug'] ?? $title));
@@ -132,21 +156,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_post') {
     $success = 'Article enregistré.';
 }
 
-if (isset($_GET['delete_post'])) {
-    $id = (int)$_GET['delete_post'];
-    $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
-    $pdo->prepare('DELETE FROM blog_posts WHERE id=:id')->execute(['id' => $id]);
-    $success = 'Article supprimé.';
-}
-
-if (isset($_GET['delete_testimonial'])) {
-    $id = (int)$_GET['delete_testimonial'];
-    $pdo->prepare('DELETE FROM blog_post_testimonials WHERE testimonial_id=:id')->execute(['id' => $id]);
-    $pdo->prepare('DELETE FROM blog_testimonials WHERE id=:id')->execute(['id' => $id]);
-    $success = 'Témoignage supprimé.';
-}
-
-$categories = blog_fetch_categories();
 $posts = $pdo->query("SELECT p.id,p.title,p.status,p.updated_at,p.slug,p.author_name,c.name category_name FROM blog_posts p JOIN blog_categories c ON c.id=p.category_id ORDER BY p.updated_at DESC")->fetchAll();
 $testimonials = $pdo->query("SELECT id,quote_text,person_name,status,consent_publication FROM blog_testimonials ORDER BY updated_at DESC")->fetchAll();
 $editPost = null;

@@ -14,8 +14,8 @@ try {
     ";
     $params = [];
     if ($category !== '') {
-        $sql .= " AND c.id = :category";
-        $params['category'] = $category;
+        $sql .= " AND c.id = ?";
+        $params[] = $category;
     }
     $sql .= ' ORDER BY p.published_at DESC, p.created_at DESC';
     $stmt = $pdo->prepare($sql);
