@@ -56,6 +56,12 @@ try {
   <title>Le Mag Maison Mélina</title>
   <meta name="description" content="Conseils, repères et témoignages pour accompagner vos proches en colocation senior.">
   <link rel="canonical" href="https://www.maison-melina.fr/le-mag/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/_astro/benefices-economiques.DA2vvG5t.css">
   <link rel="stylesheet" href="/_astro/index.BVHY39ld.css">
   <script type="module" src="/main.js"></script>
   <style>
