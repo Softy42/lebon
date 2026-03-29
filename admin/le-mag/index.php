@@ -186,6 +186,9 @@ if (isset($_GET['edit_post'])) {
     table{width:100%;border-collapse:collapse}th,td{padding:.5rem;border-bottom:1px solid #e5e7eb;text-align:left;font-size:.92rem}
     .btn{background:#b42c2d;color:#fff;text-decoration:none;border:0;border-radius:999px;padding:.5rem .9rem;cursor:pointer;display:inline-block}
     .btn.alt{background:#fff;color:#b42c2d;border:1px solid #b42c2d}
+    .checklist{border:1px solid #d1d5db;border-radius:8px;padding:.6rem;max-height:180px;overflow:auto;display:flex;flex-direction:column;gap:.35rem}
+    .check-item{display:flex;align-items:flex-start;gap:.45rem;font-size:.92rem}
+    .helper{font-size:.85rem;color:#6b7280}
     .meta{font-size:.86rem;color:#6b7280}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
   </style>
@@ -251,11 +254,26 @@ if (isset($_GET['edit_post'])) {
         <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
         <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
         <label>Témoignage(s) lié(s)</label>
-        <select name="testimonial_ids[]" multiple size="4">
+        <div class="checklist" id="testimonial-checklist">
           <?php foreach ($testimonials as $t): ?>
-            <option value="<?= (int)$t['id'] ?>" <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'selected' : '' ?>>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?></option>
+            <label class="check-item">
+              <input
+                type="checkbox"
+                name="testimonial_ids[]"
+                value="<?= (int)$t['id'] ?>"
+                <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
+              >
+              <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
+            </label>
           <?php endforeach; ?>
-        </select>
+          <?php if (empty($testimonials)): ?>
+            <p class="helper">Aucun témoignage disponible.</p>
+          <?php endif; ?>
+        </div>
+        <div>
+          <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
+          <p class="helper">Laissez tout décoché si vous ne souhaitez lier aucun témoignage.</p>
+        </div>
         <button class="btn" type="submit">Enregistrer l'article</button>
       </form>
     </section>
@@ -294,5 +312,16 @@ if (isset($_GET['edit_post'])) {
     </section>
   </main>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var clearButton = document.getElementById('clear-testimonials');
+    if (!clearButton) return;
+
+    clearButton.addEventListener('click', function () {
+      var checks = document.querySelectorAll('#testimonial-checklist input[type="checkbox"]');
+      checks.forEach(function (item) { item.checked = false; });
+    });
+  });
+</script>
 </body>
 </html>
