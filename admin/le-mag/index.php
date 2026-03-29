@@ -186,8 +186,17 @@ if (isset($_GET['edit_post'])) {
     table{width:100%;border-collapse:collapse}th,td{padding:.5rem;border-bottom:1px solid #e5e7eb;text-align:left;font-size:.92rem}
     .btn{background:#b42c2d;color:#fff;text-decoration:none;border:0;border-radius:999px;padding:.5rem .9rem;cursor:pointer;display:inline-block}
     .btn.alt{background:#fff;color:#b42c2d;border:1px solid #b42c2d}
-    .checklist{border:1px solid #d1d5db;border-radius:8px;padding:.6rem;max-height:180px;overflow:auto;display:flex;flex-direction:column;gap:.35rem}
-    .check-item{display:flex;align-items:flex-start;gap:.45rem;font-size:.92rem}
+    .testi-tools{display:flex;gap:.55rem;align-items:center}
+    .testi-search{flex:1}
+    .testi-results{border:1px solid #d1d5db;border-radius:8px;max-height:180px;overflow:auto;background:#fff}
+    .testi-row{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding:.5rem .65rem;border-bottom:1px solid #eef2f7}
+    .testi-row:last-child{border-bottom:0}
+    .testi-row button{border:1px solid #b42c2d;background:#fff;color:#b42c2d;border-radius:999px;padding:.2rem .6rem;cursor:pointer}
+    .testi-row button.active{background:#b42c2d;color:#fff}
+    .testi-selected{display:flex;flex-wrap:wrap;gap:.45rem}
+    .testi-tag{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .5rem;border-radius:999px;background:#f3f4f6;border:1px solid #d1d5db;font-size:.85rem}
+    .testi-tag button{border:0;background:none;color:#b42c2d;font-weight:700;cursor:pointer;padding:0}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .helper{font-size:.85rem;color:#6b7280}
     .meta{font-size:.86rem;color:#6b7280}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
@@ -254,25 +263,36 @@ if (isset($_GET['edit_post'])) {
         <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
         <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
         <label>Témoignage(s) lié(s)</label>
-        <div class="checklist" id="testimonial-checklist">
+        <div class="testi-tools">
+          <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
+          <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
+        </div>
+        <p class="helper">Sélectionnez un ou plusieurs témoignages. Laissez vide si vous ne souhaitez en lier aucun.</p>
+        <div class="testi-selected" id="testimonial-selected"></div>
+        <div class="testi-results" id="testimonial-results">
           <?php foreach ($testimonials as $t): ?>
-            <label class="check-item">
+            <div
+              class="testi-row"
+              data-testid="<?= (int)$t['id'] ?>"
+              data-testi-label="<?= blog_h(mb_strtolower((string)$t['person_name'])) ?>"
+            >
+              <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
+              <button type="button" data-toggle-testimonial="<?= (int)$t['id'] ?>" class="<?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'active' : '' ?>">
+                <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'Sélectionné' : 'Sélectionner' ?>
+              </button>
               <input
                 type="checkbox"
                 name="testimonial_ids[]"
                 value="<?= (int)$t['id'] ?>"
+                class="sr-only testimonial-input"
+                data-input-testimonial="<?= (int)$t['id'] ?>"
                 <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
               >
-              <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
-            </label>
+            </div>
           <?php endforeach; ?>
           <?php if (empty($testimonials)): ?>
             <p class="helper">Aucun témoignage disponible.</p>
           <?php endif; ?>
-        </div>
-        <div>
-          <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
-          <p class="helper">Laissez tout décoché si vous ne souhaitez lier aucun témoignage.</p>
         </div>
         <button class="btn" type="submit">Enregistrer l'article</button>
       </form>
@@ -315,12 +335,82 @@ if (isset($_GET['edit_post'])) {
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var clearButton = document.getElementById('clear-testimonials');
-    if (!clearButton) return;
+    var searchInput = document.getElementById('testimonial-search');
+    var selectedBox = document.getElementById('testimonial-selected');
+    var rows = Array.from(document.querySelectorAll('#testimonial-results .testi-row'));
+    if (!clearButton || !selectedBox) return;
+
+    function setButtonState(id, checked) {
+      var btn = document.querySelector('[data-toggle-testimonial="' + id + '"]');
+      if (!btn) return;
+      btn.classList.toggle('active', checked);
+      btn.textContent = checked ? 'Sélectionné' : 'Sélectionner';
+    }
+
+    function renderSelected() {
+      var checkedInputs = Array.from(document.querySelectorAll('.testimonial-input:checked'));
+      selectedBox.innerHTML = '';
+      if (checkedInputs.length === 0) {
+        selectedBox.innerHTML = '<span class="helper">Aucun témoignage sélectionné.</span>';
+        return;
+      }
+
+      checkedInputs.forEach(function (input) {
+        var id = input.getAttribute('data-input-testimonial');
+        var row = document.querySelector('.testi-row[data-testid="' + id + '"]');
+        if (!row) return;
+        var label = row.querySelector('span')?.textContent || ('#' + id);
+        var tag = document.createElement('span');
+        tag.className = 'testi-tag';
+        tag.innerHTML = '<span>' + label + '</span><button type="button" data-remove-testimonial="' + id + '" aria-label="Retirer le témoignage">×</button>';
+        selectedBox.appendChild(tag);
+      });
+    }
+
+    rows.forEach(function (row) {
+      var id = row.getAttribute('data-testid');
+      var toggleButton = row.querySelector('[data-toggle-testimonial]');
+      var input = row.querySelector('.testimonial-input');
+      if (!id || !toggleButton || !input) return;
+      toggleButton.addEventListener('click', function () {
+        input.checked = !input.checked;
+        setButtonState(id, input.checked);
+        renderSelected();
+      });
+    });
 
     clearButton.addEventListener('click', function () {
-      var checks = document.querySelectorAll('#testimonial-checklist input[type="checkbox"]');
-      checks.forEach(function (item) { item.checked = false; });
+      document.querySelectorAll('.testimonial-input').forEach(function (item) {
+        item.checked = false;
+        var id = item.getAttribute('data-input-testimonial');
+        if (id) setButtonState(id, false);
+      });
+      renderSelected();
     });
+
+    selectedBox.addEventListener('click', function (event) {
+      var target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      var id = target.getAttribute('data-remove-testimonial');
+      if (!id) return;
+      var input = document.querySelector('.testimonial-input[data-input-testimonial="' + id + '"]');
+      if (!input) return;
+      input.checked = false;
+      setButtonState(id, false);
+      renderSelected();
+    });
+
+    searchInput?.addEventListener('input', function () {
+      var term = (searchInput.value || '').toLowerCase().trim();
+      rows.forEach(function (row) {
+        var label = row.getAttribute('data-testi-label') || '';
+        var id = row.getAttribute('data-testid') || '';
+        var visible = term === '' || label.indexOf(term) !== -1 || id.indexOf(term) !== -1;
+        row.style.display = visible ? '' : 'none';
+      });
+    });
+
+    renderSelected();
   });
 </script>
 </body>
