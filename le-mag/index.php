@@ -73,7 +73,8 @@ try {
     .chip{display:inline-block;padding:.45rem .8rem;border-radius:999px;border:1px solid #d1d5db;text-decoration:none;color:#111827;background:#fff}
     .chip.active{background:#b42c2d;color:#fff;border-color:#b42c2d}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.55rem}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.3rem}
+    .card h2,.card p,.card .cat,.card .cta{margin:0}
     .meta{font-size:.9rem;color:#6b7280}
     .cat{font-size:.82rem;text-transform:uppercase;color:#0f766e;font-weight:700}
     .cta{display:inline-block;margin-top:.35rem;color:#b42c2d;font-weight:700;text-decoration:none}
