@@ -47,6 +47,20 @@ function blog_save_optimized_webp(string $tmpPath, string $targetPath): bool
         return false;
     }
 
+    $maxWidth = 1920;
+    $width = imagesx($image);
+    $height = imagesy($image);
+    if ($width > $maxWidth && $height > 0) {
+        $newWidth = $maxWidth;
+        $newHeight = (int)round(($height * $newWidth) / $width);
+        $resized = imagecreatetruecolor($newWidth, $newHeight);
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
+        imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+        imagedestroy($image);
+        $image = $resized;
+    }
+
     imagepalettetotruecolor($image);
     imagealphablending($image, true);
     imagesavealpha($image, true);
@@ -195,6 +209,8 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
     $hasNewUpload = is_array($imageInput) && (($imageInput['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE);
     $finalImagePath = $existingImagePath;
     $finalImageAlt = $testimonialImageAlt;
+    $normalizedAlt = blog_slugify($testimonialImageAlt);
+    $isGenericAlt = in_array($normalizedAlt, ['photo', 'image', 'photo-proposee', 'photo-propose'], true);
 
     if ($hasNewUpload) {
         $uploadError = (int)($imageInput['error'] ?? UPLOAD_ERR_NO_FILE);
@@ -216,6 +232,10 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
 
             if ($testimonialImageAlt === '') {
                 $error = 'Le texte alternatif est obligatoire pour l’image.';
+            } elseif (mb_strlen($testimonialImageAlt) < 10 || mb_strlen($testimonialImageAlt) > 90) {
+                $error = 'Le texte alternatif doit contenir entre 10 et 90 caractères.';
+            } elseif ($isGenericAlt) {
+                $error = 'Le texte alternatif est trop générique. Décrivez précisément l’image en lien avec le sujet de l’article.';
             }
 
             $baseName = pathinfo($originalName, PATHINFO_FILENAME);
@@ -242,6 +262,10 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
         }
     } elseif ($finalImagePath !== '' && $testimonialImageAlt === '') {
         $error = 'Le texte alternatif est obligatoire si une image est associée.';
+    } elseif ($finalImagePath !== '' && (mb_strlen($testimonialImageAlt) < 10 || mb_strlen($testimonialImageAlt) > 90)) {
+        $error = 'Le texte alternatif doit contenir entre 10 et 90 caractères.';
+    } elseif ($finalImagePath !== '' && $isGenericAlt) {
+        $error = 'Le texte alternatif est trop générique. Décrivez précisément l’image en lien avec le sujet de l’article.';
     }
 
     if ($error !== '') {
@@ -408,7 +432,7 @@ if (isset($_GET['edit_post'])) {
 
         <label>Image au-dessus du bloc Témoignage (horizontal)</label>
         <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
-        <p class="helper">Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Nom recommandé pour le SEO : mots-clés-en-minuscules.webp</p>
+        <p class="helper">Image horizontale recommandée (ex: 1600x900) pour un rendu optimal. Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Exemple de nom SEO : colocation-senior-salon.webp</p>
         <?php if (!empty($editPost['testimonial_image_path'])): ?>
           <img
             id="testimonial-image-preview"
@@ -416,7 +440,7 @@ if (isset($_GET['edit_post'])) {
             alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
             style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
           >
-          <label><input type="checkbox" name="remove_testimonial_image" value="1"> Supprimer l'image actuelle</label>
+          <label><input type="checkbox" name="remove_testimonial_image" value="1" id="remove-testimonial-image"> Supprimer l'image actuelle</label>
         <?php else: ?>
           <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
         <?php endif; ?>
@@ -425,8 +449,9 @@ if (isset($_GET['edit_post'])) {
         <input
           name="testimonial_image_alt"
           value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
-          placeholder="Ex : Résidents échangeant dans le salon de la colocation senior"
+          placeholder="Ex : Résidents lisant dans le salon de la colocation senior à Lyon"
         >
+        <p class="helper">Alt descriptif recommandé (10 à 90 caractères), cohérent avec le sujet de l’article. Évitez les formulations génériques comme “photo proposée”.</p>
 
         <label>Témoignage(s) lié(s)</label>
         <div class="testi-tools">
@@ -503,6 +528,7 @@ if (isset($_GET['edit_post'])) {
     var clearButton = document.getElementById('clear-testimonials');
     var imageInput = document.getElementById('testimonial-image-input');
     var imagePreview = document.getElementById('testimonial-image-preview');
+    var removeImageCheckbox = document.getElementById('remove-testimonial-image');
     var searchInput = document.getElementById('testimonial-search');
     var selectedBox = document.getElementById('testimonial-selected');
     var rows = Array.from(document.querySelectorAll('#testimonial-results .testi-row'));
@@ -583,6 +609,14 @@ if (isset($_GET['edit_post'])) {
       if (!file || !imagePreview) return;
       imagePreview.src = URL.createObjectURL(file);
       imagePreview.style.display = 'block';
+    });
+
+    removeImageCheckbox?.addEventListener('change', function () {
+      if (!removeImageCheckbox.checked) return;
+      var accepted = window.confirm('Confirmez-vous la suppression de l’image actuelle ?');
+      if (!accepted) {
+        removeImageCheckbox.checked = false;
+      }
     });
 
     renderSelected();
