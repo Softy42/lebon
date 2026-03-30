@@ -127,11 +127,11 @@ try {
     </div>
   </nav>
 </header>
+<div class="main-content" data-astro-cid-sckkx6r4>
 <section class="mag-banner">
   <div><strong>Le Mag Maison Mélina</strong><br><span class="meta">Conseils, témoignages et repères pour les familles.</span></div>
   <a href="/le-mag/">Découvrir Le Mag</a>
 </section>
-<div class="main-content" data-astro-cid-sckkx6r4>
 <main class="mag-wrap">
   <section class="hero">
     <p>Le Mag Maison Mélina, BLOG</p>
