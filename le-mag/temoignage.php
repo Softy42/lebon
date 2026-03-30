@@ -32,7 +32,7 @@ try {
     .meta{font-size:.9rem;color:#6b7280}
     .btn{display:inline-block;background:#b42c2d;color:#fff;border-radius:999px;padding:.7rem 1rem;text-decoration:none;font-weight:700}
     .mag-pill{background:#b42c2d !important;color:#fff !important;border-radius:999px;padding:.42rem .85rem;font-weight:700}
-    .mag-banner{max-width:920px;margin:.7rem auto 0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:.75rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem}
+    .mag-banner{width:min(920px,calc(100% - 2.5rem));margin:.7rem auto 0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:.75rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;box-sizing:border-box}
     .mag-banner a{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.5rem .85rem;font-weight:700}
     @media (max-width: 768px){.mag-banner{flex-direction:column;align-items:flex-start}}
   </style>
