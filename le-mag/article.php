@@ -61,6 +61,8 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     .box{margin:1.3rem 0;padding:1rem;border-radius:12px;background:#fff;border:1px solid #e5e7eb}
     .cta{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.66rem 1rem;font-weight:700}
     .testimonial{border-left:3px solid #b42c2d;padding-left:.75rem;margin:.8rem 0}
+    .testimonial-image{width:100%;height:260px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb}
+    @media (max-width: 768px){.testimonial-image{height:180px}}
   </style>
 </head>
 <body data-astro-cid-sckkx6r4>
@@ -107,6 +109,17 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     <p class="meta"><?= blog_h(date('d/m/Y', strtotime((string)$post['published_at']))) ?> · <?= blog_h($post['author_name']) ?></p>
     <div class="content"><?= $post['content_html'] ?></div>
   </article>
+
+  <?php if (!empty($post['testimonial_image_path'])): ?>
+    <section class="box">
+      <img
+        class="testimonial-image"
+        src="/img/le-mag/<?= rawurlencode((string)$post['testimonial_image_path']) ?>"
+        alt="<?= blog_h((string)($post['testimonial_image_alt'] ?? '')) ?>"
+        loading="lazy"
+      >
+    </section>
+  <?php endif; ?>
 
   <?php if (!empty($testimonials)): ?>
     <section class="box">

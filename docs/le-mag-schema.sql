@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   seo_title VARCHAR(255) NULL,
   seo_description TEXT NULL,
   cta_variant ENUM('contact', 'visit') NOT NULL DEFAULT 'contact',
+  testimonial_image_path VARCHAR(255) NULL,
+  testimonial_image_alt VARCHAR(255) NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_blog_posts_category FOREIGN KEY (category_id) REFERENCES blog_categories(id) ON UPDATE CASCADE ON DELETE RESTRICT,

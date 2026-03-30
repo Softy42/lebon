@@ -2,11 +2,66 @@
 require_once __DIR__ . '/../../blog-lib/auth.php';
 require_once __DIR__ . '/../../blog-lib/utils.php';
 
+function blog_testimonial_image_dir(): string
+{
+    return dirname(__DIR__, 2) . '/img/le-mag';
+}
+
+function blog_testimonial_image_url(string $filename): string
+{
+    return '/img/le-mag/' . rawurlencode($filename);
+}
+
+function blog_delete_testimonial_image_file(?string $filename): void
+{
+    if (!$filename) {
+        return;
+    }
+
+    $path = blog_testimonial_image_dir() . '/' . basename($filename);
+    if (is_file($path)) {
+        @unlink($path);
+    }
+}
+
+function blog_create_image_from_upload(string $tmpPath, string $mime): array
+{
+    return match ($mime) {
+        'image/jpeg' => ['im' => imagecreatefromjpeg($tmpPath), 'ext' => 'jpg'],
+        'image/png' => ['im' => imagecreatefrompng($tmpPath), 'ext' => 'png'],
+        'image/webp' => ['im' => imagecreatefromwebp($tmpPath), 'ext' => 'webp'],
+        default => ['im' => null, 'ext' => ''],
+    };
+}
+
+function blog_save_optimized_webp(string $tmpPath, string $targetPath): bool
+{
+    $info = @getimagesize($tmpPath);
+    if (!$info || empty($info['mime'])) {
+        return false;
+    }
+
+    $result = blog_create_image_from_upload($tmpPath, (string)$info['mime']);
+    $image = $result['im'];
+    if (!$image) {
+        return false;
+    }
+
+    imagepalettetotruecolor($image);
+    imagealphablending($image, true);
+    imagesavealpha($image, true);
+    $ok = imagewebp($image, $targetPath, 82);
+    imagedestroy($image);
+    return $ok;
+}
+
 blog_start_session();
 $config = blog_config();
 $authors = $config['authors'];
 $error = '';
 $success = '';
+$editPost = null;
+$linkedTestimonials = [];
 
 try {
     $pdo = blog_pdo();
@@ -82,6 +137,10 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
 
 if (isset($_GET['delete_post'])) {
     $id = (int)$_GET['delete_post'];
+    $postStmt = $pdo->prepare('SELECT testimonial_image_path FROM blog_posts WHERE id=:id LIMIT 1');
+    $postStmt->execute(['id' => $id]);
+    $postToDelete = $postStmt->fetch();
+    blog_delete_testimonial_image_file($postToDelete['testimonial_image_path'] ?? null);
     $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
     $pdo->prepare('DELETE FROM blog_posts WHERE id=:id')->execute(['id' => $id]);
     $success = 'Article supprimé.';
@@ -116,50 +175,134 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
     $seoTitle = trim((string)($_POST['seo_title'] ?? ''));
     $seoDescription = trim((string)($_POST['seo_description'] ?? ''));
     $ctaVariant = ($_POST['cta_variant'] ?? 'contact') === 'visit' ? 'visit' : 'contact';
-
-    $payload = [
-        'title' => $title,
-        'slug' => $slug,
-        'excerpt' => $excerpt,
-        'content_html' => $content,
-        'category_id' => $categoryId,
-        'status' => $status,
-        'author_name' => $author,
-        'seo_title' => $seoTitle,
-        'seo_description' => $seoDescription,
-        'cta_variant' => $ctaVariant,
-    ];
+    $testimonialImageAlt = trim((string)($_POST['testimonial_image_alt'] ?? ''));
+    $removeImage = isset($_POST['remove_testimonial_image']) ? 1 : 0;
+    $existingImagePath = '';
 
     if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, published_at=IF(:status='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
-        $stmt->execute($payload + ['id' => $id]);
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,IF(:status='published',NOW(),NULL),NOW(),NOW())");
-        $stmt->execute($payload);
-        $id = (int)$pdo->lastInsertId();
+        $existingStmt = $pdo->prepare('SELECT testimonial_image_path FROM blog_posts WHERE id=:id LIMIT 1');
+        $existingStmt->execute(['id' => $id]);
+        $existingPost = $existingStmt->fetch();
+        $existingImagePath = (string)($existingPost['testimonial_image_path'] ?? '');
     }
 
-    $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
-    $selected = $_POST['testimonial_ids'] ?? [];
-    if (is_array($selected)) {
-        $insertRel = $pdo->prepare('INSERT INTO blog_post_testimonials (post_id, testimonial_id, position) VALUES (:post_id, :testimonial_id, :position)');
-        $position = 1;
-        foreach ($selected as $tidRaw) {
-            $tid = (int)$tidRaw;
-            if ($tid > 0) {
-                $insertRel->execute(['post_id' => $id, 'testimonial_id' => $tid, 'position' => $position]);
-                $position++;
+    if ($removeImage === 1) {
+        $existingImagePath = '';
+        $testimonialImageAlt = '';
+    }
+
+    $imageInput = $_FILES['testimonial_image'] ?? null;
+    $hasNewUpload = is_array($imageInput) && (($imageInput['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE);
+    $finalImagePath = $existingImagePath;
+    $finalImageAlt = $testimonialImageAlt;
+
+    if ($hasNewUpload) {
+        $uploadError = (int)($imageInput['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($uploadError !== UPLOAD_ERR_OK) {
+            $error = 'Le téléversement de l’image a échoué.';
+        } else {
+            $tmpPath = (string)($imageInput['tmp_name'] ?? '');
+            $originalName = (string)($imageInput['name'] ?? '');
+            $size = (int)($imageInput['size'] ?? 0);
+
+            if ($size > 5 * 1024 * 1024) {
+                $error = 'Image trop lourde : 5 Mo maximum.';
+            }
+
+            $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true)) {
+                $error = 'Format invalide : JPG, JPEG, PNG ou WEBP uniquement.';
+            }
+
+            if ($testimonialImageAlt === '') {
+                $error = 'Le texte alternatif est obligatoire pour l’image.';
+            }
+
+            $baseName = pathinfo($originalName, PATHINFO_FILENAME);
+            $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', trim($baseName)) ?: 'image';
+            $targetName = $safeBase . '.webp';
+            $dir = blog_testimonial_image_dir();
+            $targetPath = $dir . '/' . $targetName;
+
+            if (is_file($targetPath)) {
+                $error = 'Le nom de fichier existe déjà. Merci de renommer votre image avant envoi.';
+            }
+
+            if ($error === '') {
+                if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+                    $error = 'Impossible de créer le dossier /img/le-mag/.';
+                } elseif (!blog_save_optimized_webp($tmpPath, $targetPath)) {
+                    $error = 'Impossible d’optimiser l’image (GD).';
+                } else {
+                    blog_delete_testimonial_image_file($existingImagePath);
+                    $finalImagePath = $targetName;
+                    $finalImageAlt = $testimonialImageAlt;
+                }
             }
         }
+    } elseif ($finalImagePath !== '' && $testimonialImageAlt === '') {
+        $error = 'Le texte alternatif est obligatoire si une image est associée.';
     }
 
-    $success = 'Article enregistré.';
+    if ($error !== '') {
+        $editPost = $editPost ?? [];
+        $editPost['title'] = $title;
+        $editPost['slug'] = $slug;
+        $editPost['excerpt'] = $excerpt;
+        $editPost['content_html'] = $content;
+        $editPost['category_id'] = $categoryId;
+        $editPost['status'] = $status;
+        $editPost['author_name'] = $author;
+        $editPost['seo_title'] = $seoTitle;
+        $editPost['seo_description'] = $seoDescription;
+        $editPost['cta_variant'] = $ctaVariant;
+        $editPost['testimonial_image_path'] = $finalImagePath;
+        $editPost['testimonial_image_alt'] = $finalImageAlt;
+    } else {
+        $payload = [
+            'title' => $title,
+            'slug' => $slug,
+            'excerpt' => $excerpt,
+            'content_html' => $content,
+            'category_id' => $categoryId,
+            'status' => $status,
+            'author_name' => $author,
+            'seo_title' => $seoTitle,
+            'seo_description' => $seoDescription,
+            'cta_variant' => $ctaVariant,
+            'testimonial_image_path' => $finalImagePath !== '' ? $finalImagePath : null,
+            'testimonial_image_alt' => $finalImagePath !== '' ? $finalImageAlt : null,
+        ];
+
+        if ($id > 0) {
+            $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, testimonial_image_path=:testimonial_image_path, testimonial_image_alt=:testimonial_image_alt, published_at=IF(:status='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
+            $stmt->execute($payload + ['id' => $id]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, testimonial_image_path, testimonial_image_alt, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,:testimonial_image_path,:testimonial_image_alt,IF(:status='published',NOW(),NULL),NOW(),NOW())");
+            $stmt->execute($payload);
+            $id = (int)$pdo->lastInsertId();
+        }
+
+        $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
+        $selected = $_POST['testimonial_ids'] ?? [];
+        if (is_array($selected)) {
+            $insertRel = $pdo->prepare('INSERT INTO blog_post_testimonials (post_id, testimonial_id, position) VALUES (:post_id, :testimonial_id, :position)');
+            $position = 1;
+            foreach ($selected as $tidRaw) {
+                $tid = (int)$tidRaw;
+                if ($tid > 0) {
+                    $insertRel->execute(['post_id' => $id, 'testimonial_id' => $tid, 'position' => $position]);
+                    $position++;
+                }
+            }
+        }
+
+        $success = 'Article enregistré.';
+    }
 }
 
 $posts = $pdo->query("SELECT p.id,p.title,p.status,p.updated_at,p.slug,p.author_name,c.name category_name FROM blog_posts p JOIN blog_categories c ON c.id=p.category_id ORDER BY p.updated_at DESC")->fetchAll();
 $testimonials = $pdo->query("SELECT id,quote_text,person_name,status,consent_publication FROM blog_testimonials ORDER BY updated_at DESC")->fetchAll();
-$editPost = null;
-$linkedTestimonials = [];
 if (isset($_GET['edit_post'])) {
     $stmt = $pdo->prepare('SELECT * FROM blog_posts WHERE id=:id LIMIT 1');
     $stmt->execute(['id' => (int)$_GET['edit_post']]);
@@ -237,7 +380,7 @@ if (isset($_GET['edit_post'])) {
       </table>
 
       <h3 style="margin-top:1rem"><?= $editPost ? 'Modifier article' : 'Créer un article' ?></h3>
-      <form method="post" class="stack">
+      <form method="post" class="stack" enctype="multipart/form-data">
         <input type="hidden" name="action" value="save_post">
         <input type="hidden" name="post_id" value="<?= (int)($editPost['id'] ?? 0) ?>">
         <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
@@ -262,6 +405,29 @@ if (isset($_GET['edit_post'])) {
         <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
         <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
         <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+
+        <label>Image au-dessus du bloc Témoignage (horizontal)</label>
+        <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
+        <p class="helper">Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Nom recommandé pour le SEO : mots-clés-en-minuscules.webp</p>
+        <?php if (!empty($editPost['testimonial_image_path'])): ?>
+          <img
+            id="testimonial-image-preview"
+            src="<?= blog_h(blog_testimonial_image_url((string)$editPost['testimonial_image_path'])) ?>"
+            alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+            style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
+          >
+          <label><input type="checkbox" name="remove_testimonial_image" value="1"> Supprimer l'image actuelle</label>
+        <?php else: ?>
+          <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
+        <?php endif; ?>
+
+        <label>Texte alternatif de l’image (obligatoire si image)</label>
+        <input
+          name="testimonial_image_alt"
+          value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+          placeholder="Ex : Résidents échangeant dans le salon de la colocation senior"
+        >
+
         <label>Témoignage(s) lié(s)</label>
         <div class="testi-tools">
           <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
@@ -335,6 +501,8 @@ if (isset($_GET['edit_post'])) {
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var clearButton = document.getElementById('clear-testimonials');
+    var imageInput = document.getElementById('testimonial-image-input');
+    var imagePreview = document.getElementById('testimonial-image-preview');
     var searchInput = document.getElementById('testimonial-search');
     var selectedBox = document.getElementById('testimonial-selected');
     var rows = Array.from(document.querySelectorAll('#testimonial-results .testi-row'));
@@ -408,6 +576,13 @@ if (isset($_GET['edit_post'])) {
         var visible = term === '' || label.indexOf(term) !== -1 || id.indexOf(term) !== -1;
         row.style.display = visible ? '' : 'none';
       });
+    });
+
+    imageInput?.addEventListener('change', function () {
+      var file = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+      if (!file || !imagePreview) return;
+      imagePreview.src = URL.createObjectURL(file);
+      imagePreview.style.display = 'block';
     });
 
     renderSelected();
