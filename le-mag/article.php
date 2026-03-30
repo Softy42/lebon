@@ -64,6 +64,10 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     .testimonial-image{width:100%;height:260px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb}
     .related-links a,.related-links a:visited{color:#0f766e;text-decoration:none;font-weight:700}
     .related-links a:hover{color:#b42c2d;text-decoration:underline}
+    .mag-pill{background:#b42c2d !important;color:#fff !important;border-radius:999px;padding:.42rem .85rem;font-weight:700}
+    .mag-banner{max-width:900px;margin:.7rem auto 0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:.75rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem}
+    .mag-banner a{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.5rem .85rem;font-weight:700}
+    @media (max-width: 768px){.mag-banner{flex-direction:column;align-items:flex-start}}
     @media (max-width: 768px){.testimonial-image{height:180px}}
   </style>
 </head>
@@ -97,11 +101,15 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
           </ul>
         </li>
         <li data-astro-cid-sckkx6r4><a href="/contact" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Contact</span></a></li>
-        <li data-astro-cid-sckkx6r4><a href="/le-mag" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>Le Mag</span></a></li>
+        <li data-astro-cid-sckkx6r4><a class="mag-pill" href="/le-mag" data-astro-cid-sckkx6r4><span class="nav-text" data-astro-cid-sckkx6r4>✦ Le Mag</span></a></li>
       </ul>
     </div>
   </nav>
 </header>
+<section class="mag-banner">
+  <div><strong>Le Mag Maison Mélina</strong><br><span class="meta">Conseils, témoignages et repères pour les familles.</span></div>
+  <a href="/le-mag/">Découvrir Le Mag</a>
+</section>
 <div class="main-content" data-astro-cid-sckkx6r4>
 <main class="wrap">
   <nav><a href="/">Accueil</a> / <a href="/le-mag/">Le Mag</a> / <span><?= blog_h($post['title']) ?></span></nav>
