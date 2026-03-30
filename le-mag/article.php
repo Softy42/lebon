@@ -62,6 +62,8 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     .cta{display:inline-block;background:#b42c2d;color:#fff;text-decoration:none;border-radius:999px;padding:.66rem 1rem;font-weight:700}
     .testimonial{border-left:3px solid #b42c2d;padding-left:.75rem;margin:.8rem 0}
     .testimonial-image{width:100%;height:260px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb}
+    .related-links a,.related-links a:visited{color:#0f766e;text-decoration:none;font-weight:700}
+    .related-links a:hover{color:#b42c2d;text-decoration:underline}
     @media (max-width: 768px){.testimonial-image{height:180px}}
   </style>
 </head>
@@ -140,8 +142,8 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
   </section>
 
   <?php if (!empty($related)): ?>
-    <section class="box">
-      <h2>Articles similaires</h2>
+    <section class="box related-links">
+      <h2>Dans la même thématique</h2>
       <ul>
         <?php foreach ($related as $r): ?>
           <li><a href="/le-mag/article.php?slug=<?= blog_h($r['slug']) ?>"><?= blog_h($r['title']) ?></a></li>
