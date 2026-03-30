@@ -298,30 +298,57 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
             'testimonial_image_alt' => $finalImagePath !== '' ? $finalImageAlt : null,
         ];
 
-        if ($id > 0) {
-            $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, testimonial_image_path=:testimonial_image_path, testimonial_image_alt=:testimonial_image_alt, published_at=IF(:status='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
-            $stmt->execute($payload + ['id' => $id]);
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, testimonial_image_path, testimonial_image_alt, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,:testimonial_image_path,:testimonial_image_alt,IF(:status='published',NOW(),NULL),NOW(),NOW())");
-            $stmt->execute($payload);
-            $id = (int)$pdo->lastInsertId();
-        }
-
-        $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
-        $selected = $_POST['testimonial_ids'] ?? [];
-        if (is_array($selected)) {
-            $insertRel = $pdo->prepare('INSERT INTO blog_post_testimonials (post_id, testimonial_id, position) VALUES (:post_id, :testimonial_id, :position)');
-            $position = 1;
-            foreach ($selected as $tidRaw) {
-                $tid = (int)$tidRaw;
-                if ($tid > 0) {
-                    $insertRel->execute(['post_id' => $id, 'testimonial_id' => $tid, 'position' => $position]);
-                    $position++;
-                }
+        $saved = false;
+        try {
+            if ($id > 0) {
+                $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, testimonial_image_path=:testimonial_image_path, testimonial_image_alt=:testimonial_image_alt, published_at=IF(:status='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
+                $stmt->execute($payload + ['id' => $id]);
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, testimonial_image_path, testimonial_image_alt, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,:testimonial_image_path,:testimonial_image_alt,IF(:status='published',NOW(),NULL),NOW(),NOW())");
+                $stmt->execute($payload);
+                $id = (int)$pdo->lastInsertId();
+            }
+            $saved = true;
+        } catch (PDOException $e) {
+            if (($e->getCode() === '23000') && str_contains(strtolower($e->getMessage()), 'slug')) {
+                $error = 'Ce slug est déjà utilisé. Merci de choisir un slug unique.';
+            } else {
+                $error = 'Erreur lors de l’enregistrement de l’article. Merci de réessayer.';
             }
         }
 
-        $success = 'Article enregistré.';
+        if ($saved) {
+            $pdo->prepare('DELETE FROM blog_post_testimonials WHERE post_id=:id')->execute(['id' => $id]);
+            $selected = $_POST['testimonial_ids'] ?? [];
+            if (is_array($selected)) {
+                $insertRel = $pdo->prepare('INSERT INTO blog_post_testimonials (post_id, testimonial_id, position) VALUES (:post_id, :testimonial_id, :position)');
+                $position = 1;
+                foreach ($selected as $tidRaw) {
+                    $tid = (int)$tidRaw;
+                    if ($tid > 0) {
+                        $insertRel->execute(['post_id' => $id, 'testimonial_id' => $tid, 'position' => $position]);
+                        $position++;
+                    }
+                }
+            }
+
+            $success = 'Article enregistré.';
+        } else {
+            $editPost = $editPost ?? [];
+            $editPost['id'] = $id;
+            $editPost['title'] = $title;
+            $editPost['slug'] = $slug;
+            $editPost['excerpt'] = $excerpt;
+            $editPost['content_html'] = $content;
+            $editPost['category_id'] = $categoryId;
+            $editPost['status'] = $status;
+            $editPost['author_name'] = $author;
+            $editPost['seo_title'] = $seoTitle;
+            $editPost['seo_description'] = $seoDescription;
+            $editPost['cta_variant'] = $ctaVariant;
+            $editPost['testimonial_image_path'] = $finalImagePath;
+            $editPost['testimonial_image_alt'] = $finalImageAlt;
+        }
     }
 }
 
