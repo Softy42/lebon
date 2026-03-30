@@ -76,6 +76,11 @@ $error = '';
 $success = '';
 $editPost = null;
 $linkedTestimonials = [];
+$allowedTabs = ['articles', 'create-post', 'create-testimonial', 'create-category'];
+$activeTab = (string)($_GET['tab'] ?? $_POST['tab'] ?? 'articles');
+if (!in_array($activeTab, $allowedTabs, true)) {
+    $activeTab = 'articles';
+}
 
 try {
     $pdo = blog_pdo();
@@ -118,6 +123,7 @@ if (!blog_is_admin()) {
 }
 
 if (isset($_POST['action']) && $_POST['action'] === 'save_category') {
+    $activeTab = 'create-category';
     $id = blog_slugify((string)($_POST['id'] ?? ''));
     $name = trim((string)($_POST['name'] ?? ''));
     $description = trim((string)($_POST['description'] ?? ''));
@@ -129,6 +135,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_category') {
 }
 
 if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
+    $activeTab = 'create-testimonial';
     $id = (int)($_POST['testimonial_id'] ?? 0);
     $data = [
         'quote_text' => trim((string)($_POST['quote_text'] ?? '')),
@@ -150,6 +157,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
 }
 
 if (isset($_GET['delete_post'])) {
+    $activeTab = 'articles';
     $id = (int)$_GET['delete_post'];
     $postStmt = $pdo->prepare('SELECT testimonial_image_path FROM blog_posts WHERE id=:id LIMIT 1');
     $postStmt->execute(['id' => $id]);
@@ -161,6 +169,7 @@ if (isset($_GET['delete_post'])) {
 }
 
 if (isset($_GET['delete_testimonial'])) {
+    $activeTab = 'create-testimonial';
     $id = (int)$_GET['delete_testimonial'];
     $pdo->prepare('DELETE FROM blog_post_testimonials WHERE testimonial_id=:id')->execute(['id' => $id]);
     $pdo->prepare('DELETE FROM blog_testimonials WHERE id=:id')->execute(['id' => $id]);
@@ -178,6 +187,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_post') {
 }
 
 if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post') {
+    $activeTab = 'create-post';
     $id = (int)($_POST['post_id'] ?? 0);
     $title = trim((string)($_POST['title'] ?? ''));
     $slug = blog_slugify((string)($_POST['slug'] ?? $title));
@@ -355,6 +365,7 @@ if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post'
 $posts = $pdo->query("SELECT p.id,p.title,p.status,p.updated_at,p.slug,p.author_name,c.name category_name FROM blog_posts p JOIN blog_categories c ON c.id=p.category_id ORDER BY p.updated_at DESC")->fetchAll();
 $testimonials = $pdo->query("SELECT id,quote_text,person_name,status,consent_publication FROM blog_testimonials ORDER BY updated_at DESC")->fetchAll();
 if (isset($_GET['edit_post'])) {
+    $activeTab = 'create-post';
     $stmt = $pdo->prepare('SELECT * FROM blog_posts WHERE id=:id LIMIT 1');
     $stmt->execute(['id' => (int)$_GET['edit_post']]);
     $editPost = $stmt->fetch();
@@ -373,8 +384,11 @@ if (isset($_GET['edit_post'])) {
     body{font-family:Arial,sans-serif;background:#f8fafc;margin:0;padding:1rem;color:#111827}
     .wrap{max-width:1200px;margin:0 auto}
     .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;background:#fff;padding:1rem;border:1px solid #e5e7eb;border-radius:12px}
-    .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;margin-top:1rem}
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1rem}
     .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
+    .tabs{display:flex;gap:.6rem;overflow-x:auto;white-space:nowrap;padding:.3rem;margin-top:1rem;background:#fff;border:1px solid #e5e7eb;border-radius:12px}
+    .tab{display:inline-block;padding:.55rem .9rem;border-radius:999px;text-decoration:none;border:1px solid #d1d5db;color:#111827;background:#fff;font-weight:700}
+    .tab.active{background:#b42c2d;color:#fff;border-color:#b42c2d}
     .stack{display:flex;flex-direction:column;gap:.55rem}
     input,textarea,select{width:100%;padding:.55rem;border:1px solid #d1d5db;border-radius:8px}
     table{width:100%;border-collapse:collapse}th,td{padding:.5rem;border-bottom:1px solid #e5e7eb;text-align:left;font-size:.92rem}
@@ -409,145 +423,176 @@ if (isset($_GET['edit_post'])) {
   <?php if ($success): ?><p style="color:#166534"><?= blog_h($success) ?></p><?php endif; ?>
   <?php if ($error): ?><p style="color:#b91c1c"><?= blog_h($error) ?></p><?php endif; ?>
 
+  <nav class="tabs" aria-label="Navigation du back-office Le Mag">
+    <a class="tab <?= $activeTab === 'articles' ? 'active' : '' ?>" href="?tab=articles">Listing des articles</a>
+    <a class="tab <?= $activeTab === 'create-post' ? 'active' : '' ?>" href="?tab=create-post">Créer un article</a>
+    <a class="tab <?= $activeTab === 'create-testimonial' ? 'active' : '' ?>" href="?tab=create-testimonial">Créer un témoignage</a>
+    <a class="tab <?= $activeTab === 'create-category' ? 'active' : '' ?>" href="?tab=create-category">Créer une catégorie</a>
+  </nav>
+
   <main class="grid">
-    <section class="card">
-      <h2>Articles</h2>
-      <table>
-        <thead><tr><th>Titre</th><th>Catégorie</th><th>Statut</th><th>Auteur</th><th>Actions</th></tr></thead>
-        <tbody>
-        <?php foreach ($posts as $p): ?>
-          <tr>
-            <td><?= blog_h($p['title']) ?></td>
-            <td><?= blog_h($p['category_name']) ?></td>
-            <td><?= blog_h($p['status']) ?></td>
-            <td><?= blog_h($p['author_name']) ?></td>
-            <td>
-              <a href="?edit_post=<?= (int)$p['id'] ?>">Modifier</a> |
-              <a href="?delete_post=<?= (int)$p['id'] ?>" onclick="return confirm('Supprimer cet article ?')">Supprimer</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
-
-      <h3 style="margin-top:1rem"><?= $editPost ? 'Modifier article' : 'Créer un article' ?></h3>
-      <form method="post" class="stack" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="save_post">
-        <input type="hidden" name="post_id" value="<?= (int)($editPost['id'] ?? 0) ?>">
-        <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
-        <label>Slug URL</label><input name="slug" value="<?= blog_h((string)($editPost['slug'] ?? '')) ?>">
-        <label>Extrait</label><textarea name="excerpt" rows="2" required><?= blog_h((string)($editPost['excerpt'] ?? '')) ?></textarea>
-        <label>Catégorie</label>
-        <select name="category_id" required>
-          <?php foreach ($categories as $c): ?>
-            <option value="<?= blog_h($c['id']) ?>" <?= (($editPost['category_id'] ?? '') === $c['id']) ? 'selected' : '' ?>><?= blog_h($c['name']) ?></option>
+    <?php if ($activeTab === 'articles'): ?>
+      <section class="card">
+        <h2>Listing des articles</h2>
+        <table>
+          <thead><tr><th>Titre</th><th>Catégorie</th><th>Statut</th><th>Auteur</th><th>Actions</th></tr></thead>
+          <tbody>
+          <?php foreach ($posts as $p): ?>
+            <tr>
+              <td><?= blog_h($p['title']) ?></td>
+              <td><?= blog_h($p['category_name']) ?></td>
+              <td><?= blog_h($p['status']) ?></td>
+              <td><?= blog_h($p['author_name']) ?></td>
+              <td>
+                <a href="?tab=create-post&edit_post=<?= (int)$p['id'] ?>">Modifier</a> |
+                <a href="?tab=articles&delete_post=<?= (int)$p['id'] ?>" onclick="return confirm('Supprimer cet article ?')">Supprimer</a>
+              </td>
+            </tr>
           <?php endforeach; ?>
-        </select>
-        <label>Auteur</label>
-        <select name="author_name" required>
-          <?php foreach ($authors as $author): ?>
-            <option value="<?= blog_h($author) ?>" <?= (($editPost['author_name'] ?? '') === $author) ? 'selected' : '' ?>><?= blog_h($author) ?></option>
-          <?php endforeach; ?>
-        </select>
-        <label>Statut</label>
-        <select name="status"><option value="draft" <?= (($editPost['status'] ?? '') === 'draft') ? 'selected' : '' ?>>Brouillon</option><option value="published" <?= (($editPost['status'] ?? '') === 'published') ? 'selected' : '' ?>>Publié</option></select>
-        <label>Type de CTA</label>
-        <select name="cta_variant"><option value="contact" <?= (($editPost['cta_variant'] ?? '') === 'contact') ? 'selected' : '' ?>>Prendre contact</option><option value="visit" <?= (($editPost['cta_variant'] ?? '') === 'visit') ? 'selected' : '' ?>>Demander une visite</option></select>
-        <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
-        <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
-        <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+          </tbody>
+        </table>
+      </section>
+    <?php endif; ?>
 
-        <label>Image au-dessus du bloc Témoignage (horizontal)</label>
-        <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
-        <p class="helper">Image horizontale recommandée (ex: 1600x900) pour un rendu optimal. Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Exemple de nom SEO : colocation-senior-salon.webp</p>
-        <?php if (!empty($editPost['testimonial_image_path'])): ?>
-          <img
-            id="testimonial-image-preview"
-            src="<?= blog_h(blog_testimonial_image_url((string)$editPost['testimonial_image_path'])) ?>"
-            alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
-            style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
-          >
-          <label><input type="checkbox" name="remove_testimonial_image" value="1" id="remove-testimonial-image"> Supprimer l'image actuelle</label>
-        <?php else: ?>
-          <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
-        <?php endif; ?>
+    <?php if ($activeTab === 'create-post'): ?>
+      <section class="card">
+        <h2><?= $editPost ? 'Modifier article' : 'Créer un article' ?></h2>
+        <form method="post" class="stack" enctype="multipart/form-data">
+          <input type="hidden" name="tab" value="create-post">
+          <input type="hidden" name="action" value="save_post">
+          <input type="hidden" name="post_id" value="<?= (int)($editPost['id'] ?? 0) ?>">
+          <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
+          <label>Slug URL</label><input name="slug" value="<?= blog_h((string)($editPost['slug'] ?? '')) ?>">
+          <label>Extrait</label><textarea name="excerpt" rows="2" required><?= blog_h((string)($editPost['excerpt'] ?? '')) ?></textarea>
+          <label>Catégorie</label>
+          <select name="category_id" required>
+            <?php foreach ($categories as $c): ?>
+              <option value="<?= blog_h($c['id']) ?>" <?= (($editPost['category_id'] ?? '') === $c['id']) ? 'selected' : '' ?>><?= blog_h($c['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label>Auteur</label>
+          <select name="author_name" required>
+            <?php foreach ($authors as $author): ?>
+              <option value="<?= blog_h($author) ?>" <?= (($editPost['author_name'] ?? '') === $author) ? 'selected' : '' ?>><?= blog_h($author) ?></option>
+            <?php endforeach; ?>
+          </select>
+          <label>Statut</label>
+          <select name="status"><option value="draft" <?= (($editPost['status'] ?? '') === 'draft') ? 'selected' : '' ?>>Brouillon</option><option value="published" <?= (($editPost['status'] ?? '') === 'published') ? 'selected' : '' ?>>Publié</option></select>
+          <label>Type de CTA</label>
+          <select name="cta_variant"><option value="contact" <?= (($editPost['cta_variant'] ?? '') === 'contact') ? 'selected' : '' ?>>Prendre contact</option><option value="visit" <?= (($editPost['cta_variant'] ?? '') === 'visit') ? 'selected' : '' ?>>Demander une visite</option></select>
+          <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
+          <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
+          <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
 
-        <label>Texte alternatif de l’image (obligatoire si image)</label>
-        <input
-          name="testimonial_image_alt"
-          value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
-          placeholder="Ex : Résidents lisant dans le salon de la colocation senior à Lyon"
-        >
-        <p class="helper">Alt descriptif recommandé (10 à 90 caractères), cohérent avec le sujet de l’article. Évitez les formulations génériques comme “photo proposée”.</p>
-
-        <label>Témoignage(s) lié(s)</label>
-        <div class="testi-tools">
-          <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
-          <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
-        </div>
-        <p class="helper">Sélectionnez un ou plusieurs témoignages. Laissez vide si vous ne souhaitez en lier aucun.</p>
-        <div class="testi-selected" id="testimonial-selected"></div>
-        <div class="testi-results" id="testimonial-results">
-          <?php foreach ($testimonials as $t): ?>
-            <div
-              class="testi-row"
-              data-testid="<?= (int)$t['id'] ?>"
-              data-testi-label="<?= blog_h(mb_strtolower((string)$t['person_name'])) ?>"
+          <label>Image au-dessus du bloc Témoignage (horizontal)</label>
+          <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
+          <p class="helper">Image horizontale recommandée (ex: 1600x900) pour un rendu optimal. Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Exemple de nom SEO : colocation-senior-salon.webp</p>
+          <?php if (!empty($editPost['testimonial_image_path'])): ?>
+            <img
+              id="testimonial-image-preview"
+              src="<?= blog_h(blog_testimonial_image_url((string)$editPost['testimonial_image_path'])) ?>"
+              alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+              style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
             >
-              <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
-              <button type="button" data-toggle-testimonial="<?= (int)$t['id'] ?>" class="<?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'active' : '' ?>">
-                <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'Sélectionné' : 'Sélectionner' ?>
-              </button>
-              <input
-                type="checkbox"
-                name="testimonial_ids[]"
-                value="<?= (int)$t['id'] ?>"
-                class="sr-only testimonial-input"
-                data-input-testimonial="<?= (int)$t['id'] ?>"
-                <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
-              >
-            </div>
-          <?php endforeach; ?>
-          <?php if (empty($testimonials)): ?>
-            <p class="helper">Aucun témoignage disponible.</p>
+            <label><input type="checkbox" name="remove_testimonial_image" value="1" id="remove-testimonial-image"> Supprimer l'image actuelle</label>
+          <?php else: ?>
+            <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
           <?php endif; ?>
-        </div>
-        <button class="btn" type="submit">Enregistrer l'article</button>
-      </form>
-    </section>
 
-    <section class="card stack">
-      <h2>Catégories</h2>
-      <form method="post" class="stack">
-        <input type="hidden" name="action" value="save_category">
-        <label>ID (slug)</label><input name="id" required placeholder="conseils-aux-familles">
-        <label>Nom</label><input name="name" required>
-        <label>Description</label><textarea name="description" rows="2"></textarea>
-        <button class="btn" type="submit">Enregistrer catégorie</button>
-      </form>
+          <label>Texte alternatif de l’image (obligatoire si image)</label>
+          <input
+            name="testimonial_image_alt"
+            value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+            placeholder="Ex : Résidents lisant dans le salon de la colocation senior à Lyon"
+          >
+          <p class="helper">Alt descriptif recommandé (10 à 90 caractères), cohérent avec le sujet de l’article. Évitez les formulations génériques comme “photo proposée”.</p>
 
-      <h2>Témoignage</h2>
-      <form method="post" class="stack">
-        <input type="hidden" name="action" value="save_testimonial">
-        <input type="hidden" name="testimonial_id" value="0">
-        <label>Texte du témoignage</label><textarea name="quote_text" rows="4" required></textarea>
-        <label>Nom affiché (anonyme ou prénom)</label><input name="person_name" required>
-        <label>Rôle (ex: fille d'une résidente)</label><input name="person_role">
-        <label>Zone (ex: Loire)</label><input name="area_label">
-        <label>Statut</label><select name="status"><option value="draft">Brouillon</option><option value="published">Publié</option></select>
-        <label><input type="checkbox" name="consent_publication" value="1"> Autorisation de diffusion</label>
-        <button class="btn" type="submit">Enregistrer témoignage</button>
-      </form>
+          <label>Témoignage(s) lié(s)</label>
+          <div class="testi-tools">
+            <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
+            <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
+          </div>
+          <p class="helper">Sélectionnez un ou plusieurs témoignages. Laissez vide si vous ne souhaitez en lier aucun.</p>
+          <div class="testi-selected" id="testimonial-selected"></div>
+          <div class="testi-results" id="testimonial-results">
+            <?php foreach ($testimonials as $t): ?>
+              <div
+                class="testi-row"
+                data-testid="<?= (int)$t['id'] ?>"
+                data-testi-label="<?= blog_h(mb_strtolower((string)$t['person_name'])) ?>"
+              >
+                <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
+                <button type="button" data-toggle-testimonial="<?= (int)$t['id'] ?>" class="<?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'active' : '' ?>">
+                  <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'Sélectionné' : 'Sélectionner' ?>
+                </button>
+                <input
+                  type="checkbox"
+                  name="testimonial_ids[]"
+                  value="<?= (int)$t['id'] ?>"
+                  class="sr-only testimonial-input"
+                  data-input-testimonial="<?= (int)$t['id'] ?>"
+                  <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
+                >
+              </div>
+            <?php endforeach; ?>
+            <?php if (empty($testimonials)): ?>
+              <p class="helper">Aucun témoignage disponible.</p>
+            <?php endif; ?>
+          </div>
+          <button class="btn" type="submit">Enregistrer l'article</button>
+        </form>
+      </section>
+    <?php endif; ?>
 
-      <table>
-        <thead><tr><th>Nom</th><th>Statut</th><th>Autorisation</th><th></th></tr></thead>
-        <tbody>
-          <?php foreach ($testimonials as $t): ?>
-            <tr><td><?= blog_h($t['person_name']) ?></td><td><?= blog_h($t['status']) ?></td><td><?= (int)$t['consent_publication'] === 1 ? 'Oui' : 'Non' ?></td><td><a href="?delete_testimonial=<?= (int)$t['id'] ?>" onclick="return confirm('Supprimer ce témoignage ?')">Supprimer</a></td></tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </section>
+    <?php if ($activeTab === 'create-testimonial'): ?>
+      <section class="card stack">
+        <h2>Créer un témoignage</h2>
+        <form method="post" class="stack">
+          <input type="hidden" name="tab" value="create-testimonial">
+          <input type="hidden" name="action" value="save_testimonial">
+          <input type="hidden" name="testimonial_id" value="0">
+          <label>Texte du témoignage</label><textarea name="quote_text" rows="4" required></textarea>
+          <label>Nom affiché (anonyme ou prénom)</label><input name="person_name" required>
+          <label>Rôle (ex: fille d'une résidente)</label><input name="person_role">
+          <label>Zone (ex: Loire)</label><input name="area_label">
+          <label>Statut</label><select name="status"><option value="draft">Brouillon</option><option value="published">Publié</option></select>
+          <label><input type="checkbox" name="consent_publication" value="1"> Autorisation de diffusion</label>
+          <button class="btn" type="submit">Enregistrer témoignage</button>
+        </form>
+
+        <table>
+          <thead><tr><th>Nom</th><th>Statut</th><th>Autorisation</th><th></th></tr></thead>
+          <tbody>
+            <?php foreach ($testimonials as $t): ?>
+              <tr><td><?= blog_h($t['person_name']) ?></td><td><?= blog_h($t['status']) ?></td><td><?= (int)$t['consent_publication'] === 1 ? 'Oui' : 'Non' ?></td><td><a href="?tab=create-testimonial&delete_testimonial=<?= (int)$t['id'] ?>" onclick="return confirm('Supprimer ce témoignage ?')">Supprimer</a></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </section>
+    <?php endif; ?>
+
+    <?php if ($activeTab === 'create-category'): ?>
+      <section class="card stack">
+        <h2>Créer une catégorie</h2>
+        <form method="post" class="stack">
+          <input type="hidden" name="tab" value="create-category">
+          <input type="hidden" name="action" value="save_category">
+          <label>ID (slug)</label><input name="id" required placeholder="conseils-aux-familles">
+          <label>Nom</label><input name="name" required>
+          <label>Description</label><textarea name="description" rows="2"></textarea>
+          <button class="btn" type="submit">Enregistrer catégorie</button>
+        </form>
+
+        <table>
+          <thead><tr><th>ID</th><th>Nom</th><th>Description</th></tr></thead>
+          <tbody>
+            <?php foreach ($categories as $c): ?>
+              <tr><td><?= blog_h($c['id']) ?></td><td><?= blog_h($c['name']) ?></td><td><?= blog_h((string)($c['description'] ?? '')) ?></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </section>
+    <?php endif; ?>
   </main>
 </div>
 <script>
