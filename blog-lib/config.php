@@ -5,7 +5,7 @@ return [
     'port' => 3306,
     'name' => 'dbs8753726',
     'user' => 'dbu1316787',
-    'password' => '.BWDQD:W55xRSY:@@@',
+    'password' => '@MaisonMelinaThierryAurelien@42',
     'charset' => 'utf8mb4',
 ],
     'admin' => [
