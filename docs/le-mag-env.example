@@ -1,0 +1,24 @@
+# ==========================================
+# Le Mag - Configuration production
+# ==========================================
+
+# Environnement
+BLOG_APP_ENV=production
+
+# Base de données (compte applicatif dédié)
+BLOG_DB_HOST=127.0.0.1
+BLOG_DB_PORT=3306
+BLOG_DB_NAME=maison_melina
+BLOG_DB_USER=lemag_app
+BLOG_DB_PASS=CHANGE_ME_STRONG_DB_PASSWORD
+BLOG_DB_CHARSET=utf8mb4
+
+# Back-office admin
+# Évitez les noms évidents (admin, administrator, etc.)
+BLOG_ADMIN_USER=lemag_superviseur
+# Générer avec: php -r "echo password_hash('VOTRE_MDP', PASSWORD_BCRYPT), PHP_EOL;"
+BLOG_ADMIN_PASSWORD_HASH=$2y$12$REPLACE_WITH_REAL_BCRYPT_HASH_VALUE
+
+# Optionnel
+BLOG_CONTACT_URL=https://www.maison-melina.fr/contact
+BLOG_AUTHORS=Thierry,Christine
