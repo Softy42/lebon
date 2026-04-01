@@ -7,6 +7,25 @@
 #  - Rediriger les anciens slugs numériques en un seul saut (301)
 #############################################
 
+
+########## Le Mag Maison Mélina — Variables (IONOS / Apache) ##########
+# IMPORTANT:
+# - Décommentez et renseignez ces variables SUR LE SERVEUR (préprod/prod),
+#   sans versionner les secrets dans Git.
+# - blog-lib/config.php lit ces valeurs via getenv().
+#
+#SetEnv BLOG_APP_ENV production
+#SetEnv BLOG_DB_HOST db5010329327.hosting-data.io
+#SetEnv BLOG_DB_PORT 3306
+#SetEnv BLOG_DB_NAME dbs8753726
+#SetEnv BLOG_DB_USER dbuXXXXXXXX
+#SetEnv BLOG_DB_PASS CHANGE_ME_DB_PASSWORD
+#SetEnv BLOG_DB_CHARSET utf8mb4
+#SetEnv BLOG_ADMIN_USER CHANGE_ME_ADMIN_USERNAME
+#SetEnv BLOG_ADMIN_PASSWORD_HASH $2y$12$CHANGE_ME_BCRYPT_HASH
+#SetEnv BLOG_CONTACT_URL https://www.maison-melina.fr/contact
+#SetEnv BLOG_AUTHORS Thierry,Christine
+
 ########## Sécurité (nécessite mod_headers) ##########
 <IfModule mod_headers.c>
   # HSTS (1 an) — attention: inclut les sous-domaines
