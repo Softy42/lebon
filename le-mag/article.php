@@ -45,7 +45,7 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= blog_h($post['seo_title'] ?: ($post['title'] . ' | Le Mag Maison Mélina')) ?></title>
   <meta name="description" content="<?= blog_h($post['seo_description'] ?: $post['excerpt']) ?>">
-  <link rel="canonical" href="https://www.maison-melina.fr/le-mag/article.php?slug=<?= blog_h($post['slug']) ?>">
+  <link rel="canonical" href="<?= blog_h(blog_canonical_url('/le-mag/article.php', ['slug' => (string) $post['slug']])) ?>">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
