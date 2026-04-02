@@ -6,6 +6,30 @@ function blog_h(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
+function blog_current_origin(): string
+{
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (($_SERVER['SERVER_PORT'] ?? null) == 443)
+        || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+
+    $scheme = $isHttps ? 'https' : 'http';
+    $host = (string) ($_SERVER['HTTP_HOST'] ?? 'www.maison-melina.fr');
+
+    return sprintf('%s://%s', $scheme, $host);
+}
+
+function blog_canonical_url(string $path, array $query = []): string
+{
+    $path = '/' . ltrim($path, '/');
+    $url = blog_current_origin() . $path;
+
+    if ($query !== []) {
+        $url .= '?' . http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+    }
+
+    return $url;
+}
+
 function blog_slugify(string $text): string
 {
     $text = trim(mb_strtolower($text));

@@ -53,6 +53,13 @@ if (!$isBcrypt && !$isArgon) {
 }
 
 return [
+    'db' => [
+        'host' => $dbHost,
+        'port' => $dbPort,
+        'name' => $dbName,
+        'user' => $dbUser,
+        'password' => $dbPass,
+        'charset' => $dbCharset,
     ],
     'admin' => [
         'username' => $adminUsername,

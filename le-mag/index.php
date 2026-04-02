@@ -55,7 +55,7 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Le Mag Maison Mélina</title>
   <meta name="description" content="Conseils, repères et témoignages pour accompagner vos proches en colocation senior.">
-  <link rel="canonical" href="https://www.maison-melina.fr/le-mag/">
+  <link rel="canonical" href="<?= blog_h(blog_canonical_url('/le-mag/')) ?>">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

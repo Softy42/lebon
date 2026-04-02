@@ -173,6 +173,8 @@ Redirect gone /maison-partagee-a-belley
 
 # 2) Migration slugs (numériques -> sémantiques) en un seul saut vers WWW + HTTPS
 RewriteEngine On
+RewriteCond %{HTTP_HOST} ^preprod-melina\.maison-melina\.fr(:[0-9]+)?$ [NC]
+RewriteRule ^ - [L]
 RewriteRule ^nos-maisons/1/?$ https://www.maison-melina.fr/nos-maisons/feurs/ [R=301,L]
 RewriteRule ^nos-maisons/2/?$ https://www.maison-melina.fr/nos-maisons/saint-chamond/ [R=301,L]
 RewriteRule ^nos-maisons/3/?$ https://www.maison-melina.fr/nos-maisons/saint-didier-en-velay/ [R=301,L]
@@ -180,9 +182,8 @@ RewriteRule ^nos-maisons/4/?$ https://www.maison-melina.fr/nos-maisons/saint-jus
 RewriteRule ^nos-maisons/5/?$ https://www.maison-melina.fr/nos-maisons/chateauroux/ [R=301,L]
 
 # 2) Canonicalisation globale (HTTPS + WWW) — pour TOUT le reste
-#    Une règle combinée pour éviter les doubles sauts inutiles
 RewriteCond %{HTTPS} !=on [OR]
-RewriteCond %{HTTP_HOST} !^www\.maison-melina\.fr$ [NC]
+RewriteCond %{HTTP_HOST} !^www\.maison-melina\.fr(:[0-9]+)?$ [NC]
 RewriteRule ^ https://www.maison-melina.fr%{REQUEST_URI} [L,R=301]
 
 #############################################
