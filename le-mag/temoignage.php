@@ -17,7 +17,7 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Témoignage | Le Mag Maison Mélina</title>
   <meta name="description" content="Découvrez les témoignages de familles autour des maisons partagées Maison Mélina.">
-  <link rel="canonical" href="https://www.maison-melina.fr/le-mag/temoignage.php">
+  <link rel="canonical" href="<?= blog_h(blog_canonical_url('/le-mag/temoignage.php')) ?>">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
