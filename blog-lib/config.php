@@ -53,8 +53,6 @@ if (!$isBcrypt && !$isArgon) {
 }
 
 return [
-    'app_env' => $appEnv,
-    'is_production' => $isProduction,
     'db' => [
         'host' => $dbHost,
         'port' => $dbPort,
