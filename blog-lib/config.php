@@ -27,7 +27,7 @@ $dbPass = (string) $env('BLOG_DB_PASS');
 $dbCharset = (string) $env('BLOG_DB_CHARSET', 'utf8mb4');
 
 if ($dbName === '' || $dbUser === '' || $dbPass === '') {
-    throw new RuntimeException('Configuration invalide: BLOG_DB_NAME, BLOG_DB_USER et BLOG_DB_PASS sont obligatoires (variables d\'environnement/.htaccess SetEnv).');
+    throw new RuntimeException('Configuration invalide: BLOG_DB_NAME, BLOG_DB_USER et BLOG_DB_PASS sont obligatoires.');
 }
 
 if ($isProduction && strtolower($dbUser) === 'root') {
@@ -38,7 +38,7 @@ $adminUsername = (string) $env('BLOG_ADMIN_USER');
 $adminPasswordHash = (string) $env('BLOG_ADMIN_PASSWORD_HASH');
 
 if ($adminUsername === '' || $adminPasswordHash === '') {
-    throw new RuntimeException('Configuration invalide: BLOG_ADMIN_USER et BLOG_ADMIN_PASSWORD_HASH sont obligatoires (variables d\'environnement/.htaccess SetEnv).');
+    throw new RuntimeException('Configuration invalide: BLOG_ADMIN_USER et BLOG_ADMIN_PASSWORD_HASH sont obligatoires.');
 }
 
 if ($isProduction && in_array(strtolower($adminUsername), ['admin', 'administrator'], true)) {
