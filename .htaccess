@@ -8,10 +8,10 @@ SetEnv BLOG_DB_HOST db5010329327.hosting-data.io
 SetEnv BLOG_DB_PORT 3306
 SetEnv BLOG_DB_NAME dbs8753726
 SetEnv BLOG_DB_USER dbu1316787
-SetEnv BLOG_DB_PASS "@MaisonMelinaThierryAurelien@42"
+SetEnv BLOG_DB_PASS @MaisonMelinaThierryAurelien@42
 SetEnv BLOG_DB_CHARSET utf8mb4
 SetEnv BLOG_ADMIN_USER mm_backoffice_2026
-SetEnv BLOG_ADMIN_PASSWORD_HASH "$2y$12$W652XRvNHxH12Dgz5E5tBe5FZa7F/W/Tcr/etQQAP4FlpsfzCs3X6"
+SetEnv BLOG_ADMIN_PASSWORD_HASH $2y$12$W652XRvNHxH12Dgz5E5tBe5FZa7F/W/Tcr/etQQAP4FlpsfzCs3X6
 SetEnv BLOG_CONTACT_URL https://preprod-melina.maison-melina.fr/contact
 SetEnv BLOG_AUTHORS Thierry,Christine
 
