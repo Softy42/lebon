@@ -337,8 +337,30 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
             }
             $saved = true;
         } catch (PDOException $e) {
-            if (($e->getCode() === '23000') && str_contains(strtolower($e->getMessage()), 'slug')) {
+            $sqlState = (string) $e->getCode();
+            $errorMessage = strtolower($e->getMessage());
+
+            if (($sqlState === '23000') && str_contains($errorMessage, 'slug')) {
                 $error = 'Ce slug est déjà utilisé. Merci de choisir un slug unique.';
+            } elseif (($sqlState === '23000') && (str_contains($errorMessage, 'fk_blog_posts_category') || str_contains($errorMessage, 'category_id') || str_contains($errorMessage, 'foreign key'))) {
+                $error = 'Catégorie invalide ou supprimée. Merci de choisir une catégorie existante.';
+            } elseif ($sqlState === '22001' || str_contains($errorMessage, 'data too long')) {
+                $fieldLabel = 'Un champ texte';
+                if (preg_match("/for column '([^']+)'/i", $e->getMessage(), $matches) === 1) {
+                    $column = strtolower((string)($matches[1] ?? ''));
+                    $fieldMap = [
+                        'title' => 'Titre',
+                        'slug' => 'Slug URL',
+                        'author_name' => 'Auteur',
+                        'seo_title' => 'Titre SEO',
+                        'testimonial_image_alt' => 'Texte alternatif de l’image',
+                        'testimonial_image_path' => 'Nom de fichier image',
+                    ];
+                    if (isset($fieldMap[$column])) {
+                        $fieldLabel = $fieldMap[$column];
+                    }
+                }
+                $error = $fieldLabel . ' est trop long. Merci de raccourcir puis réessayer.';
             } else {
                 $error = 'Erreur lors de l’enregistrement de l’article. Merci de réessayer.';
             }
