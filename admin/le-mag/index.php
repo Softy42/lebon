@@ -158,14 +158,15 @@ if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'save_t
         'person_role' => trim((string)($_POST['person_role'] ?? '')),
         'area_label' => trim((string)($_POST['area_label'] ?? '')),
         'status' => ($_POST['status'] ?? 'draft') === 'published' ? 'published' : 'draft',
+        'status_publish' => ($_POST['status'] ?? 'draft') === 'published' ? 'published' : 'draft',
         'consent_publication' => isset($_POST['consent_publication']) ? 1 : 0,
     ];
 
     if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE blog_testimonials SET quote_text=:quote_text, person_name=:person_name, person_role=:person_role, area_label=:area_label, status=:status, consent_publication=:consent_publication, published_at=IF(:status='published', NOW(), published_at), updated_at=NOW() WHERE id=:id");
+        $stmt = $pdo->prepare("UPDATE blog_testimonials SET quote_text=:quote_text, person_name=:person_name, person_role=:person_role, area_label=:area_label, status=:status, consent_publication=:consent_publication, published_at=IF(:status_publish='published', NOW(), published_at), updated_at=NOW() WHERE id=:id");
         $stmt->execute($data + ['id' => $id]);
     } else {
-        $stmt = $pdo->prepare("INSERT INTO blog_testimonials (quote_text, person_name, person_role, area_label, status, consent_publication, published_at, created_at, updated_at) VALUES (:quote_text,:person_name,:person_role,:area_label,:status,:consent_publication,IF(:status='published',NOW(),NULL),NOW(),NOW())");
+        $stmt = $pdo->prepare("INSERT INTO blog_testimonials (quote_text, person_name, person_role, area_label, status, consent_publication, published_at, created_at, updated_at) VALUES (:quote_text,:person_name,:person_role,:area_label,:status,:consent_publication,IF(:status_publish='published',NOW(),NULL),NOW(),NOW())");
         $stmt->execute($data);
     }
     $success = 'Témoignage enregistré.';
@@ -317,6 +318,7 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
             'content_html' => $content,
             'category_id' => $categoryId,
             'status' => $status,
+            'status_publish' => $status,
             'author_name' => $author,
             'seo_title' => $seoTitle,
             'seo_description' => $seoDescription,
@@ -328,10 +330,10 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
         $saved = false;
         try {
             if ($id > 0) {
-                $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, testimonial_image_path=:testimonial_image_path, testimonial_image_alt=:testimonial_image_alt, published_at=IF(:status='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
+                $stmt = $pdo->prepare("UPDATE blog_posts SET title=:title, slug=:slug, excerpt=:excerpt, content_html=:content_html, category_id=:category_id, status=:status, author_name=:author_name, seo_title=:seo_title, seo_description=:seo_description, cta_variant=:cta_variant, testimonial_image_path=:testimonial_image_path, testimonial_image_alt=:testimonial_image_alt, published_at=IF(:status_publish='published' AND published_at IS NULL, NOW(), published_at), updated_at=NOW() WHERE id=:id");
                 $stmt->execute($payload + ['id' => $id]);
             } else {
-                $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, testimonial_image_path, testimonial_image_alt, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,:testimonial_image_path,:testimonial_image_alt,IF(:status='published',NOW(),NULL),NOW(),NOW())");
+                $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, excerpt, content_html, category_id, status, author_name, seo_title, seo_description, cta_variant, testimonial_image_path, testimonial_image_alt, published_at, created_at, updated_at) VALUES (:title,:slug,:excerpt,:content_html,:category_id,:status,:author_name,:seo_title,:seo_description,:cta_variant,:testimonial_image_path,:testimonial_image_alt,IF(:status_publish='published',NOW(),NULL),NOW(),NOW())");
                 $stmt->execute($payload);
                 $id = (int)$pdo->lastInsertId();
             }
