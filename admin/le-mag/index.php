@@ -428,6 +428,10 @@ if (isset($_GET['edit_post'])) {
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .helper{font-size:.85rem;color:#6b7280}
     .meta{font-size:.86rem;color:#6b7280}
+    .form-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
+    .form-section + .form-section{margin-top:.5rem}
+    .form-section h3{margin:0 0 .75rem 0;font-size:1.02rem;color:#1f2937}
+    .form-footer{margin-top:.6rem}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
@@ -493,86 +497,97 @@ if (isset($_GET['edit_post'])) {
           <input type="hidden" name="action" value="save_post">
           <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
           <input type="hidden" name="post_id" value="<?= (int)($editPost['id'] ?? 0) ?>">
-          <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
-          <label>Slug URL</label><input name="slug" value="<?= blog_h((string)($editPost['slug'] ?? '')) ?>">
-          <label>Extrait</label><textarea name="excerpt" rows="2" required><?= blog_h((string)($editPost['excerpt'] ?? '')) ?></textarea>
-          <label>Catégorie</label>
-          <select name="category_id" required>
-            <?php foreach ($categories as $c): ?>
-              <option value="<?= blog_h($c['id']) ?>" <?= (($editPost['category_id'] ?? '') === $c['id']) ? 'selected' : '' ?>><?= blog_h($c['name']) ?></option>
-            <?php endforeach; ?>
-          </select>
-          <label>Auteur</label>
-          <select name="author_name" required>
-            <?php foreach ($authors as $author): ?>
-              <option value="<?= blog_h($author) ?>" <?= (($editPost['author_name'] ?? '') === $author) ? 'selected' : '' ?>><?= blog_h($author) ?></option>
-            <?php endforeach; ?>
-          </select>
-          <label>Statut</label>
-          <select name="status"><option value="draft" <?= (($editPost['status'] ?? '') === 'draft') ? 'selected' : '' ?>>Brouillon</option><option value="published" <?= (($editPost['status'] ?? '') === 'published') ? 'selected' : '' ?>>Publié</option></select>
-          <label>Type de CTA</label>
-          <select name="cta_variant"><option value="contact" <?= (($editPost['cta_variant'] ?? '') === 'contact') ? 'selected' : '' ?>>Prendre contact</option><option value="visit" <?= (($editPost['cta_variant'] ?? '') === 'visit') ? 'selected' : '' ?>>Demander une visite</option></select>
-          <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
-          <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
-          <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
-          <p class="helper">Balises autorisées : p, h2, h3, ul, ol, li, strong, em, blockquote, a, br. Pour les liens, seuls les href en https, /chemin ou #ancre sont conservés.</p>
+          <section class="form-section">
+            <h3>1. Création de l’article</h3>
+            <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
+            <label>Slug URL</label><input name="slug" value="<?= blog_h((string)($editPost['slug'] ?? '')) ?>">
+            <label>Extrait</label><textarea name="excerpt" rows="2" required><?= blog_h((string)($editPost['excerpt'] ?? '')) ?></textarea>
+            <label>Catégorie</label>
+            <select name="category_id" required>
+              <?php foreach ($categories as $c): ?>
+                <option value="<?= blog_h($c['id']) ?>" <?= (($editPost['category_id'] ?? '') === $c['id']) ? 'selected' : '' ?>><?= blog_h($c['name']) ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label>Auteur</label>
+            <select name="author_name" required>
+              <?php foreach ($authors as $author): ?>
+                <option value="<?= blog_h($author) ?>" <?= (($editPost['author_name'] ?? '') === $author) ? 'selected' : '' ?>><?= blog_h($author) ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label>Statut</label>
+            <select name="status"><option value="draft" <?= (($editPost['status'] ?? '') === 'draft') ? 'selected' : '' ?>>Brouillon</option><option value="published" <?= (($editPost['status'] ?? '') === 'published') ? 'selected' : '' ?>>Publié</option></select>
+            <label>Type de CTA</label>
+            <select name="cta_variant"><option value="contact" <?= (($editPost['cta_variant'] ?? '') === 'contact') ? 'selected' : '' ?>>Prendre contact</option><option value="visit" <?= (($editPost['cta_variant'] ?? '') === 'visit') ? 'selected' : '' ?>>Demander une visite</option></select>
+            <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
+            <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
+            <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+            <p class="helper">Balises autorisées : p, h2, h3, ul, ol, li, strong, em, blockquote, a, br. Pour les liens, seuls les href en https, /chemin ou #ancre sont conservés.</p>
+          </section>
 
-          <label>Image au-dessus du bloc Témoignage (horizontal)</label>
-          <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
-          <p class="helper">Image horizontale recommandée (ex: 1600x900) pour un rendu optimal. Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Exemple de nom SEO : colocation-senior-salon.webp</p>
-          <?php if (!empty($editPost['testimonial_image_path'])): ?>
-            <img
-              id="testimonial-image-preview"
-              src="<?= blog_h(blog_testimonial_image_url((string)$editPost['testimonial_image_path'])) ?>"
-              alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
-              style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
-            >
-            <label><input type="checkbox" name="remove_testimonial_image" value="1" id="remove-testimonial-image"> Supprimer l'image actuelle</label>
-          <?php else: ?>
-            <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
-          <?php endif; ?>
-
-          <label>Texte alternatif de l’image (obligatoire si image)</label>
-          <input
-            name="testimonial_image_alt"
-            value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
-            placeholder="Ex : Résidents lisant dans le salon de la colocation senior à Lyon"
-          >
-          <p class="helper">Alt descriptif recommandé (10 à 90 caractères), cohérent avec le sujet de l’article. Évitez les formulations génériques comme “photo proposée”.</p>
-
-          <label>Témoignage(s) lié(s)</label>
-          <div class="testi-tools">
-            <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
-            <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
-          </div>
-          <p class="helper">Sélectionnez un ou plusieurs témoignages. Laissez vide si vous ne souhaitez en lier aucun.</p>
-          <div class="testi-selected" id="testimonial-selected"></div>
-          <div class="testi-results" id="testimonial-results">
-            <?php foreach ($testimonials as $t): ?>
-              <div
-                class="testi-row"
-                data-testid="<?= (int)$t['id'] ?>"
-                data-testi-label="<?= blog_h(mb_strtolower((string)$t['person_name'])) ?>"
+          <section class="form-section">
+            <h3>2. Import image</h3>
+            <label>Image au-dessus du bloc Témoignage (horizontal)</label>
+            <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
+            <p class="helper">Image horizontale recommandée (ex: 1600x900) pour un rendu optimal. Formats autorisés : JPG, JPEG, PNG, WEBP. Taille max 5 Mo. Exemple de nom SEO : colocation-senior-salon.webp</p>
+            <?php if (!empty($editPost['testimonial_image_path'])): ?>
+              <img
+                id="testimonial-image-preview"
+                src="<?= blog_h(blog_testimonial_image_url((string)$editPost['testimonial_image_path'])) ?>"
+                alt="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+                style="max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db"
               >
-                <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
-                <button type="button" data-toggle-testimonial="<?= (int)$t['id'] ?>" class="<?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'active' : '' ?>">
-                  <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'Sélectionné' : 'Sélectionner' ?>
-                </button>
-                <input
-                  type="checkbox"
-                  name="testimonial_ids[]"
-                  value="<?= (int)$t['id'] ?>"
-                  class="sr-only testimonial-input"
-                  data-input-testimonial="<?= (int)$t['id'] ?>"
-                  <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
-                >
-              </div>
-            <?php endforeach; ?>
-            <?php if (empty($testimonials)): ?>
-              <p class="helper">Aucun témoignage disponible.</p>
+              <label><input type="checkbox" name="remove_testimonial_image" value="1" id="remove-testimonial-image"> Supprimer l'image actuelle</label>
+            <?php else: ?>
+              <img id="testimonial-image-preview" src="" alt="" style="display:none;max-width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid #d1d5db">
             <?php endif; ?>
+
+            <label>Texte alternatif de l’image (obligatoire si image)</label>
+            <input
+              name="testimonial_image_alt"
+              value="<?= blog_h((string)($editPost['testimonial_image_alt'] ?? '')) ?>"
+              placeholder="Ex : Résidents lisant dans le salon de la colocation senior à Lyon"
+            >
+            <p class="helper">Alt descriptif recommandé (10 à 90 caractères), cohérent avec le sujet de l’article. Évitez les formulations génériques comme “photo proposée”.</p>
+          </section>
+
+          <section class="form-section">
+            <h3>3. Témoignages liés</h3>
+            <div class="testi-tools">
+              <input type="search" id="testimonial-search" class="testi-search" placeholder="Rechercher par nom ou ID...">
+              <button class="btn alt" type="button" id="clear-testimonials">Tout désélectionner</button>
+            </div>
+            <p class="helper">Sélectionnez un ou plusieurs témoignages. Laissez vide si vous ne souhaitez en lier aucun.</p>
+            <div class="testi-selected" id="testimonial-selected"></div>
+            <div class="testi-results" id="testimonial-results">
+              <?php foreach ($testimonials as $t): ?>
+                <div
+                  class="testi-row"
+                  data-testid="<?= (int)$t['id'] ?>"
+                  data-testi-label="<?= blog_h(mb_strtolower((string)$t['person_name'])) ?>"
+                >
+                  <span>#<?= (int)$t['id'] ?> - <?= blog_h($t['person_name']) ?> (<?= blog_h($t['status']) ?>)</span>
+                  <button type="button" data-toggle-testimonial="<?= (int)$t['id'] ?>" class="<?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'active' : '' ?>">
+                    <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'Sélectionné' : 'Sélectionner' ?>
+                  </button>
+                  <input
+                    type="checkbox"
+                    name="testimonial_ids[]"
+                    value="<?= (int)$t['id'] ?>"
+                    class="sr-only testimonial-input"
+                    data-input-testimonial="<?= (int)$t['id'] ?>"
+                    <?= in_array((int)$t['id'], $linkedTestimonials, true) ? 'checked' : '' ?>
+                  >
+                </div>
+              <?php endforeach; ?>
+              <?php if (empty($testimonials)): ?>
+                <p class="helper">Aucun témoignage disponible.</p>
+              <?php endif; ?>
+            </div>
+          </section>
+
+          <div class="form-footer">
+            <button class="btn" type="submit">Enregistrer l'article</button>
           </div>
-          <button class="btn" type="submit">Enregistrer l'article</button>
         </form>
       </section>
     <?php endif; ?>
