@@ -433,6 +433,12 @@ if (isset($_GET['edit_post'])) {
     .form-section h3{margin:0 0 .75rem 0;font-size:1.02rem;color:#fff;background:#b42c2d;border-radius:999px;padding:.45rem .85rem;display:inline-block;transition:background .2s ease,transform .2s ease,box-shadow .2s ease}
     .form-section:hover h3{background:#8f2223;transform:translateY(-1px);box-shadow:0 4px 10px rgba(180,44,45,.2)}
     .form-footer{margin-top:.6rem}
+    .wysiwyg-wrap{border:1px solid #d1d5db;border-radius:10px;overflow:hidden;background:#fff}
+    .wysiwyg-toolbar{display:flex;flex-wrap:wrap;gap:.35rem;padding:.55rem;border-bottom:1px solid #e5e7eb;background:#f9fafb}
+    .wysiwyg-toolbar button{border:1px solid #d1d5db;background:#fff;border-radius:8px;padding:.35rem .55rem;cursor:pointer}
+    .wysiwyg-toolbar button:hover{border-color:#b42c2d;color:#b42c2d}
+    .wysiwyg-editor{min-height:220px;padding:.7rem;line-height:1.7;outline:none}
+    .wysiwyg-editor:empty:before{content:attr(data-placeholder);color:#9ca3af}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
@@ -521,7 +527,23 @@ if (isset($_GET['edit_post'])) {
             <select name="cta_variant"><option value="contact" <?= (($editPost['cta_variant'] ?? '') === 'contact') ? 'selected' : '' ?>>Prendre contact</option><option value="visit" <?= (($editPost['cta_variant'] ?? '') === 'visit') ? 'selected' : '' ?>>Demander une visite</option></select>
             <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
             <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
-            <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+            <label>Contenu de l'article</label>
+            <div class="wysiwyg-wrap">
+              <div class="wysiwyg-toolbar" id="content-editor-toolbar">
+                <button type="button" data-editor-cmd="formatBlock" data-editor-value="P">Paragraphe</button>
+                <button type="button" data-editor-cmd="formatBlock" data-editor-value="H2">H2</button>
+                <button type="button" data-editor-cmd="formatBlock" data-editor-value="H3">H3</button>
+                <button type="button" data-editor-cmd="bold"><strong>Gras</strong></button>
+                <button type="button" data-editor-cmd="italic"><em>Italique</em></button>
+                <button type="button" data-editor-cmd="insertUnorderedList">Liste •</button>
+                <button type="button" data-editor-cmd="insertOrderedList">Liste 1.</button>
+                <button type="button" data-editor-cmd="formatBlock" data-editor-value="BLOCKQUOTE">Citation</button>
+                <button type="button" data-editor-cmd="createLink">Lien</button>
+                <button type="button" data-editor-cmd="unlink">Retirer lien</button>
+              </div>
+              <div id="content-editor" class="wysiwyg-editor" contenteditable="true" data-placeholder="Rédigez votre article ici..."></div>
+            </div>
+            <textarea name="content_html" id="content-html-input" rows="10" required class="sr-only"><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
             <p class="helper">Balises autorisées : p, h2, h3, ul, ol, li, strong, em, blockquote, a, br. Pour les liens, seuls les href en https, /chemin ou #ancre sont conservés.</p>
           </section>
 
@@ -661,6 +683,58 @@ if (isset($_GET['edit_post'])) {
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    var contentInput = document.getElementById('content-html-input');
+    var contentEditor = document.getElementById('content-editor');
+    var contentToolbar = document.getElementById('content-editor-toolbar');
+    var postForm = contentInput ? contentInput.closest('form') : null;
+
+    function isAllowedEditorHref(href) {
+      if (!href) return false;
+      var value = href.trim();
+      if (!value) return false;
+      if (value.indexOf('/') === 0 || value.indexOf('#') === 0) return true;
+      return /^https:\/\/\S+$/i.test(value);
+    }
+
+    if (contentInput && contentEditor) {
+      contentEditor.innerHTML = contentInput.value || '';
+      if ((contentEditor.textContent || '').trim() === '' && contentEditor.innerHTML.trim() === '') {
+        contentEditor.innerHTML = '<p></p>';
+      }
+
+      contentToolbar?.addEventListener('click', function (event) {
+        var target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        var button = target.closest('button[data-editor-cmd]');
+        if (!(button instanceof HTMLButtonElement)) return;
+
+        var cmd = button.getAttribute('data-editor-cmd');
+        if (!cmd) return;
+
+        contentEditor.focus();
+
+        if (cmd === 'createLink') {
+          var href = window.prompt('Entrez une URL (https://...), /chemin ou #ancre :', 'https://');
+          if (!href) return;
+          if (!isAllowedEditorHref(href)) {
+            window.alert('Lien refusé : utilisez https://..., /chemin ou #ancre.');
+            return;
+          }
+          document.execCommand('createLink', false, href.trim());
+          return;
+        }
+
+        var value = button.getAttribute('data-editor-value');
+        document.execCommand(cmd, false, value || null);
+      });
+
+      if (postForm) {
+        postForm.addEventListener('submit', function () {
+          contentInput.value = (contentEditor.innerHTML || '').trim();
+        });
+      }
+    }
+
     var clearButton = document.getElementById('clear-testimonials');
     var imageInput = document.getElementById('testimonial-image-input');
     var imagePreview = document.getElementById('testimonial-image-preview');
