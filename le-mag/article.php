@@ -37,6 +37,7 @@ try {
 }
 
 $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
+$safeContentHtml = blog_sanitize_content_html((string) ($post['content_html'] ?? ''));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -117,7 +118,7 @@ $cta = blog_cta_data($post['cta_variant'] ?? 'contact');
     <p><?= blog_h($post['category_name']) ?></p>
     <h1><?= blog_h($post['title']) ?></h1>
     <p class="meta"><?= blog_h(date('d/m/Y', strtotime((string)$post['published_at']))) ?> · <?= blog_h($post['author_name']) ?></p>
-    <div class="content"><?= $post['content_html'] ?></div>
+    <div class="content"><?= $safeContentHtml ?></div>
   </article>
 
   <?php if (!empty($post['testimonial_image_path'])): ?>
