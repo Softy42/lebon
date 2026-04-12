@@ -74,6 +74,7 @@ $config = blog_config();
 $authors = $config['authors'];
 $error = '';
 $success = '';
+$editorNotice = '';
 $editPost = null;
 $linkedTestimonials = [];
 $allowedTabs = ['articles', 'create-post', 'create-testimonial', 'create-category'];
@@ -207,6 +208,8 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
     $slug = blog_slugify((string)($_POST['slug'] ?? $title));
     $excerpt = trim((string)($_POST['excerpt'] ?? ''));
     $content = (string)($_POST['content_html'] ?? '');
+    $contentWasSanitized = false;
+    $content = blog_sanitize_content_html($content, $contentWasSanitized);
     $categoryId = trim((string)($_POST['category_id'] ?? ''));
     $status = ($_POST['status'] ?? 'draft') === 'published' ? 'published' : 'draft';
     $author = in_array($_POST['author_name'] ?? '', $authors, true) ? $_POST['author_name'] : $authors[0];
@@ -357,6 +360,9 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
             }
 
             $success = 'Article enregistré.';
+            if ($contentWasSanitized) {
+                $editorNotice = 'Certaines balises ou attributs ont été supprimés pour des raisons de sécurité.';
+            }
         } else {
             $editPost = $editPost ?? [];
             $editPost['id'] = $id;
@@ -439,6 +445,7 @@ if (isset($_GET['edit_post'])) {
   </header>
 
   <?php if ($success): ?><p style="color:#166534"><?= blog_h($success) ?></p><?php endif; ?>
+  <?php if ($editorNotice): ?><p style="color:#1d4ed8"><?= blog_h($editorNotice) ?></p><?php endif; ?>
   <?php if ($error): ?><p style="color:#b91c1c"><?= blog_h($error) ?></p><?php endif; ?>
 
   <nav class="tabs" aria-label="Navigation du back-office Le Mag">
@@ -508,6 +515,7 @@ if (isset($_GET['edit_post'])) {
           <label>Titre SEO</label><input name="seo_title" value="<?= blog_h((string)($editPost['seo_title'] ?? '')) ?>">
           <label>Meta description</label><textarea name="seo_description" rows="2"><?= blog_h((string)($editPost['seo_description'] ?? '')) ?></textarea>
           <label>Contenu de l'article (HTML simple)</label><textarea name="content_html" rows="10" required><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+          <p class="helper">Balises autorisées : p, h2, h3, ul, ol, li, strong, em, blockquote, a, br. Pour les liens, seuls les href en https, /chemin ou #ancre sont conservés.</p>
 
           <label>Image au-dessus du bloc Témoignage (horizontal)</label>
           <input type="file" name="testimonial_image" accept=".jpg,.jpeg,.png,.webp" id="testimonial-image-input">
