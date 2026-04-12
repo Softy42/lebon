@@ -82,6 +82,20 @@ if (!in_array($activeTab, $allowedTabs, true)) {
     $activeTab = 'articles';
 }
 
+if (!empty($_SESSION['melina_logout_error'])) {
+    $error = (string) $_SESSION['melina_logout_error'];
+    unset($_SESSION['melina_logout_error']);
+}
+
+$csrfRequestValid = true;
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    $csrfAction = (string) ($_POST['action'] ?? 'unknown');
+    $csrfRequestValid = blog_csrf_validate_request($csrfAction);
+    if (!$csrfRequestValid) {
+        $error = BLOG_CSRF_ERROR_MESSAGE;
+    }
+}
+
 try {
     $pdo = blog_pdo();
 } catch (Throwable $e) {
@@ -101,7 +115,7 @@ try {
     exit;
 }
 
-if (isset($_POST['action']) && $_POST['action'] === 'login') {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'login') {
     $username = trim((string)($_POST['username'] ?? ''));
     $password = (string)($_POST['password'] ?? '');
     if (!blog_try_login($username, $password)) {
@@ -117,12 +131,12 @@ if (!blog_is_admin()) {
     <!DOCTYPE html>
     <html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Connexion Le Mag</title>
       <style>body{font-family:Arial;background:#f8fafc;padding:1rem}.box{max-width:420px;margin:2rem auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}input{width:100%;padding:.6rem;margin:.4rem 0;border:1px solid #d1d5db;border-radius:8px}.btn{background:#b42c2d;color:#fff;border:0;padding:.6rem .9rem;border-radius:999px;cursor:pointer}</style>
-    </head><body><main class="box"><h1>Admin Le Mag</h1><?php if ($error): ?><p style="color:#b91c1c"><?= blog_h($error) ?></p><?php endif; ?><form method="post"><input type="hidden" name="action" value="login"><label>Identifiant</label><input name="username" required><label>Mot de passe</label><input name="password" type="password" required><p><button class="btn" type="submit">Se connecter</button></p></form></main></body></html>
+    </head><body><main class="box"><h1>Admin Le Mag</h1><?php if ($error): ?><p style="color:#b91c1c"><?= blog_h($error) ?></p><?php endif; ?><form method="post"><input type="hidden" name="action" value="login"><input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>"><label>Identifiant</label><input name="username" required><label>Mot de passe</label><input name="password" type="password" required><p><button class="btn" type="submit">Se connecter</button></p></form></main></body></html>
     <?php
     exit;
 }
 
-if (isset($_POST['action']) && $_POST['action'] === 'save_category') {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'save_category') {
     $activeTab = 'create-category';
     $id = blog_slugify((string)($_POST['id'] ?? ''));
     $name = trim((string)($_POST['name'] ?? ''));
@@ -134,7 +148,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_category') {
     }
 }
 
-if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
     $activeTab = 'create-testimonial';
     $id = (int)($_POST['testimonial_id'] ?? 0);
     $data = [
@@ -156,9 +170,9 @@ if (isset($_POST['action']) && $_POST['action'] === 'save_testimonial') {
     $success = 'Témoignage enregistré.';
 }
 
-if (isset($_GET['delete_post'])) {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'delete_post') {
     $activeTab = 'articles';
-    $id = (int)$_GET['delete_post'];
+    $id = (int)($_POST['delete_post'] ?? 0);
     $postStmt = $pdo->prepare('SELECT testimonial_image_path FROM blog_posts WHERE id=:id LIMIT 1');
     $postStmt->execute(['id' => $id]);
     $postToDelete = $postStmt->fetch();
@@ -168,9 +182,9 @@ if (isset($_GET['delete_post'])) {
     $success = 'Article supprimé.';
 }
 
-if (isset($_GET['delete_testimonial'])) {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'delete_testimonial') {
     $activeTab = 'create-testimonial';
-    $id = (int)$_GET['delete_testimonial'];
+    $id = (int)($_POST['delete_testimonial'] ?? 0);
     $pdo->prepare('DELETE FROM blog_post_testimonials WHERE testimonial_id=:id')->execute(['id' => $id]);
     $pdo->prepare('DELETE FROM blog_testimonials WHERE id=:id')->execute(['id' => $id]);
     $success = 'Témoignage supprimé.';
@@ -179,14 +193,14 @@ if (isset($_GET['delete_testimonial'])) {
 $categories = blog_fetch_categories();
 $categoryIds = array_column($categories, 'id');
 
-if (isset($_POST['action']) && $_POST['action'] === 'save_post') {
+if ($csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'save_post') {
     $categoryId = trim((string)($_POST['category_id'] ?? ''));
     if (!in_array($categoryId, $categoryIds, true)) {
         $error = 'Catégorie invalide : veuillez choisir une catégorie disponible.';
     }
 }
 
-if ($error === '' && isset($_POST['action']) && $_POST['action'] === 'save_post') {
+if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['action'] === 'save_post') {
     $activeTab = 'create-post';
     $id = (int)($_POST['post_id'] ?? 0);
     $title = trim((string)($_POST['title'] ?? ''));
@@ -394,6 +408,7 @@ if (isset($_GET['edit_post'])) {
     table{width:100%;border-collapse:collapse}th,td{padding:.5rem;border-bottom:1px solid #e5e7eb;text-align:left;font-size:.92rem}
     .btn{background:#b42c2d;color:#fff;text-decoration:none;border:0;border-radius:999px;padding:.5rem .9rem;cursor:pointer;display:inline-block}
     .btn.alt{background:#fff;color:#b42c2d;border:1px solid #b42c2d}
+    .btn.linklike{background:none;border:0;color:#0f766e;padding:0;font:inherit;cursor:pointer;text-decoration:underline}
     .testi-tools{display:flex;gap:.55rem;align-items:center}
     .testi-search{flex:1}
     .testi-results{border:1px solid #d1d5db;border-radius:8px;max-height:180px;overflow:auto;background:#fff}
@@ -416,7 +431,10 @@ if (isset($_GET['edit_post'])) {
     <div><h1>Back-office Le Mag</h1><p class="meta">Articles, catégories et témoignages.</p></div>
     <div>
       <a class="btn alt" href="/le-mag/" target="_blank" rel="noopener">Voir Le Mag</a>
-      <a class="btn" href="/admin/le-mag/logout.php">Se déconnecter</a>
+      <form method="post" action="/admin/le-mag/logout.php" style="display:inline">
+        <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
+        <button class="btn" type="submit" onclick="return confirm('Voulez-vous vous déconnecter ?')">Se déconnecter</button>
+      </form>
     </div>
   </header>
 
@@ -445,7 +463,13 @@ if (isset($_GET['edit_post'])) {
               <td><?= blog_h($p['author_name']) ?></td>
               <td>
                 <a href="?tab=create-post&edit_post=<?= (int)$p['id'] ?>">Modifier</a> |
-                <a href="?tab=articles&delete_post=<?= (int)$p['id'] ?>" onclick="return confirm('Supprimer cet article ?')">Supprimer</a>
+                <form method="post" style="display:inline">
+                  <input type="hidden" name="tab" value="articles">
+                  <input type="hidden" name="action" value="delete_post">
+                  <input type="hidden" name="delete_post" value="<?= (int)$p['id'] ?>">
+                  <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
+                  <button class="btn linklike" type="submit" onclick="return confirm('Supprimer cet article ?')">Supprimer</button>
+                </form>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -460,6 +484,7 @@ if (isset($_GET['edit_post'])) {
         <form method="post" class="stack" enctype="multipart/form-data">
           <input type="hidden" name="tab" value="create-post">
           <input type="hidden" name="action" value="save_post">
+          <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
           <input type="hidden" name="post_id" value="<?= (int)($editPost['id'] ?? 0) ?>">
           <label>Titre</label><input name="title" required value="<?= blog_h((string)($editPost['title'] ?? '')) ?>">
           <label>Slug URL</label><input name="slug" value="<?= blog_h((string)($editPost['slug'] ?? '')) ?>">
@@ -550,6 +575,7 @@ if (isset($_GET['edit_post'])) {
         <form method="post" class="stack">
           <input type="hidden" name="tab" value="create-testimonial">
           <input type="hidden" name="action" value="save_testimonial">
+          <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
           <input type="hidden" name="testimonial_id" value="0">
           <label>Texte du témoignage</label><textarea name="quote_text" rows="4" required></textarea>
           <label>Nom affiché (anonyme ou prénom)</label><input name="person_name" required>
@@ -564,7 +590,20 @@ if (isset($_GET['edit_post'])) {
           <thead><tr><th>Nom</th><th>Statut</th><th>Autorisation</th><th></th></tr></thead>
           <tbody>
             <?php foreach ($testimonials as $t): ?>
-              <tr><td><?= blog_h($t['person_name']) ?></td><td><?= blog_h($t['status']) ?></td><td><?= (int)$t['consent_publication'] === 1 ? 'Oui' : 'Non' ?></td><td><a href="?tab=create-testimonial&delete_testimonial=<?= (int)$t['id'] ?>" onclick="return confirm('Supprimer ce témoignage ?')">Supprimer</a></td></tr>
+              <tr>
+                <td><?= blog_h($t['person_name']) ?></td>
+                <td><?= blog_h($t['status']) ?></td>
+                <td><?= (int)$t['consent_publication'] === 1 ? 'Oui' : 'Non' ?></td>
+                <td>
+                  <form method="post" style="display:inline">
+                    <input type="hidden" name="tab" value="create-testimonial">
+                    <input type="hidden" name="action" value="delete_testimonial">
+                    <input type="hidden" name="delete_testimonial" value="<?= (int)$t['id'] ?>">
+                    <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
+                    <button class="btn linklike" type="submit" onclick="return confirm('Supprimer ce témoignage ?')">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
@@ -577,6 +616,7 @@ if (isset($_GET['edit_post'])) {
         <form method="post" class="stack">
           <input type="hidden" name="tab" value="create-category">
           <input type="hidden" name="action" value="save_category">
+          <input type="hidden" name="csrf_token" value="<?= blog_h(blog_csrf_token()) ?>">
           <label>ID (slug)</label><input name="id" required placeholder="conseils-aux-familles">
           <label>Nom</label><input name="name" required>
           <label>Description</label><textarea name="description" rows="2"></textarea>
