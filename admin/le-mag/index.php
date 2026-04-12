@@ -430,7 +430,8 @@ if (isset($_GET['edit_post'])) {
     .meta{font-size:.86rem;color:#6b7280}
     .form-section{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:1rem}
     .form-section + .form-section{margin-top:.5rem}
-    .form-section h3{margin:0 0 .75rem 0;font-size:1.02rem;color:#1f2937}
+    .form-section h3{margin:0 0 .75rem 0;font-size:1.02rem;color:#fff;background:#b42c2d;border-radius:999px;padding:.45rem .85rem;display:inline-block;transition:background .2s ease,transform .2s ease,box-shadow .2s ease}
+    .form-section:hover h3{background:#8f2223;transform:translateY(-1px);box-shadow:0 4px 10px rgba(180,44,45,.2)}
     .form-footer{margin-top:.6rem}
     @media (max-width: 980px){.grid{grid-template-columns:1fr}}
   </style>
