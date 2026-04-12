@@ -6,6 +6,10 @@ require_once __DIR__ . '/db.php';
 
 const BLOG_ADMIN_SESSION_KEY = 'melina_admin';
 const BLOG_SESSION_NAME = 'melina_admin_session';
+const BLOG_CSRF_TOKEN_KEY = 'blog_csrf_token';
+const BLOG_CSRF_ISSUED_AT_KEY = 'blog_csrf_issued_at';
+const BLOG_CSRF_TTL_SECONDS = 7200;
+const BLOG_CSRF_ERROR_MESSAGE = 'Session expirée, merci de recharger la page.';
 
 function blog_start_session(): void
 {
@@ -88,4 +92,59 @@ function blog_logout(): void
     }
 
     session_destroy();
+}
+
+function blog_log_security_event(string $event, array $context = []): void
+{
+    $logDir = dirname(__DIR__) . '/logs';
+    if (!is_dir($logDir)) {
+        @mkdir($logDir, 0775, true);
+    }
+
+    $logFile = $logDir . '/security.log';
+    $payload = [
+        'time' => gmdate('c'),
+        'event' => $event,
+        'ip' => (string) ($_SERVER['REMOTE_ADDR'] ?? ''),
+        'ua' => (string) ($_SERVER['HTTP_USER_AGENT'] ?? ''),
+        'context' => $context,
+    ];
+
+    @file_put_contents($logFile, json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
+function blog_csrf_token(): string
+{
+    blog_start_session();
+
+    $token = (string) ($_SESSION[BLOG_CSRF_TOKEN_KEY] ?? '');
+    $issuedAt = (int) ($_SESSION[BLOG_CSRF_ISSUED_AT_KEY] ?? 0);
+    $isExpired = $issuedAt <= 0 || (time() - $issuedAt) >= BLOG_CSRF_TTL_SECONDS;
+
+    if ($token === '' || $isExpired) {
+        $token = bin2hex(random_bytes(32));
+        $_SESSION[BLOG_CSRF_TOKEN_KEY] = $token;
+        $_SESSION[BLOG_CSRF_ISSUED_AT_KEY] = time();
+    }
+
+    return $token;
+}
+
+function blog_csrf_validate_request(string $action): bool
+{
+    blog_start_session();
+    blog_csrf_token();
+
+    $candidate = (string) ($_POST['csrf_token'] ?? '');
+    $sessionToken = (string) ($_SESSION[BLOG_CSRF_TOKEN_KEY] ?? '');
+    if ($candidate === '' || $sessionToken === '' || !hash_equals($sessionToken, $candidate)) {
+        blog_log_security_event('csrf_validation_failed', [
+            'action' => $action,
+            'method' => (string) ($_SERVER['REQUEST_METHOD'] ?? ''),
+            'uri' => (string) ($_SERVER['REQUEST_URI'] ?? ''),
+        ]);
+        return false;
+    }
+
+    return true;
 }
