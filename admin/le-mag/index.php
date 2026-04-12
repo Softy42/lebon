@@ -543,7 +543,7 @@ if (isset($_GET['edit_post'])) {
               </div>
               <div id="content-editor" class="wysiwyg-editor" contenteditable="true" data-placeholder="Rédigez votre article ici..."></div>
             </div>
-            <textarea name="content_html" id="content-html-input" rows="10" required class="sr-only"><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
+            <textarea name="content_html" id="content-html-input" rows="10" class="sr-only"><?= blog_h((string)($editPost['content_html'] ?? '')) ?></textarea>
             <p class="helper">Balises autorisées : p, h2, h3, ul, ol, li, strong, em, blockquote, a, br. Pour les liens, seuls les href en https, /chemin ou #ancre sont conservés.</p>
           </section>
 
@@ -729,8 +729,14 @@ if (isset($_GET['edit_post'])) {
       });
 
       if (postForm) {
-        postForm.addEventListener('submit', function () {
+        postForm.addEventListener('submit', function (event) {
           contentInput.value = (contentEditor.innerHTML || '').trim();
+          var editorText = (contentEditor.textContent || '').replace(/\u00A0/g, ' ').trim();
+          if (!editorText) {
+            event.preventDefault();
+            window.alert('Veuillez remplir le contenu de l’article.');
+            contentEditor.focus();
+          }
         });
       }
     }
