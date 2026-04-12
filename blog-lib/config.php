@@ -1,6 +1,12 @@
 <?php
 
 declare(strict_types=1);
+$localConfigFile = __DIR__ . '/config.local.php';
+if (is_file($localConfigFile)) {
+    /** @var array $config */
+    $config = require $localConfigFile;
+    return $config;
+}
 
 $env = static function (string $key, ?string $default = null): ?string {
     $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
