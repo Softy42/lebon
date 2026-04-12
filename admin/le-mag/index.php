@@ -339,6 +339,14 @@ if ($error === '' && $csrfRequestValid && isset($_POST['action']) && $_POST['act
         } catch (PDOException $e) {
             $sqlState = (string) $e->getCode();
             $errorMessage = strtolower($e->getMessage());
+            blog_log_security_event('blog_post_save_failed', [
+                'action' => $id > 0 ? 'update_post' : 'insert_post',
+                'post_id' => $id > 0 ? $id : null,
+                'sqlstate' => $sqlState,
+                'error_message' => $e->getMessage(),
+                'slug' => $slug,
+                'category_id' => $categoryId,
+            ]);
 
             if (($sqlState === '23000') && str_contains($errorMessage, 'slug')) {
                 $error = 'Ce slug est déjà utilisé. Merci de choisir un slug unique.';
