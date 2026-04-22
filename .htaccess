@@ -131,6 +131,7 @@ AddType video/webm .webm
 #############################################
 
 # 1) Suppression définitive d'anciennes URL (HTTP 410)
+Redirect gone /investir-dans-une-fonciere/
 Redirect gone /MaisonMelina/qui-sommes-nous/
 Redirect gone /maison-a-saint-just-saint-rambert
 Redirect gone /MaisonMelina/benefices-economiques/
