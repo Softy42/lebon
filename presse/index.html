@@ -7,7 +7,11 @@
 		<!-- Google tag (gtag.js) -->
 		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9"></script>
 		<script type="module">
+import { POPUP_ENABLED } from "/popup-config.js";
+
 			document.addEventListener("DOMContentLoaded",()=>{
+if (!POPUP_ENABLED) return;
+
 				const e=document.getElementById("videoPopup"),i=document.getElementById("closeVideoPopup"),d=document.getElementById("popupVideo");
 				function n(){
 					e.style.display="flex",e.classList.add("active"),e.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden",d.play().catch(t=>{

@@ -10,7 +10,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBZXC9G4Q9">
     </script>
     <script type="module">
+import { POPUP_ENABLED } from "/popup-config.js";
+
       document.addEventListener("DOMContentLoaded", () => {
+if (!POPUP_ENABLED) return;
+
         const popup = document.getElementById("videoPopup");
         const closeButton = document.getElementById("closeVideoPopup");
         const media = document.getElementById("popupMedia");
