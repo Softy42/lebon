@@ -1,50 +1,80 @@
-# Publier Maison Melina sur IONOS
+# Publication selective et retour arriere sur IONOS
 
-Ce workflow remplace le transfert manuel avec FileZilla. Il se lance manuellement
-depuis la branche `main`, apres validation des changements. Un commit seul ne
-declenche pas la publication sur IONOS.
+Ouvrir Actions > Publier sur IONOS > Run workflow, branche `main`.
+Choisir une action :
 
-## Premiere configuration
+- **verifier** : connexion et liste des fichiers qui seraient ajoutes ou modifies.
+  Aucun fichier distant n'est ecrit.
+- **publier** : sauvegarde des anciennes versions, puis transfert des fichiers
+  nouveaux ou modifies uniquement.
+- **restaurer** : annule la derniere publication (ou la publication interrompue).
+  Les fichiers remplaces retrouvent leur contenu anterieur ; les fichiers ajoutes
+  par cette publication sont retires du site, mais restent dans la sauvegarde.
 
-Dans Settings > Secrets and variables > Actions, creer trois repository secrets :
+Un commit seul ne publie pas le site. Ne pas relancer un ancien workflow : utiliser
+Run workflow sur `main` pour executer la version actuelle de cette commande.
 
-- `IONOS_SFTP_HOST` : l'hote affiche dans FileZilla, au format `access....webspace-data.io`.
-- `IONOS_SFTP_USER` : le nom d'utilisateur SFTP IONOS, au format `u...`.
-- `IONOS_SFTP_PASSWORD` : le mot de passe SFTP utilise avec FileZilla.
+## Selection des fichiers
 
-Ne pas inscrire ces valeurs dans un fichier du depot. Le dossier de destination
-est fixe a `/clickandbuilds/MaisonMelina`, port SFTP 22.
+La premiere publication compare GitHub au commit `9c4dd96363d4e12fbe9fb3085d8583da2af84c18`,
+qui precede la desactivation des popups. A la mise en place, cela selectionne les
+16 pages HTML modifiees et `popup-config.js`, pas les 200 fichiers du site.
 
-## Verifier puis publier
+Ensuite, la reference est la derniere publication reussie. Seuls les fichiers
+publics ajoutes ou modifies dans Git depuis cette reference sont examines. Le
+contenu SHA-256 est compare au fichier sur IONOS : un fichier deja identique
+n'est pas transfere. Les autres fichiers distants ne sont pas synchronises.
 
-1. Ouvrir Actions > Publier sur IONOS > Run workflow.
-2. Garder la branche `main`. Pour le premier essai, laisser Publier decoche.
-3. Attendre le resultat vert : le serveur et la destination ont ete verifies,
-   sans modification des fichiers distants. Cela ne teste pas encore les droits
-   d'ecriture, le quota disque ou le remplacement atomique des fichiers.
-4. Relancer Run workflow en cochant Publier pour transferer le site.
-5. Attendre le resultat vert et actualiser https://www.maison-melina.fr/.
+Les suppressions dans Git ne suppriment pas les fichiers sur le serveur. Un
+renommage publie le nouveau chemin et conserve l'ancien. `.github`, `.git`, les
+autres fichiers caches et les documents Markdown ne sont jamais publies ;
+`.htaccess` est admis seulement s'il a ete modifie. Les videos necessaires sont
+recuperees via Git LFS.
 
-Pour les publications suivantes, lancer directement avec Publier coche.
-GitHub Desktop et FileZilla ne sont plus necessaires pour cette operation.
+## Sauvegardes et restauration
 
-## Comportement et limites
+Les sauvegardes sont conservees sur le meme compte IONOS dans
+`/.maison-melina-deploy`, en dehors du dossier du site
+`/clickandbuilds/MaisonMelina`. Les dossiers sont crees avec les droits 700 et
+les sauvegardes avec les droits 600. Cet emplacement ne doit pas etre utilise
+comme racine d'un domaine. Aucun mot de passe n'y est enregistre.
 
-- Les fichiers publics suivis par Git sont transferes, y compris `.htaccess` et
-  les videos recuperees via Git LFS. Les fichiers `.github`, `.git`, les fichiers
-  caches et la documentation Markdown ne sont pas envoyes.
-- Les fichiers du meme nom sont remplaces ; les autres fichiers distants sont
-  conserves. La suppression d'un fichier dans GitHub ne le retire pas du serveur.
-- Chaque fichier est transfere temporairement puis remplace avec l'extension
-  SFTP `posix-rename`. Le serveur doit la prendre en charge. En cas d'echec,
-  consulter le journal avant de relancer ; la publication de tout le site n'est
-  pas une transaction unique et certains fichiers peuvent deja etre a jour.
-- Les ressources sont envoyees avant les pages HTML. Le workflow ne cree pas de
-  sauvegarde du contenu distant ; l'historique Git permet de retrouver les
-  versions suivies dans le depot.
-- La cle du serveur est comparee aux empreintes officielles IONOS avant toute
-  authentification. Si IONOS change ses cles, verifier leur documentation avant
-  de mettre a jour la liste, sans desactiver cette verification.
+Avant le premier remplacement, la commande enregistre tous les anciens contenus
+reellement lus sur IONOS et tous les nouveaux contenus, ainsi qu'un journal de
+restauration. Si cette sauvegarde echoue (droits ou espace insuffisant), aucun
+fichier du site n'est remplace.
+
+Les transferts utilisent un fichier temporaire et `posix-rename` pour remplacer
+chaque fichier apres son transfert complet. Le site entier n'est pas une
+transaction unique : en cas d'interruption, des fichiers peuvent deja etre
+publies. Choisir alors **restaurer** avant de recommencer une publication.
+
+La restauration controle les empreintes des sauvegardes et des fichiers en
+ligne avant de commencer. Si un fichier a ete modifie depuis avec FileZilla,
+elle s'arrete pour ne pas ecraser ce travail. Une restauration interrompue peut
+etre relancee. Les repertoires crees peuvent rester vides apres restauration.
+
+La restauration remet aussi la reference de publication precedente. Les
+changements annules seront donc proposes de nouveau lors de la prochaine
+publication, tant qu'ils restent dans GitHub. Pour les abandonner definitivement,
+il faut egalement les annuler dans GitHub.
+
+Les sauvegardes ne sont pas purgees automatiquement et occupent de l'espace
+chez IONOS. Elles permettent d'annuler nos publications, mais ne remplacent pas
+une sauvegarde complete de l'hebergement sur un support independant.
+
+## Configuration
+
+Trois repository secrets dans Settings > Secrets and variables > Actions :
+
+- `IONOS_SFTP_HOST` : adresse `access....webspace-data.io` de FileZilla.
+- `IONOS_SFTP_USER` : utilisateur SFTP `u...`.
+- `IONOS_SFTP_PASSWORD` : mot de passe exact, y compris les espaces qui en font partie.
+
+Le port est 22. Les droits d'ecriture dans le dossier du site et de creation dans
+`/.maison-melina-deploy` sont necessaires pour publier. Le mode verifier ne teste
+pas ces droits d'ecriture ni l'espace libre. La cle du serveur est comparee aux
+empreintes officielles IONOS avant transmission du mot de passe.
 
 Sources :
 - https://www.ionos.de/hilfe/hosting/ssh-zugaenge-einrichten-und-verwalten/uebersicht-der-ssh-fingerabdruecke-im-ionos-webhosting/
