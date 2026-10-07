@@ -3,11 +3,15 @@ name: Publier sur IONOS
 on:
   workflow_dispatch:
     inputs:
-      publier:
-        description: "Publier le site (sinon, verifier seulement la connexion)"
+      action:
+        description: "Verifier les changements, publier, ou restaurer la version precedente"
         required: true
-        type: boolean
-        default: false
+        type: choice
+        default: verifier
+        options:
+          - verifier
+          - publier
+          - restaurer
 
 permissions:
   contents: read
@@ -26,7 +30,11 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           lfs: true
+          fetch-depth: 0
           persist-credentials: false
+
+      - name: Tester la publication et la restauration sans reseau
+        run: python3 .github/scripts/test_deploy_ionos.py
 
       - name: Installer le client SFTP
         run: |
@@ -38,5 +46,5 @@ jobs:
           IONOS_SFTP_HOST: ${{ secrets.IONOS_SFTP_HOST }}
           IONOS_SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
           IONOS_SFTP_PASSWORD: ${{ secrets.IONOS_SFTP_PASSWORD }}
-          PUBLISH: ${{ inputs.publier }}
+          DEPLOY_ACTION: ${{ inputs.action }}
         run: /usr/bin/python3 .github/scripts/deploy_ionos.py
