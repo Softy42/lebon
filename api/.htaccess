@@ -1,0 +1,11 @@
+Options -Indexes
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store, private"
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+<FilesMatch "(^\.|\.(bak|old|log|sql|ini)$|^config\.)">
+  Require all denied
+</FilesMatch>
+<Files "formulaire.php">
+  LimitRequestBody 24000
+</Files>

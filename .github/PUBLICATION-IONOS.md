@@ -79,3 +79,21 @@ empreintes officielles IONOS avant transmission du mot de passe.
 Sources :
 - https://www.ionos.de/hilfe/hosting/ssh-zugaenge-einrichten-und-verwalten/uebersicht-der-ssh-fingerabdruecke-im-ionos-webhosting/
 - https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+
+## Formulaire sécurisé Maison Mélina
+
+Les sources publiques validées sont `contact/index.html`, `contact/formulaire.js`,
+`api/formulaire.php` et `api/.htaccess`. Le traitement utilise PHP 8.3 ou supérieur.
+Le script de publication autorise explicitement ce seul endpoint PHP et son fichier
+`.htaccess`. Le dossier permanent `formulaire/` est exclu de toute publication,
+y compris ses sources privées, modèles de configuration, dépendances, tests et documentation.
+
+Le dossier privé de production `/melina-form-private-MaisonMelina` reste hors du
+site public et se maintient séparément via le FTP. Son fichier `config.php`, ses
+clés, son mot de passe SMTP, ses compteurs et ses sessions ne doivent jamais être
+committés ni publiés par ce workflow. Les modèles et la bibliothèque de référence
+restent dans `formulaire/`, exclu de la publication publique. Voir `formulaire/README.md`
+pour leur installation et leur maintenance sur le FTP.
+
+Ces changements ne déclenchent pas une publication : le workflow reste manuel.
+Les mécanismes existants de sauvegarde et restauration ne sont pas modifiés.

@@ -36,7 +36,11 @@ def public_path(name):
     path = PurePosixPath(name)
     if path.is_absolute() or ".." in path.parts or "\\" in name:
         return False
-    if name == ".htaccess":
+    # Les sources privées, modèles et tests du formulaire ne sont jamais publiés.
+    if not path.parts or path.parts[0] == "formulaire":
+        return False
+    # Autorisations ciblées : aucun autre fichier PHP n’est publié implicitement.
+    if name in {".htaccess", "api/.htaccess", "api/formulaire.php"}:
         return True
     if any(part.startswith(".") for part in path.parts):
         return False

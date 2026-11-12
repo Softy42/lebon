@@ -118,6 +118,35 @@ class DeploymentTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             d.verify_host_key(type('Key', (), {'asbytes': lambda self: b'wrong key'})())
 
+    def test_form_public_paths_and_private_sources_exclusion(self):
+        for path in ['api/formulaire.php', 'api/.htaccess', 'contact/formulaire.js', 'contact/index.html']:
+            self.assertTrue(d.public_path(path), path)
+        for path in ['config.php', 'admin.php', 'api/other.php',
+                     'formulaire/config/production.example.php',
+                     'formulaire/config/config.php',
+                     'formulaire/tests/validation.php',
+                     'formulaire/prive/lib/PHPMailer/ORIGINE.json',
+                     'formulaire/prive/lib/PHPMailer/LICENSE.txt']:
+            self.assertFalse(d.public_path(path), path)
+
+    def test_form_publish_and_restore_including_api_htaccess(self):
+        contents = {'api/formulaire.php': b'<?php /* public endpoint */',
+                    'api/.htaccess': b'Options -Indexes',
+                    'contact/formulaire.js': b'/* local form */',
+                    'contact/index.html': b'<form></form>'}
+        for name, body in contents.items():
+            path = self.local / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(body)
+        changes = d.plan(self.sftp, self.local, list(contents))
+        d.publish(self.sftp, self.local, changes, self.state, 'b' * 40)
+        for name, body in contents.items():
+            self.assertEqual(self.sftp.path(name).read_bytes(), body)
+        d.restore(self.sftp, d.read_state(self.sftp))
+        for name in contents:
+            self.assertFalse(self.sftp.path(name).exists())
+        self.assertIn(b' old', (self.site / 'index.html').read_bytes())
+
     def test_no_change_writes_nothing(self):
         result = d.publish(self.sftp, self.local, [], self.state, 'a' * 40)
         self.assertIn('Aucun', result)
