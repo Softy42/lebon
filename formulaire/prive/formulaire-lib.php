@@ -44,7 +44,11 @@ function validated_message(array $data): array
             throw new FormError(422, 'La sélection des maisons est invalide.');
         }
     }
-    $out['maisons'] = $out['subject'] === 'visite' ? array_values(array_unique($houses)) : [];
+    $out['maisons'] = match ($out['subject']) {
+        'visite' => array_values(array_diff(array_unique($houses), ['saint-etienne'])),
+        'information' => array_values(array_intersect(array_unique($houses), ['saint-etienne', '6', 'savigneux'])),
+        default => [],
+    };
     if ($out['subject'] === 'visite' && !$out['maisons']) {
         throw new FormError(422, 'Veuillez sélectionner au moins une maison.');
     }
@@ -61,7 +65,8 @@ function houses(): array
 {
     return ['1' => 'Feurs', '2' => 'Saint-Chamond', '3' => 'Saint-Didier-en-Velay',
         '4' => 'Saint-Just-Saint-Rambert', '5' => 'Châteauroux', '6' => 'Montrond-les-Bains',
-        'savigneux' => 'Maison EDMOND de Savigneux'];
+        'savigneux' => 'Maison EDMOND de Savigneux',
+        'saint-etienne' => 'Maison Mélina de Saint-Étienne'];
 }
 
 // Fichier verrouillé : limites partagées par tous les processus PHP et toutes les sessions.

@@ -1,6 +1,7 @@
 const form = document.getElementById('contactForm');
 const subject = document.getElementById('subject');
 const selection = document.getElementById('maisonsSelection');
+const informationHouse = document.getElementById('informationHouse');
 const button = form.querySelector('[type="submit"]');
 const status = document.getElementById('formStatus');
 const endpoint = new URL('../api/formulaire.php', window.location.href);
@@ -20,16 +21,28 @@ function housesValidity() {
 }
 
 function updateSubject() {
+  if (informationHouse) {
+    const houseName = subject.value === 'information' ? informationHouses.get(requestedHouse) : undefined;
+    informationHouse.querySelector('strong').textContent = houseName ?? '';
+    informationHouse.hidden = !houseName;
+  }
   selection.style.display = subject.value === 'visite' ? 'block' : 'none';
   housesValidity();
 }
 
 const params = new URLSearchParams(window.location.search);
+
+const requestedHouse = params.get('maison');
+const informationHouses = new Map([
+  ['saint-etienne', 'Maison Mélina de Saint-Étienne'],
+  ['6', 'Montrond-les-Bains'],
+  ['savigneux', 'Maison EDMOND de Savigneux'],
+]);
 if ([...subject.options].some(option => option.value === params.get('subject'))) {
   subject.value = params.get('subject');
 }
 if (subject.value === 'visite') {
-  const house = [...selection.querySelectorAll('input')].find(input => input.value === params.get('maison'));
+  const house = [...selection.querySelectorAll('input')].find(input => input.value === requestedHouse);
   if (house) house.checked = true;
 }
 subject.addEventListener('change', updateSubject);
@@ -111,7 +124,9 @@ form.addEventListener('submit', async event => {
         name: form.elements.name.value, email: form.elements.email.value,
         telephone: form.elements.telephone.value, subject: subject.value,
         message: form.elements.message.value,
-        maisons: [...selection.querySelectorAll('input:checked')].map(input => input.value),
+        maisons: subject.value === 'information'
+          ? (informationHouses.has(requestedHouse) ? [requestedHouse] : [])
+          : [...selection.querySelectorAll('input:checked')].map(input => input.value),
         website: form.elements.website.value, token: ticket, captcha,
       }),
     });
