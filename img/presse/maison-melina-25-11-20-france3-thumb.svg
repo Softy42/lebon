@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-labelledby="title desc">
+  <title id="title">Miniature France 3 - La coloc' entre seniors</title>
+  <desc id="desc">Vignette pour l'article France 3 sur les colocations seniors Maison Mélina.</desc>
+  <defs>
+    <linearGradient id="grad-thumb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f9fb"/>
+      <stop offset="100%" stop-color="#dce7f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#grad-thumb)" stroke="#b0002c" stroke-width="8" rx="24" ry="24"/>
+  <g fill="#24384f" font-family="'Lato','Arial',sans-serif" text-anchor="middle">
+    <text x="400" y="170" font-size="56" font-weight="700">France 3</text>
+    <text x="400" y="240" font-size="34" font-weight="700">La coloc' entre seniors</text>
+    <text x="400" y="300" font-size="26" font-weight="400">20 novembre 2025</text>
+  </g>
+</svg>
