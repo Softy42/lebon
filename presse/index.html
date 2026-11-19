@@ -85,29 +85,49 @@ if (!POPUP_ENABLED) return;
 		<link href="/_astro/presse.Cy5kfKxN.css" rel="stylesheet"/>
 		<link href="/_astro/benefices-economiques.DA2vvG5t.css" rel="stylesheet"/>
 		<style>
-			.france3-link{
+			.article-card--with-link{
+				display:grid;
+				grid-template-rows:auto 1fr;
+			}
+			.article-card--with-link > .article-content{
+				display:flex;
+				flex-direction:column;
+				padding-bottom:0;
+			}
+			.article-link-space{
+				display:flex;
+				flex:1;
+				align-items:center;
+				padding-block:1.5rem;
+			}
+			.article-secondary-link{
 				display:inline-flex;
 				align-items:center;
-				gap:0.5rem;
-				margin: 0.5rem;
-				padding:0.55rem 1.1rem;
+				gap:0.35rem;
+				padding:0.2rem 0.6rem;
 				border-radius:999px;
-				background:linear-gradient(135deg,#1e88e5,#6ab7ff);
-				color:#fff;
+				background-color:#edf4fc;
+				color:#245581;
+				font-size:0.875rem;
 				font-weight:700;
+				line-height:1.35;
 				text-decoration:none;
-				box-shadow:0 10px 18px rgba(30,136,229,0.25);
-				transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease;
+				transition:background-color 0.2s ease;
 			}
-			.france3-link::after{
-				content:"↗";
+			.article-secondary-link::after{
+				content:"→";
 				font-size:0.95em;
 			}
-			.france3-link:hover,
-			.france3-link:focus{
-				transform:translateY(-2px);
-				box-shadow:0 14px 22px rgba(30,136,229,0.35);
-				background:linear-gradient(135deg,#1976d2,#42a5f5);
+			.article-secondary-link[target="_blank"]::after{
+				content:"↗";
+			}
+			.article-secondary-link:hover,
+			.article-secondary-link:focus-visible{
+				background-color:#dceafa;
+			}
+			.article-secondary-link:focus-visible{
+				outline:2px solid currentColor;
+				outline-offset:2px;
 			}
 		</style>
 	<script type="module" src="/main.js"></script></head>
@@ -199,63 +219,77 @@ if (!POPUP_ENABLED) return;
 					</div>
 					<div class="articles-grid" data-astro-cid-eqhkfb4d="">
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – Actu Forez – Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/maison-melina-25-11-07-actu-forez-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">Actu Forez</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">7 novembre 2025</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">Actu Forez</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">7 novembre 2025</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">Une colocation senior s'installe à la place du Motel des Jardins du Forez</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										Le Motel des Jardins du Forez va connaître une nouvelle vie en devenant une colocation pour seniors. Dix ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-11-07-actu-forez.jpg" data-title="Une colocation senior s'installe à la place du Motel des Jardins du Forez. Le Motel des Jardins du Forez va connaître une nouvelle vie en …" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="actu-forez-motel-des-jardins-du-forez-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-11-07-actu-forez.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">Une colocation senior s'installe à la place du Motel des Jardins du Forez</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									Le Motel des Jardins du Forez va connaître une nouvelle vie en devenant une colocation pour seniors. Dix ...
-								</p>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-11-07-actu-forez.jpg" data-title="Une colocation senior s'installe à la place du Motel des Jardins du Forez. Le Motel des Jardins du Forez va connaître une nouvelle vie en …" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="actu-forez-motel-des-jardins-du-forez-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-11-07-actu-forez.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="/nos-maisons/montrond-les-bains/">Découvrir la maison de Montrond-les-Bains</a>
 								</div>
 							</div>
 						</article>
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – France 3 – Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/maison-melina-25-11-20-france3-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">France 3</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">20 novembre 2025</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">France 3</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">20 novembre 2025</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">La coloc' entre seniors, pour rompre l’absence de lien humain</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										C'est une alternative à la maison de retraite classique ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-11-20-france3.jpg" data-title="La coloc' entre seniors, pour rompre l’absence de lien humain" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="france3-colocation-seniors-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-11-20-france3.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">La coloc' entre seniors, pour rompre l’absence de lien humain</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									C'est une alternative à la maison de retraite classique ...
-								</p>
-								<a class="france3-link" data-astro-cid-eqhkfb4d="" href="https://france3-regions.franceinfo.fr/auvergne-rhone-alpes/loire/si-on-veut-lutter-contre-la-solitude-il-faut-manger-ensemble-la-coloc-entre-seniors-pour-rompre-l-absence-de-lien-humain-3252052.html" rel="noopener noreferrer" target="_blank">Voir l'article de France 3 en ligne</a>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-11-20-france3.jpg" data-title="La coloc' entre seniors, pour rompre l’absence de lien humain" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="france3-colocation-seniors-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-11-20-france3.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="https://france3-regions.franceinfo.fr/auvergne-rhone-alpes/loire/si-on-veut-lutter-contre-la-solitude-il-faut-manger-ensemble-la-coloc-entre-seniors-pour-rompre-l-absence-de-lien-humain-3252052.html" rel="noopener noreferrer" target="_blank">Voir l'article de France 3 en ligne</a>
 								</div>
 							</div>
 						</article>
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – Chateauroux– Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/maison-melina-25-07-09-chateauroux-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">ICI</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">9 juillet 2025</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">ICI</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">9 juillet 2025</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										Depuis  le  1er avril, un habitat partagé pour séniors a ouvert ses portes à Châteauroux, dans l’Indre ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-07-09-chateauroux.jpg" data-title="À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="Chateauroux-maison-paulette-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-07-09-chateauroux.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									Depuis  le  1er avril, un habitat partagé pour séniors a ouvert ses portes à Châteauroux, dans l’Indre ...
-								</p>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/maison-melina-25-07-09-chateauroux.jpg" data-title="À Châteauroux, la  maison Paulette propose une colocation pour rompre l’isolement des séniors" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="Chateauroux-maison-paulette-maison-melina.jpg" href="https://www.maison-melina.fr/img/presse/maison-melina-25-07-09-chateauroux.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="/nos-maisons/chateauroux/">Découvrir la Maison Paulette à Châteauroux</a>
 								</div>
 							</div>
 						</article>
@@ -280,22 +314,27 @@ if (!POPUP_ENABLED) return;
 							</div>
 						</article>
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – Actu Forez – Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/actuforez2410-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">Actu Gier</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">21 octobre 2024</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">Actu Gier</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">21 octobre 2024</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										La première maison partagée pour séniors de la ville vient d'être inaugurée rue Dugas-Monbel dans la demeure où Alain Prost a ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforez2410.jpg" data-title="Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="Maison-M-lina---des-s-niors-en-colocation-dans-l-ancienne-maison-d-Alain-Prost.jpg" href="https://www.maison-melina.fr/img/presse/actuforez2410.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									La première maison partagée pour séniors de la ville vient d'être inaugurée rue Dugas-Monbel dans la demeure où Alain Prost a ...
-								</p>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforez2410.jpg" data-title="Maison Mélina : des séniors en colocation dans l'ancienne maison d'Alain Prost" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="Maison-M-lina---des-s-niors-en-colocation-dans-l-ancienne-maison-d-Alain-Prost.jpg" href="https://www.maison-melina.fr/img/presse/actuforez2410.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="/nos-maisons/saint-chamond/">Découvrir la maison de Saint-Chamond</a>
 								</div>
 							</div>
 						</article>
@@ -320,42 +359,52 @@ if (!POPUP_ENABLED) return;
 							</div>
 						</article>
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – Actu Forez – Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/actuforez-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">ACTU FOREZ</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">2 février 2024</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">ACTU FOREZ</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">2 février 2024</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">Ils aménagent une maison de colocation pour séniors</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										Ce sera une première dans la ville de Feurs. Maison Mélina est en train d'aménager neufs chambres dans une maison du centre ville. L'idée est ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforez.jpg" data-title="Ils aménagent une maison de colocation pour séniors" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="Ils-am-nagent-une-maison-de-colocation-pour-s-niors.jpg" href="https://www.maison-melina.fr/img/presse/actuforez.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">Ils aménagent une maison de colocation pour séniors</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									Ce sera une première dans la ville de Feurs. Maison Mélina est en train d'aménager neufs chambres dans une maison du centre ville. L'idée est ...
-								</p>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforez.jpg" data-title="Ils aménagent une maison de colocation pour séniors" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="Ils-am-nagent-une-maison-de-colocation-pour-s-niors.jpg" href="https://www.maison-melina.fr/img/presse/actuforez.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="/nos-maisons/feurs/">Découvrir la maison de Feurs</a>
 								</div>
 							</div>
 						</article>
 <!-- _________________________________________________________________________________________________________________ -->
-						<article class="article-card" data-astro-cid-eqhkfb4d="">
+						<article class="article-card article-card--with-link" data-astro-cid-eqhkfb4d="">
 							<div class="article-image" data-astro-cid-eqhkfb4d="">
 								<img alt="Article de presse – Actu Forez Sud – Maison Mélina" data-astro-cid-eqhkfb4d="" loading="lazy" src="/img/presse/actuforezsud2312-thumb.jpg"/>
 							</div>
 							<div class="article-content" data-astro-cid-eqhkfb4d="">
-								<div class="article-meta" data-astro-cid-eqhkfb4d="">
-									<span class="source" data-astro-cid-eqhkfb4d="">Actu Forez Sud</span>
-									<span class="date" data-astro-cid-eqhkfb4d="">19 decembre 2023</span>
+								<div>
+									<div class="article-meta" data-astro-cid-eqhkfb4d="">
+										<span class="source" data-astro-cid-eqhkfb4d="">Actu Forez Sud</span>
+										<span class="date" data-astro-cid-eqhkfb4d="">19 decembre 2023</span>
+									</div>
+									<h2 data-astro-cid-eqhkfb4d="">La colocation pour séniors fait le bonheur de ses résidents</h2>
+									<p class="excerpt" data-astro-cid-eqhkfb4d="">
+										Inaugurée il y a un an, la première colocation pour séniors du Forez, et deuxième du département, était ouverte à Saint-Just-Saint ...
+									</p>
+									<div class="article-actions" data-astro-cid-eqhkfb4d="">
+										<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforezsud2312.jpg" data-title="La colocation pour séniors fait le bonheur de ses résidents" type="button">Lire l'article</button>
+										<a class="download-button" data-astro-cid-eqhkfb4d="" download="La-colocation-pour-s-niors-fait-le-bonheur-de-ses-r-sidents.jpg" href="https://www.maison-melina.fr/img/presse/actuforezsud2312.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+									</div>
 								</div>
-								<h2 data-astro-cid-eqhkfb4d="">La colocation pour séniors fait le bonheur de ses résidents</h2>
-								<p class="excerpt" data-astro-cid-eqhkfb4d="">
-									Inaugurée il y a un an, la première colocation pour séniors du Forez, et deuxième du département, était ouverte à Saint-Just-Saint ...
-								</p>
-								<div class="article-actions" data-astro-cid-eqhkfb4d="">
-									<button class="read-button" data-astro-cid-eqhkfb4d="" data-image="/img/presse/actuforezsud2312.jpg" data-title="La colocation pour séniors fait le bonheur de ses résidents" type="button">Lire l'article</button>
-									<a class="download-button" data-astro-cid-eqhkfb4d="" download="La-colocation-pour-s-niors-fait-le-bonheur-de-ses-r-sidents.jpg" href="https://www.maison-melina.fr/img/presse/actuforezsud2312.jpg" rel="noopener noreferrer" target="_blank">Télécharger l'article</a>
+								<div class="article-link-space">
+									<a class="article-secondary-link" data-astro-cid-eqhkfb4d="" href="/nos-maisons/saint-just-saint-rambert/">Découvrir la maison de Saint-Just-Saint-Rambert</a>
 								</div>
 							</div>
 						</article>
